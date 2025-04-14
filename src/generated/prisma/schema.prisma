@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Interaction {
+  id        String   @id @default(uuid())
+  userId    String
+  input     String
+  response  String
+  timestamp DateTime @default(now())
+  context   Json?
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model UserPreference {
+  id              String   @id @default(uuid())
+  userId          String
+  preference      String
+  preferenceValue String
+  updatedAt       DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum Plan {
+  FREE
+  MONTHLY
+  ANNUAL
+}
+
+model EmailVerification {
+  id        String   @id @default(uuid())
+  code      String   @db.VarChar(6)
+  expiresAt DateTime
+  contactId String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id            String                @id @default(uuid())
+  name          String
+  email         String                @unique
+  imageUrl      String?
+  password      String
+  authProviders AuthProviderAccount[]
+
+  EmailVerification EmailVerification[]
+  plan              Plan                @default(FREE)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  Interaction Interaction[]
+
+  UserPreference UserPreference[]
+}
+
+enum Provider {
+  GOOGLE
+  FACEBOOK
+  MICROSOFT
+}
+
+model AuthProviderAccount {
+  id         String   @id @default(uuid())
+  provider   Provider
+  providerId String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerId])
+}
+
+model Payment {
+  id                 String        @id @default(uuid())
+  orderId            String
+  externalId         String?
+  status             PaymentStatus @default(PENDING)
+  amount             Decimal       @db.Decimal(10, 2)
+  paymentMethod      String?
+  paymentMethodId    String?
+  paymentProvider    String        @default("STRIPE")
+  paymentUrl         String?
+  transactionDetails Json?
+  notificationSent   Boolean       @default(false)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@index([externalId])
+}
+
+model EmailNotification {
+  id           String      @id @default(uuid())
+  recipient    String
+  subject      String
+  content      String      @db.Text
+  status       EmailStatus @default(PENDING)
+  sentAt       DateTime?
+  errorMessage String?     @db.Text
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  APPROVED
+  REJECTED
+  IN_PROCESS
+  IN_MEDIATION
+  CANCELLED
+  REFUNDED
+  CHARGED_BACK
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+}
