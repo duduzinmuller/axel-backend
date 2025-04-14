@@ -1569,6 +1569,7 @@ export namespace Prisma {
     id: string | null;
     name: string | null;
     email: string | null;
+    password: string | null;
     image: string | null;
     provider: $Enums.Provider | null;
     providerId: string | null;
@@ -1581,6 +1582,7 @@ export namespace Prisma {
     id: string | null;
     name: string | null;
     email: string | null;
+    password: string | null;
     image: string | null;
     provider: $Enums.Provider | null;
     providerId: string | null;
@@ -1593,6 +1595,7 @@ export namespace Prisma {
     id: number;
     name: number;
     email: number;
+    password: number;
     image: number;
     provider: number;
     providerId: number;
@@ -1606,6 +1609,7 @@ export namespace Prisma {
     id?: true;
     name?: true;
     email?: true;
+    password?: true;
     image?: true;
     provider?: true;
     providerId?: true;
@@ -1618,6 +1622,7 @@ export namespace Prisma {
     id?: true;
     name?: true;
     email?: true;
+    password?: true;
     image?: true;
     provider?: true;
     providerId?: true;
@@ -1630,6 +1635,7 @@ export namespace Prisma {
     id?: true;
     name?: true;
     email?: true;
+    password?: true;
     image?: true;
     provider?: true;
     providerId?: true;
@@ -1718,6 +1724,7 @@ export namespace Prisma {
     id: string;
     name: string | null;
     email: string;
+    password: string;
     image: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -1748,6 +1755,7 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       email?: boolean;
+      password?: boolean;
       image?: boolean;
       provider?: boolean;
       providerId?: boolean;
@@ -1770,6 +1778,7 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       email?: boolean;
+      password?: boolean;
       image?: boolean;
       provider?: boolean;
       providerId?: boolean;
@@ -1787,6 +1796,7 @@ export namespace Prisma {
       id?: boolean;
       name?: boolean;
       email?: boolean;
+      password?: boolean;
       image?: boolean;
       provider?: boolean;
       providerId?: boolean;
@@ -1801,6 +1811,7 @@ export namespace Prisma {
     id?: boolean;
     name?: boolean;
     email?: boolean;
+    password?: boolean;
     image?: boolean;
     provider?: boolean;
     providerId?: boolean;
@@ -1815,6 +1826,7 @@ export namespace Prisma {
     | "id"
     | "name"
     | "email"
+    | "password"
     | "image"
     | "provider"
     | "providerId"
@@ -1854,6 +1866,7 @@ export namespace Prisma {
         id: string;
         name: string | null;
         email: string;
+        password: string;
         image: string | null;
         provider: $Enums.Provider;
         providerId: string;
@@ -2492,6 +2505,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", "String">;
     readonly name: FieldRef<"User", "String">;
     readonly email: FieldRef<"User", "String">;
+    readonly password: FieldRef<"User", "String">;
     readonly image: FieldRef<"User", "String">;
     readonly provider: FieldRef<"User", "Provider">;
     readonly providerId: FieldRef<"User", "String">;
@@ -9808,6 +9822,7 @@ export namespace Prisma {
     id: "id";
     name: "name";
     email: "email";
+    password: "password";
     image: "image";
     provider: "provider";
     providerId: "providerId";
@@ -10089,6 +10104,7 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string;
     name?: StringNullableFilter<"User"> | string | null;
     email?: StringFilter<"User"> | string;
+    password?: StringFilter<"User"> | string;
     image?: StringNullableFilter<"User"> | string | null;
     provider?: EnumProviderFilter<"User"> | $Enums.Provider;
     providerId?: StringFilter<"User"> | string;
@@ -10105,6 +10121,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrderInput | SortOrder;
     email?: SortOrder;
+    password?: SortOrder;
     image?: SortOrderInput | SortOrder;
     provider?: SortOrder;
     providerId?: SortOrder;
@@ -10125,6 +10142,7 @@ export namespace Prisma {
       OR?: UserWhereInput[];
       NOT?: UserWhereInput | UserWhereInput[];
       name?: StringNullableFilter<"User"> | string | null;
+      password?: StringFilter<"User"> | string;
       image?: StringNullableFilter<"User"> | string | null;
       provider?: EnumProviderFilter<"User"> | $Enums.Provider;
       providerId?: StringFilter<"User"> | string;
@@ -10143,6 +10161,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrderInput | SortOrder;
     email?: SortOrder;
+    password?: SortOrder;
     image?: SortOrderInput | SortOrder;
     provider?: SortOrder;
     providerId?: SortOrder;
@@ -10165,6 +10184,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string;
     name?: StringNullableWithAggregatesFilter<"User"> | string | null;
     email?: StringWithAggregatesFilter<"User"> | string;
+    password?: StringWithAggregatesFilter<"User"> | string;
     image?: StringNullableWithAggregatesFilter<"User"> | string | null;
     provider?: EnumProviderWithAggregatesFilter<"User"> | $Enums.Provider;
     providerId?: StringWithAggregatesFilter<"User"> | string;
@@ -10604,6 +10624,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -10620,6 +10641,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -10636,6 +10658,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -10652,6 +10675,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -10668,6 +10692,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -10680,6 +10705,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -10692,6 +10718,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -11198,6 +11225,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     email?: SortOrder;
+    password?: SortOrder;
     image?: SortOrder;
     provider?: SortOrder;
     providerId?: SortOrder;
@@ -11210,6 +11238,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     email?: SortOrder;
+    password?: SortOrder;
     image?: SortOrder;
     provider?: SortOrder;
     providerId?: SortOrder;
@@ -11222,6 +11251,7 @@ export namespace Prisma {
     id?: SortOrder;
     name?: SortOrder;
     email?: SortOrder;
+    password?: SortOrder;
     image?: SortOrder;
     provider?: SortOrder;
     providerId?: SortOrder;
@@ -12992,6 +13022,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13007,6 +13038,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13050,6 +13082,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13065,6 +13098,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13080,6 +13114,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13095,6 +13130,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13138,6 +13174,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13153,6 +13190,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13168,6 +13206,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13183,6 +13222,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13226,6 +13266,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13241,6 +13282,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13256,6 +13298,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13271,6 +13314,7 @@ export namespace Prisma {
     id?: string;
     name?: string | null;
     email: string;
+    password: string;
     image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
@@ -13314,6 +13358,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
@@ -13329,6 +13374,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     email?: StringFieldUpdateOperationsInput | string;
+    password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: StringFieldUpdateOperationsInput | string;
