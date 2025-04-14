@@ -1,0 +1,18 @@
+{
+  "name": "brender-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Eduardo Muller",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@eslint/json": "^0.11.0",
+    "eslint": "^9.24.0",
+    "prettier": "^3.5.3"
+  }
+}
