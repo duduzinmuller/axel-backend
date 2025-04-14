@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -12,6 +6,49 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  FREE
+  MONTHLY
+  ANNUAL
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum Provider {
+  GOOGLE
+  FACEBOOK
+  MICROSOFT
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String?
+  email      String   @unique
+  image      String?
+  provider   Provider
+  providerId String
+  plan       Plan     @default(FREE)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  interactions       Interaction[]
+  preferences        UserPreference[]
+  payments           Payment[]
+  emailVerifications EmailVerification[]
 }
 
 model Interaction {
@@ -25,69 +62,18 @@ model Interaction {
 }
 
 model UserPreference {
-  id              String   @id @default(uuid())
-  userId          String
-  preference      String
-  preferenceValue String
-  updatedAt       DateTime
-
-  user User @relation(fields: [userId], references: [id])
-}
-
-enum Plan {
-  FREE
-  MONTHLY
-  ANNUAL
-}
-
-model EmailVerification {
   id        String   @id @default(uuid())
-  code      String   @db.VarChar(6)
-  expiresAt DateTime
-  contactId String
+  userId    String   @unique
+  language  String
+  theme     String?
   createdAt DateTime @default(now())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-}
-
-model User {
-  id            String                @id @default(uuid())
-  name          String
-  email         String                @unique
-  imageUrl      String?
-  password      String
-  authProviders AuthProviderAccount[]
-
-  EmailVerification EmailVerification[]
-  plan              Plan                @default(FREE)
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-
-  Interaction Interaction[]
-
-  UserPreference UserPreference[]
-}
-
-enum Provider {
-  GOOGLE
-  FACEBOOK
-  MICROSOFT
-}
-
-model AuthProviderAccount {
-  id         String   @id @default(uuid())
-  provider   Provider
-  providerId String
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-
-  @@unique([provider, providerId])
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Payment {
   id                 String        @id @default(uuid())
-  orderId            String
+  userId             String
   externalId         String?
   status             PaymentStatus @default(PENDING)
   amount             Decimal       @db.Decimal(10, 2)
@@ -100,35 +86,28 @@ model Payment {
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
 
+  user User @relation(fields: [userId], references: [id])
+
   @@index([externalId])
 }
 
 model EmailNotification {
-  id           String      @id @default(uuid())
-  recipient    String
-  subject      String
-  content      String      @db.Text
-  status       EmailStatus @default(PENDING)
-  sentAt       DateTime?
-  errorMessage String?     @db.Text
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id        String      @id @default(uuid())
+  recipient String
+  subject   String
+  content   String      @db.Text
+  status    EmailStatus @default(PENDING)
+  sentAt    DateTime?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
-enum PaymentStatus {
-  PENDING
-  PROCESSING
-  APPROVED
-  REJECTED
-  IN_PROCESS
-  IN_MEDIATION
-  CANCELLED
-  REFUNDED
-  CHARGED_BACK
-}
-
-enum EmailStatus {
-  PENDING
-  SENT
-  FAILED
+model EmailVerification {
+  id        String   @id @default(uuid())
+  code      String   @db.VarChar(6)
+  expiresAt DateTime
+  contactId String
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }

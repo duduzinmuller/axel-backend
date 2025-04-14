@@ -117,6 +117,18 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  image: 'image',
+  provider: 'provider',
+  providerId: 'providerId',
+  plan: 'plan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.InteractionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -129,41 +141,15 @@ exports.Prisma.InteractionScalarFieldEnum = {
 exports.Prisma.UserPreferenceScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  preference: 'preference',
-  preferenceValue: 'preferenceValue',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.EmailVerificationScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  expiresAt: 'expiresAt',
-  contactId: 'contactId',
-  createdAt: 'createdAt',
-  userId: 'userId'
-};
-
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  imageUrl: 'imageUrl',
-  password: 'password',
-  plan: 'plan',
+  language: 'language',
+  theme: 'theme',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.AuthProviderAccountScalarFieldEnum = {
-  id: 'id',
-  provider: 'provider',
-  providerId: 'providerId',
-  userId: 'userId'
 };
 
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
-  orderId: 'orderId',
+  userId: 'userId',
   externalId: 'externalId',
   status: 'status',
   amount: 'amount',
@@ -184,9 +170,17 @@ exports.Prisma.EmailNotificationScalarFieldEnum = {
   content: 'content',
   status: 'status',
   sentAt: 'sentAt',
-  errorMessage: 'errorMessage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  expiresAt: 'expiresAt',
+  contactId: 'contactId',
+  createdAt: 'createdAt',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -204,38 +198,33 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-exports.Plan = exports.$Enums.Plan = {
-  FREE: 'FREE',
-  MONTHLY: 'MONTHLY',
-  ANNUAL: 'ANNUAL'
-};
-
 exports.Provider = exports.$Enums.Provider = {
   GOOGLE: 'GOOGLE',
   FACEBOOK: 'FACEBOOK',
   MICROSOFT: 'MICROSOFT'
 };
 
+exports.Plan = exports.$Enums.Plan = {
+  FREE: 'FREE',
+  MONTHLY: 'MONTHLY',
+  ANNUAL: 'ANNUAL'
+};
+
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
-  PROCESSING: 'PROCESSING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  IN_PROCESS: 'IN_PROCESS',
-  IN_MEDIATION: 'IN_MEDIATION',
-  CANCELLED: 'CANCELLED',
-  REFUNDED: 'REFUNDED',
-  CHARGED_BACK: 'CHARGED_BACK'
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELED: 'CANCELED'
 };
 
 exports.EmailStatus = exports.$Enums.EmailStatus = {
@@ -245,13 +234,12 @@ exports.EmailStatus = exports.$Enums.EmailStatus = {
 };
 
 exports.Prisma.ModelName = {
+  User: 'User',
   Interaction: 'Interaction',
   UserPreference: 'UserPreference',
-  EmailVerification: 'EmailVerification',
-  User: 'User',
-  AuthProviderAccount: 'AuthProviderAccount',
   Payment: 'Payment',
-  EmailNotification: 'EmailNotification'
+  EmailNotification: 'EmailNotification',
+  EmailVerification: 'EmailVerification'
 };
 
 /**

@@ -12,6 +12,11 @@ import $Result = runtime.Types.Result;
 export type PrismaPromise<T> = $Public.PrismaPromise<T>;
 
 /**
+ * Model User
+ *
+ */
+export type User = $Result.DefaultSelection<Prisma.$UserPayload>;
+/**
  * Model Interaction
  *
  */
@@ -23,23 +28,6 @@ export type Interaction = $Result.DefaultSelection<Prisma.$InteractionPayload>;
 export type UserPreference =
   $Result.DefaultSelection<Prisma.$UserPreferencePayload>;
 /**
- * Model EmailVerification
- *
- */
-export type EmailVerification =
-  $Result.DefaultSelection<Prisma.$EmailVerificationPayload>;
-/**
- * Model User
- *
- */
-export type User = $Result.DefaultSelection<Prisma.$UserPayload>;
-/**
- * Model AuthProviderAccount
- *
- */
-export type AuthProviderAccount =
-  $Result.DefaultSelection<Prisma.$AuthProviderAccountPayload>;
-/**
  * Model Payment
  *
  */
@@ -50,6 +38,12 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>;
  */
 export type EmailNotification =
   $Result.DefaultSelection<Prisma.$EmailNotificationPayload>;
+/**
+ * Model EmailVerification
+ *
+ */
+export type EmailVerification =
+  $Result.DefaultSelection<Prisma.$EmailVerificationPayload>;
 
 /**
  * Enums
@@ -63,24 +57,11 @@ export namespace $Enums {
 
   export type Plan = (typeof Plan)[keyof typeof Plan];
 
-  export const Provider: {
-    GOOGLE: "GOOGLE";
-    FACEBOOK: "FACEBOOK";
-    MICROSOFT: "MICROSOFT";
-  };
-
-  export type Provider = (typeof Provider)[keyof typeof Provider];
-
   export const PaymentStatus: {
     PENDING: "PENDING";
-    PROCESSING: "PROCESSING";
-    APPROVED: "APPROVED";
-    REJECTED: "REJECTED";
-    IN_PROCESS: "IN_PROCESS";
-    IN_MEDIATION: "IN_MEDIATION";
-    CANCELLED: "CANCELLED";
-    REFUNDED: "REFUNDED";
-    CHARGED_BACK: "CHARGED_BACK";
+    COMPLETED: "COMPLETED";
+    FAILED: "FAILED";
+    CANCELED: "CANCELED";
   };
 
   export type PaymentStatus =
@@ -93,15 +74,19 @@ export namespace $Enums {
   };
 
   export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus];
+
+  export const Provider: {
+    GOOGLE: "GOOGLE";
+    FACEBOOK: "FACEBOOK";
+    MICROSOFT: "MICROSOFT";
+  };
+
+  export type Provider = (typeof Provider)[keyof typeof Provider];
 }
 
 export type Plan = $Enums.Plan;
 
 export const Plan: typeof $Enums.Plan;
-
-export type Provider = $Enums.Provider;
-
-export const Provider: typeof $Enums.Provider;
 
 export type PaymentStatus = $Enums.PaymentStatus;
 
@@ -111,6 +96,10 @@ export type EmailStatus = $Enums.EmailStatus;
 
 export const EmailStatus: typeof $Enums.EmailStatus;
 
+export type Provider = $Enums.Provider;
+
+export const Provider: typeof $Enums.Provider;
+
 /**
  * ##  Prisma Client ʲˢ
  *
@@ -118,8 +107,8 @@ export const EmailStatus: typeof $Enums.EmailStatus;
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Interactions
- * const interactions = await prisma.interaction.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  *
@@ -143,8 +132,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Interactions
-   * const interactions = await prisma.interaction.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    *
@@ -278,6 +267,16 @@ export class PrismaClient<
   >;
 
   /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
+   * ```
+   */
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.interaction`: Exposes CRUD operations for the **Interaction** model.
    * Example usage:
    * ```ts
@@ -298,42 +297,6 @@ export class PrismaClient<
   get userPreference(): Prisma.UserPreferenceDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.emailVerification`: Exposes CRUD operations for the **EmailVerification** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more EmailVerifications
-   * const emailVerifications = await prisma.emailVerification.findMany()
-   * ```
-   */
-  get emailVerification(): Prisma.EmailVerificationDelegate<
-    ExtArgs,
-    ClientOptions
-  >;
-
-  /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
-   * ```
-   */
-  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.authProviderAccount`: Exposes CRUD operations for the **AuthProviderAccount** model.
-   * Example usage:
-   * ```ts
-   * // Fetch zero or more AuthProviderAccounts
-   * const authProviderAccounts = await prisma.authProviderAccount.findMany()
-   * ```
-   */
-  get authProviderAccount(): Prisma.AuthProviderAccountDelegate<
-    ExtArgs,
-    ClientOptions
-  >;
-
-  /**
    * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
    * Example usage:
    * ```ts
@@ -352,6 +315,19 @@ export class PrismaClient<
    * ```
    */
   get emailNotification(): Prisma.EmailNotificationDelegate<
+    ExtArgs,
+    ClientOptions
+  >;
+
+  /**
+   * `prisma.emailVerification`: Exposes CRUD operations for the **EmailVerification** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more EmailVerifications
+   * const emailVerifications = await prisma.emailVerification.findMany()
+   * ```
+   */
+  get emailVerification(): Prisma.EmailVerificationDelegate<
     ExtArgs,
     ClientOptions
   >;
@@ -813,13 +789,12 @@ export namespace Prisma {
     : FieldRef<Model, FieldType>;
 
   export const ModelName: {
+    User: "User";
     Interaction: "Interaction";
     UserPreference: "UserPreference";
-    EmailVerification: "EmailVerification";
-    User: "User";
-    AuthProviderAccount: "AuthProviderAccount";
     Payment: "Payment";
     EmailNotification: "EmailNotification";
+    EmailVerification: "EmailVerification";
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -848,16 +823,89 @@ export namespace Prisma {
     };
     meta: {
       modelProps:
+        | "user"
         | "interaction"
         | "userPreference"
-        | "emailVerification"
-        | "user"
-        | "authProviderAccount"
         | "payment"
-        | "emailNotification";
+        | "emailNotification"
+        | "emailVerification";
       txIsolationLevel: Prisma.TransactionIsolationLevel;
     };
     model: {
+      User: {
+        payload: Prisma.$UserPayload<ExtArgs>;
+        fields: Prisma.UserFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.UserFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
+          };
+          findFirst: {
+            args: Prisma.UserFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
+          };
+          findMany: {
+            args: Prisma.UserFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
+          };
+          create: {
+            args: Prisma.UserCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
+          };
+          createMany: {
+            args: Prisma.UserCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
+          };
+          delete: {
+            args: Prisma.UserDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
+          };
+          update: {
+            args: Prisma.UserUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
+          };
+          deleteMany: {
+            args: Prisma.UserDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.UserUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
+          };
+          upsert: {
+            args: Prisma.UserUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
+          };
+          aggregate: {
+            args: Prisma.UserAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateUser>;
+          };
+          groupBy: {
+            args: Prisma.UserGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<UserGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.UserCountArgs<ExtArgs>;
+            result: $Utils.Optional<UserCountAggregateOutputType> | number;
+          };
+        };
+      };
       Interaction: {
         payload: Prisma.$InteractionPayload<ExtArgs>;
         fields: Prisma.InteractionFieldRefs;
@@ -1006,232 +1054,6 @@ export namespace Prisma {
             args: Prisma.UserPreferenceCountArgs<ExtArgs>;
             result:
               | $Utils.Optional<UserPreferenceCountAggregateOutputType>
-              | number;
-          };
-        };
-      };
-      EmailVerification: {
-        payload: Prisma.$EmailVerificationPayload<ExtArgs>;
-        fields: Prisma.EmailVerificationFieldRefs;
-        operations: {
-          findUnique: {
-            args: Prisma.EmailVerificationFindUniqueArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null;
-          };
-          findUniqueOrThrow: {
-            args: Prisma.EmailVerificationFindUniqueOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
-          };
-          findFirst: {
-            args: Prisma.EmailVerificationFindFirstArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null;
-          };
-          findFirstOrThrow: {
-            args: Prisma.EmailVerificationFindFirstOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
-          };
-          findMany: {
-            args: Prisma.EmailVerificationFindManyArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
-          };
-          create: {
-            args: Prisma.EmailVerificationCreateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
-          };
-          createMany: {
-            args: Prisma.EmailVerificationCreateManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          createManyAndReturn: {
-            args: Prisma.EmailVerificationCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
-          };
-          delete: {
-            args: Prisma.EmailVerificationDeleteArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
-          };
-          update: {
-            args: Prisma.EmailVerificationUpdateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
-          };
-          deleteMany: {
-            args: Prisma.EmailVerificationDeleteManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          updateMany: {
-            args: Prisma.EmailVerificationUpdateManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          updateManyAndReturn: {
-            args: Prisma.EmailVerificationUpdateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
-          };
-          upsert: {
-            args: Prisma.EmailVerificationUpsertArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
-          };
-          aggregate: {
-            args: Prisma.EmailVerificationAggregateArgs<ExtArgs>;
-            result: $Utils.Optional<AggregateEmailVerification>;
-          };
-          groupBy: {
-            args: Prisma.EmailVerificationGroupByArgs<ExtArgs>;
-            result: $Utils.Optional<EmailVerificationGroupByOutputType>[];
-          };
-          count: {
-            args: Prisma.EmailVerificationCountArgs<ExtArgs>;
-            result:
-              | $Utils.Optional<EmailVerificationCountAggregateOutputType>
-              | number;
-          };
-        };
-      };
-      User: {
-        payload: Prisma.$UserPayload<ExtArgs>;
-        fields: Prisma.UserFieldRefs;
-        operations: {
-          findUnique: {
-            args: Prisma.UserFindUniqueArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null;
-          };
-          findUniqueOrThrow: {
-            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
-          };
-          findFirst: {
-            args: Prisma.UserFindFirstArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null;
-          };
-          findFirstOrThrow: {
-            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
-          };
-          findMany: {
-            args: Prisma.UserFindManyArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
-          };
-          create: {
-            args: Prisma.UserCreateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
-          };
-          createMany: {
-            args: Prisma.UserCreateManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          createManyAndReturn: {
-            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
-          };
-          delete: {
-            args: Prisma.UserDeleteArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
-          };
-          update: {
-            args: Prisma.UserUpdateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
-          };
-          deleteMany: {
-            args: Prisma.UserDeleteManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          updateMany: {
-            args: Prisma.UserUpdateManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          updateManyAndReturn: {
-            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
-          };
-          upsert: {
-            args: Prisma.UserUpsertArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>;
-          };
-          aggregate: {
-            args: Prisma.UserAggregateArgs<ExtArgs>;
-            result: $Utils.Optional<AggregateUser>;
-          };
-          groupBy: {
-            args: Prisma.UserGroupByArgs<ExtArgs>;
-            result: $Utils.Optional<UserGroupByOutputType>[];
-          };
-          count: {
-            args: Prisma.UserCountArgs<ExtArgs>;
-            result: $Utils.Optional<UserCountAggregateOutputType> | number;
-          };
-        };
-      };
-      AuthProviderAccount: {
-        payload: Prisma.$AuthProviderAccountPayload<ExtArgs>;
-        fields: Prisma.AuthProviderAccountFieldRefs;
-        operations: {
-          findUnique: {
-            args: Prisma.AuthProviderAccountFindUniqueArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload> | null;
-          };
-          findUniqueOrThrow: {
-            args: Prisma.AuthProviderAccountFindUniqueOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>;
-          };
-          findFirst: {
-            args: Prisma.AuthProviderAccountFindFirstArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload> | null;
-          };
-          findFirstOrThrow: {
-            args: Prisma.AuthProviderAccountFindFirstOrThrowArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>;
-          };
-          findMany: {
-            args: Prisma.AuthProviderAccountFindManyArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>[];
-          };
-          create: {
-            args: Prisma.AuthProviderAccountCreateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>;
-          };
-          createMany: {
-            args: Prisma.AuthProviderAccountCreateManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          createManyAndReturn: {
-            args: Prisma.AuthProviderAccountCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>[];
-          };
-          delete: {
-            args: Prisma.AuthProviderAccountDeleteArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>;
-          };
-          update: {
-            args: Prisma.AuthProviderAccountUpdateArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>;
-          };
-          deleteMany: {
-            args: Prisma.AuthProviderAccountDeleteManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          updateMany: {
-            args: Prisma.AuthProviderAccountUpdateManyArgs<ExtArgs>;
-            result: BatchPayload;
-          };
-          updateManyAndReturn: {
-            args: Prisma.AuthProviderAccountUpdateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>[];
-          };
-          upsert: {
-            args: Prisma.AuthProviderAccountUpsertArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$AuthProviderAccountPayload>;
-          };
-          aggregate: {
-            args: Prisma.AuthProviderAccountAggregateArgs<ExtArgs>;
-            result: $Utils.Optional<AggregateAuthProviderAccount>;
-          };
-          groupBy: {
-            args: Prisma.AuthProviderAccountGroupByArgs<ExtArgs>;
-            result: $Utils.Optional<AuthProviderAccountGroupByOutputType>[];
-          };
-          count: {
-            args: Prisma.AuthProviderAccountCountArgs<ExtArgs>;
-            result:
-              | $Utils.Optional<AuthProviderAccountCountAggregateOutputType>
               | number;
           };
         };
@@ -1386,6 +1208,82 @@ export namespace Prisma {
           };
         };
       };
+      EmailVerification: {
+        payload: Prisma.$EmailVerificationPayload<ExtArgs>;
+        fields: Prisma.EmailVerificationFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.EmailVerificationFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.EmailVerificationFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+          };
+          findFirst: {
+            args: Prisma.EmailVerificationFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.EmailVerificationFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+          };
+          findMany: {
+            args: Prisma.EmailVerificationFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
+          };
+          create: {
+            args: Prisma.EmailVerificationCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+          };
+          createMany: {
+            args: Prisma.EmailVerificationCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.EmailVerificationCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
+          };
+          delete: {
+            args: Prisma.EmailVerificationDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+          };
+          update: {
+            args: Prisma.EmailVerificationUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+          };
+          deleteMany: {
+            args: Prisma.EmailVerificationDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.EmailVerificationUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.EmailVerificationUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[];
+          };
+          upsert: {
+            args: Prisma.EmailVerificationUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>;
+          };
+          aggregate: {
+            args: Prisma.EmailVerificationAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateEmailVerification>;
+          };
+          groupBy: {
+            args: Prisma.EmailVerificationGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<EmailVerificationGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.EmailVerificationCountArgs<ExtArgs>;
+            result:
+              | $Utils.Optional<EmailVerificationCountAggregateOutputType>
+              | number;
+          };
+        };
+      };
     };
   } & {
     other: {
@@ -1474,13 +1372,12 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig;
   }
   export type GlobalOmitConfig = {
+    user?: UserOmit;
     interaction?: InteractionOmit;
     userPreference?: UserPreferenceOmit;
-    emailVerification?: EmailVerificationOmit;
-    user?: UserOmit;
-    authProviderAccount?: AuthProviderAccountOmit;
     payment?: PaymentOmit;
     emailNotification?: EmailNotificationOmit;
+    emailVerification?: EmailVerificationOmit;
   };
 
   /* Types for Logging */
@@ -1588,19 +1485,21 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    authProviders: number;
-    EmailVerification: number;
-    Interaction: number;
-    UserPreference: number;
+    interactions: number;
+    preferences: number;
+    payments: number;
+    emailVerifications: number;
   };
 
   export type UserCountOutputTypeSelect<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
-    authProviders?: boolean | UserCountOutputTypeCountAuthProvidersArgs;
-    EmailVerification?: boolean | UserCountOutputTypeCountEmailVerificationArgs;
-    Interaction?: boolean | UserCountOutputTypeCountInteractionArgs;
-    UserPreference?: boolean | UserCountOutputTypeCountUserPreferenceArgs;
+    interactions?: boolean | UserCountOutputTypeCountInteractionsArgs;
+    preferences?: boolean | UserCountOutputTypeCountPreferencesArgs;
+    payments?: boolean | UserCountOutputTypeCountPaymentsArgs;
+    emailVerifications?:
+      | boolean
+      | UserCountOutputTypeCountEmailVerificationsArgs;
   };
 
   // Custom InputTypes
@@ -1619,25 +1518,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountAuthProvidersArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    where?: AuthProviderAccountWhereInput;
-  };
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountEmailVerificationArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    where?: EmailVerificationWhereInput;
-  };
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountInteractionArgs<
+  export type UserCountOutputTypeCountInteractionsArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: InteractionWhereInput;
@@ -1646,15 +1527,1524 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountUserPreferenceArgs<
+  export type UserCountOutputTypeCountPreferencesArgs<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = {
     where?: UserPreferenceWhereInput;
   };
 
   /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPaymentsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: PaymentWhereInput;
+  };
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEmailVerificationsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: EmailVerificationWhereInput;
+  };
+
+  /**
    * Models
    */
+
+  /**
+   * Model User
+   */
+
+  export type AggregateUser = {
+    _count: UserCountAggregateOutputType | null;
+    _min: UserMinAggregateOutputType | null;
+    _max: UserMaxAggregateOutputType | null;
+  };
+
+  export type UserMinAggregateOutputType = {
+    id: string | null;
+    name: string | null;
+    email: string | null;
+    image: string | null;
+    provider: $Enums.Provider | null;
+    providerId: string | null;
+    plan: $Enums.Plan | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
+
+  export type UserMaxAggregateOutputType = {
+    id: string | null;
+    name: string | null;
+    email: string | null;
+    image: string | null;
+    provider: $Enums.Provider | null;
+    providerId: string | null;
+    plan: $Enums.Plan | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
+
+  export type UserCountAggregateOutputType = {
+    id: number;
+    name: number;
+    email: number;
+    image: number;
+    provider: number;
+    providerId: number;
+    plan: number;
+    createdAt: number;
+    updatedAt: number;
+    _all: number;
+  };
+
+  export type UserMinAggregateInputType = {
+    id?: true;
+    name?: true;
+    email?: true;
+    image?: true;
+    provider?: true;
+    providerId?: true;
+    plan?: true;
+    createdAt?: true;
+    updatedAt?: true;
+  };
+
+  export type UserMaxAggregateInputType = {
+    id?: true;
+    name?: true;
+    email?: true;
+    image?: true;
+    provider?: true;
+    providerId?: true;
+    plan?: true;
+    createdAt?: true;
+    updatedAt?: true;
+  };
+
+  export type UserCountAggregateInputType = {
+    id?: true;
+    name?: true;
+    email?: true;
+    image?: true;
+    provider?: true;
+    providerId?: true;
+    plan?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    _all?: true;
+  };
+
+  export type UserAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which User to aggregate.
+     */
+    where?: UserWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: UserWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Users.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned Users
+     **/
+    _count?: true | UserCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: UserMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: UserMaxAggregateInputType;
+  };
+
+  export type GetUserAggregateType<T extends UserAggregateArgs> = {
+    [P in keyof T & keyof AggregateUser]: P extends "_count" | "count"
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser[P]>
+      : GetScalarType<T[P], AggregateUser[P]>;
+  };
+
+  export type UserGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: UserWhereInput;
+    orderBy?:
+      | UserOrderByWithAggregationInput
+      | UserOrderByWithAggregationInput[];
+    by: UserScalarFieldEnum[] | UserScalarFieldEnum;
+    having?: UserScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: UserCountAggregateInputType | true;
+    _min?: UserMinAggregateInputType;
+    _max?: UserMaxAggregateInputType;
+  };
+
+  export type UserGroupByOutputType = {
+    id: string;
+    name: string | null;
+    email: string;
+    image: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan: $Enums.Plan;
+    createdAt: Date;
+    updatedAt: Date;
+    _count: UserCountAggregateOutputType | null;
+    _min: UserMinAggregateOutputType | null;
+    _max: UserMaxAggregateOutputType | null;
+  };
+
+  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserGroupByOutputType, T["by"]> & {
+        [P in keyof T & keyof UserGroupByOutputType]: P extends "_count"
+          ? T[P] extends boolean
+            ? number
+            : GetScalarType<T[P], UserGroupByOutputType[P]>
+          : GetScalarType<T[P], UserGroupByOutputType[P]>;
+      }
+    >
+  >;
+
+  export type UserSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      name?: boolean;
+      email?: boolean;
+      image?: boolean;
+      provider?: boolean;
+      providerId?: boolean;
+      plan?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      interactions?: boolean | User$interactionsArgs<ExtArgs>;
+      preferences?: boolean | User$preferencesArgs<ExtArgs>;
+      payments?: boolean | User$paymentsArgs<ExtArgs>;
+      emailVerifications?: boolean | User$emailVerificationsArgs<ExtArgs>;
+      _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
+    },
+    ExtArgs["result"]["user"]
+  >;
+
+  export type UserSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      name?: boolean;
+      email?: boolean;
+      image?: boolean;
+      provider?: boolean;
+      providerId?: boolean;
+      plan?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+    },
+    ExtArgs["result"]["user"]
+  >;
+
+  export type UserSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      name?: boolean;
+      email?: boolean;
+      image?: boolean;
+      provider?: boolean;
+      providerId?: boolean;
+      plan?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+    },
+    ExtArgs["result"]["user"]
+  >;
+
+  export type UserSelectScalar = {
+    id?: boolean;
+    name?: boolean;
+    email?: boolean;
+    image?: boolean;
+    provider?: boolean;
+    providerId?: boolean;
+    plan?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+  };
+
+  export type UserOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    | "id"
+    | "name"
+    | "email"
+    | "image"
+    | "provider"
+    | "providerId"
+    | "plan"
+    | "createdAt"
+    | "updatedAt",
+    ExtArgs["result"]["user"]
+  >;
+  export type UserInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    interactions?: boolean | User$interactionsArgs<ExtArgs>;
+    preferences?: boolean | User$preferencesArgs<ExtArgs>;
+    payments?: boolean | User$paymentsArgs<ExtArgs>;
+    emailVerifications?: boolean | User$emailVerificationsArgs<ExtArgs>;
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
+  };
+  export type UserIncludeCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {};
+  export type UserIncludeUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {};
+
+  export type $UserPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: "User";
+    objects: {
+      interactions: Prisma.$InteractionPayload<ExtArgs>[];
+      preferences: Prisma.$UserPreferencePayload<ExtArgs>[];
+      payments: Prisma.$PaymentPayload<ExtArgs>[];
+      emailVerifications: Prisma.$EmailVerificationPayload<ExtArgs>[];
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        name: string | null;
+        email: string;
+        image: string | null;
+        provider: $Enums.Provider;
+        providerId: string;
+        plan: $Enums.Plan;
+        createdAt: Date;
+        updatedAt: Date;
+      },
+      ExtArgs["result"]["user"]
+    >;
+    composites: {};
+  };
+
+  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> =
+    $Result.GetResult<Prisma.$UserPayload, S>;
+
+  type UserCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<UserFindManyArgs, "select" | "include" | "distinct" | "omit"> & {
+    select?: UserCountAggregateInputType | true;
+  };
+
+  export interface UserDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>["model"]["User"];
+      meta: { name: "User" };
+    };
+    /**
+     * Find zero or one User that matches the filter.
+     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserFindUniqueArgs>(
+      args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "findUnique",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one User that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "findUniqueOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first User that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserFindFirstArgs>(
+      args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "findFirst",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first User that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @example
+     * // Get one User
+     * const user = await prisma.user.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "findFirstOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.user.findMany()
+     *
+     * // Get first 10 Users
+     * const users = await prisma.user.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends UserFindManyArgs>(
+      args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create a User.
+     * @param {UserCreateArgs} args - Arguments to create a User.
+     * @example
+     * // Create one User
+     * const User = await prisma.user.create({
+     *   data: {
+     *     // ... data to create a User
+     *   }
+     * })
+     *
+     */
+    create<T extends UserCreateArgs>(
+      args: SelectSubset<T, UserCreateArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "create",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many Users.
+     * @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends UserCreateManyArgs>(
+      args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many Users and returns the data saved in the database.
+     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "createManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a User.
+     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * @example
+     * // Delete one User
+     * const User = await prisma.user.delete({
+     *   where: {
+     *     // ... filter to delete one User
+     *   }
+     * })
+     *
+     */
+    delete<T extends UserDeleteArgs>(
+      args: SelectSubset<T, UserDeleteArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "delete",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one User.
+     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * @example
+     * // Update one User
+     * const user = await prisma.user.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends UserUpdateArgs>(
+      args: SelectSubset<T, UserUpdateArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "update",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more Users.
+     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.user.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends UserDeleteManyArgs>(
+      args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends UserUpdateManyArgs>(
+      args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "updateManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one User.
+     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * @example
+     * // Update or create a User
+     * const user = await prisma.user.upsert({
+     *   create: {
+     *     // ... data to create a User
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserUpsertArgs>(
+      args: SelectSubset<T, UserUpsertArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      $Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        "upsert",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @example
+     * // Count the number of Users
+     * const count = await prisma.user.count({
+     *   where: {
+     *     // ... the filter for the Users we want to count
+     *   }
+     * })
+     **/
+    count<T extends UserCountArgs>(
+      args?: Subset<T, UserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<"select", any>
+        ? T["select"] extends true
+          ? number
+          : GetScalarType<T["select"], UserCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends UserAggregateArgs>(
+      args: Subset<T, UserAggregateArgs>,
+    ): Prisma.PrismaPromise<GetUserAggregateType<T>>;
+
+    /**
+     * Group by User.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends UserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserGroupByArgs["orderBy"] }
+        : { orderBy?: UserGroupByArgs["orderBy"] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
+      >,
+      ByFields extends MaybeTupleToUnion<T["by"]>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T["having"]>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T["by"] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [
+                      Error,
+                      "Field ",
+                      P,
+                      ` in "having" needs to be provided in "by"`,
+                    ];
+            }[HavingFields]
+          : "take" extends Keys<T>
+            ? "orderBy" extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : "skip" extends Keys<T>
+              ? "orderBy" extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors,
+    ): {} extends InputErrors
+      ? GetUserGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the User model
+     */
+    readonly fields: UserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for User.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    interactions<T extends User$interactionsArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$interactionsArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$InteractionPayload<ExtArgs>,
+          T,
+          "findMany",
+          GlobalOmitOptions
+        >
+      | Null
+    >;
+    preferences<T extends User$preferencesArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$preferencesArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$UserPreferencePayload<ExtArgs>,
+          T,
+          "findMany",
+          GlobalOmitOptions
+        >
+      | Null
+    >;
+    payments<T extends User$paymentsArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$paymentsArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$PaymentPayload<ExtArgs>,
+          T,
+          "findMany",
+          GlobalOmitOptions
+        >
+      | Null
+    >;
+    emailVerifications<T extends User$emailVerificationsArgs<ExtArgs> = {}>(
+      args?: Subset<T, User$emailVerificationsArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      | $Result.GetResult<
+          Prisma.$EmailVerificationPayload<ExtArgs>,
+          T,
+          "findMany",
+          GlobalOmitOptions
+        >
+      | Null
+    >;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the User model
+   */
+  interface UserFieldRefs {
+    readonly id: FieldRef<"User", "String">;
+    readonly name: FieldRef<"User", "String">;
+    readonly email: FieldRef<"User", "String">;
+    readonly image: FieldRef<"User", "String">;
+    readonly provider: FieldRef<"User", "Provider">;
+    readonly providerId: FieldRef<"User", "String">;
+    readonly plan: FieldRef<"User", "Plan">;
+    readonly createdAt: FieldRef<"User", "DateTime">;
+    readonly updatedAt: FieldRef<"User", "DateTime">;
+  }
+
+  // Custom InputTypes
+  /**
+   * User findUnique
+   */
+  export type UserFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput;
+  };
+
+  /**
+   * User findUniqueOrThrow
+   */
+  export type UserFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * Filter, which User to fetch.
+     */
+    where: UserWhereUniqueInput;
+  };
+
+  /**
+   * User findFirst
+   */
+  export type UserFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Users.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[];
+  };
+
+  /**
+   * User findFirstOrThrow
+   */
+  export type UserFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * Filter, which User to fetch.
+     */
+    where?: UserWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Users.
+     */
+    cursor?: UserWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Users.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Users.
+     */
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[];
+  };
+
+  /**
+   * User findMany
+   */
+  export type UserFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UserWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing Users.
+     */
+    cursor?: UserWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Users.
+     */
+    skip?: number;
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[];
+  };
+
+  /**
+   * User create
+   */
+  export type UserCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a User.
+     */
+    data: XOR<UserCreateInput, UserUncheckedCreateInput>;
+  };
+
+  /**
+   * User createMany
+   */
+  export type UserCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * User createManyAndReturn
+   */
+  export type UserCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * User update
+   */
+  export type UserUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a User.
+     */
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>;
+    /**
+     * Choose, which User to update.
+     */
+    where: UserWhereUniqueInput;
+  };
+
+  /**
+   * User updateMany
+   */
+  export type UserUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>;
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput;
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>;
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput;
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * User upsert
+   */
+  export type UserUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the User to update in case it exists.
+     */
+    where: UserWhereUniqueInput;
+    /**
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     */
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>;
+    /**
+     * In case the User was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>;
+  };
+
+  /**
+   * User delete
+   */
+  export type UserDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+    /**
+     * Filter which User to delete.
+     */
+    where: UserWhereUniqueInput;
+  };
+
+  /**
+   * User deleteMany
+   */
+  export type UserDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which Users to delete
+     */
+    where?: UserWhereInput;
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * User.interactions
+   */
+  export type User$interactionsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Interaction
+     */
+    select?: InteractionSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Interaction
+     */
+    omit?: InteractionOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InteractionInclude<ExtArgs> | null;
+    where?: InteractionWhereInput;
+    orderBy?:
+      | InteractionOrderByWithRelationInput
+      | InteractionOrderByWithRelationInput[];
+    cursor?: InteractionWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[];
+  };
+
+  /**
+   * User.preferences
+   */
+  export type User$preferencesArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the UserPreference
+     */
+    select?: UserPreferenceSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the UserPreference
+     */
+    omit?: UserPreferenceOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferenceInclude<ExtArgs> | null;
+    where?: UserPreferenceWhereInput;
+    orderBy?:
+      | UserPreferenceOrderByWithRelationInput
+      | UserPreferenceOrderByWithRelationInput[];
+    cursor?: UserPreferenceWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: UserPreferenceScalarFieldEnum | UserPreferenceScalarFieldEnum[];
+  };
+
+  /**
+   * User.payments
+   */
+  export type User$paymentsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    where?: PaymentWhereInput;
+    orderBy?:
+      | PaymentOrderByWithRelationInput
+      | PaymentOrderByWithRelationInput[];
+    cursor?: PaymentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
+  };
+
+  /**
+   * User.emailVerifications
+   */
+  export type User$emailVerificationsArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null;
+    where?: EmailVerificationWhereInput;
+    orderBy?:
+      | EmailVerificationOrderByWithRelationInput
+      | EmailVerificationOrderByWithRelationInput[];
+    cursor?: EmailVerificationWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?:
+      | EmailVerificationScalarFieldEnum
+      | EmailVerificationScalarFieldEnum[];
+  };
+
+  /**
+   * User without action
+   */
+  export type UserDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null;
+  };
 
   /**
    * Model Interaction
@@ -2990,24 +4380,27 @@ export namespace Prisma {
   export type UserPreferenceMinAggregateOutputType = {
     id: string | null;
     userId: string | null;
-    preference: string | null;
-    preferenceValue: string | null;
+    language: string | null;
+    theme: string | null;
+    createdAt: Date | null;
     updatedAt: Date | null;
   };
 
   export type UserPreferenceMaxAggregateOutputType = {
     id: string | null;
     userId: string | null;
-    preference: string | null;
-    preferenceValue: string | null;
+    language: string | null;
+    theme: string | null;
+    createdAt: Date | null;
     updatedAt: Date | null;
   };
 
   export type UserPreferenceCountAggregateOutputType = {
     id: number;
     userId: number;
-    preference: number;
-    preferenceValue: number;
+    language: number;
+    theme: number;
+    createdAt: number;
     updatedAt: number;
     _all: number;
   };
@@ -3015,24 +4408,27 @@ export namespace Prisma {
   export type UserPreferenceMinAggregateInputType = {
     id?: true;
     userId?: true;
-    preference?: true;
-    preferenceValue?: true;
+    language?: true;
+    theme?: true;
+    createdAt?: true;
     updatedAt?: true;
   };
 
   export type UserPreferenceMaxAggregateInputType = {
     id?: true;
     userId?: true;
-    preference?: true;
-    preferenceValue?: true;
+    language?: true;
+    theme?: true;
+    createdAt?: true;
     updatedAt?: true;
   };
 
   export type UserPreferenceCountAggregateInputType = {
     id?: true;
     userId?: true;
-    preference?: true;
-    preferenceValue?: true;
+    language?: true;
+    theme?: true;
+    createdAt?: true;
     updatedAt?: true;
     _all?: true;
   };
@@ -3119,8 +4515,9 @@ export namespace Prisma {
   export type UserPreferenceGroupByOutputType = {
     id: string;
     userId: string;
-    preference: string;
-    preferenceValue: string;
+    language: string;
+    theme: string | null;
+    createdAt: Date;
     updatedAt: Date;
     _count: UserPreferenceCountAggregateOutputType | null;
     _min: UserPreferenceMinAggregateOutputType | null;
@@ -3147,8 +4544,9 @@ export namespace Prisma {
     {
       id?: boolean;
       userId?: boolean;
-      preference?: boolean;
-      preferenceValue?: boolean;
+      language?: boolean;
+      theme?: boolean;
+      createdAt?: boolean;
       updatedAt?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
     },
@@ -3161,8 +4559,9 @@ export namespace Prisma {
     {
       id?: boolean;
       userId?: boolean;
-      preference?: boolean;
-      preferenceValue?: boolean;
+      language?: boolean;
+      theme?: boolean;
+      createdAt?: boolean;
       updatedAt?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
     },
@@ -3175,8 +4574,9 @@ export namespace Prisma {
     {
       id?: boolean;
       userId?: boolean;
-      preference?: boolean;
-      preferenceValue?: boolean;
+      language?: boolean;
+      theme?: boolean;
+      createdAt?: boolean;
       updatedAt?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
     },
@@ -3186,15 +4586,16 @@ export namespace Prisma {
   export type UserPreferenceSelectScalar = {
     id?: boolean;
     userId?: boolean;
-    preference?: boolean;
-    preferenceValue?: boolean;
+    language?: boolean;
+    theme?: boolean;
+    createdAt?: boolean;
     updatedAt?: boolean;
   };
 
   export type UserPreferenceOmit<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
   > = $Extensions.GetOmit<
-    "id" | "userId" | "preference" | "preferenceValue" | "updatedAt",
+    "id" | "userId" | "language" | "theme" | "createdAt" | "updatedAt",
     ExtArgs["result"]["userPreference"]
   >;
   export type UserPreferenceInclude<
@@ -3224,8 +4625,9 @@ export namespace Prisma {
       {
         id: string;
         userId: string;
-        preference: string;
-        preferenceValue: string;
+        language: string;
+        theme: string | null;
+        createdAt: Date;
         updatedAt: Date;
       },
       ExtArgs["result"]["userPreference"]
@@ -3833,8 +5235,9 @@ export namespace Prisma {
   interface UserPreferenceFieldRefs {
     readonly id: FieldRef<"UserPreference", "String">;
     readonly userId: FieldRef<"UserPreference", "String">;
-    readonly preference: FieldRef<"UserPreference", "String">;
-    readonly preferenceValue: FieldRef<"UserPreference", "String">;
+    readonly language: FieldRef<"UserPreference", "String">;
+    readonly theme: FieldRef<"UserPreference", "String">;
+    readonly createdAt: FieldRef<"UserPreference", "DateTime">;
     readonly updatedAt: FieldRef<"UserPreference", "DateTime">;
   }
 
@@ -4288,6 +5691,2753 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserPreferenceInclude<ExtArgs> | null;
+  };
+
+  /**
+   * Model Payment
+   */
+
+  export type AggregatePayment = {
+    _count: PaymentCountAggregateOutputType | null;
+    _avg: PaymentAvgAggregateOutputType | null;
+    _sum: PaymentSumAggregateOutputType | null;
+    _min: PaymentMinAggregateOutputType | null;
+    _max: PaymentMaxAggregateOutputType | null;
+  };
+
+  export type PaymentAvgAggregateOutputType = {
+    amount: Decimal | null;
+  };
+
+  export type PaymentSumAggregateOutputType = {
+    amount: Decimal | null;
+  };
+
+  export type PaymentMinAggregateOutputType = {
+    id: string | null;
+    userId: string | null;
+    externalId: string | null;
+    status: $Enums.PaymentStatus | null;
+    amount: Decimal | null;
+    paymentMethod: string | null;
+    paymentMethodId: string | null;
+    paymentProvider: string | null;
+    paymentUrl: string | null;
+    notificationSent: boolean | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
+
+  export type PaymentMaxAggregateOutputType = {
+    id: string | null;
+    userId: string | null;
+    externalId: string | null;
+    status: $Enums.PaymentStatus | null;
+    amount: Decimal | null;
+    paymentMethod: string | null;
+    paymentMethodId: string | null;
+    paymentProvider: string | null;
+    paymentUrl: string | null;
+    notificationSent: boolean | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
+
+  export type PaymentCountAggregateOutputType = {
+    id: number;
+    userId: number;
+    externalId: number;
+    status: number;
+    amount: number;
+    paymentMethod: number;
+    paymentMethodId: number;
+    paymentProvider: number;
+    paymentUrl: number;
+    transactionDetails: number;
+    notificationSent: number;
+    createdAt: number;
+    updatedAt: number;
+    _all: number;
+  };
+
+  export type PaymentAvgAggregateInputType = {
+    amount?: true;
+  };
+
+  export type PaymentSumAggregateInputType = {
+    amount?: true;
+  };
+
+  export type PaymentMinAggregateInputType = {
+    id?: true;
+    userId?: true;
+    externalId?: true;
+    status?: true;
+    amount?: true;
+    paymentMethod?: true;
+    paymentMethodId?: true;
+    paymentProvider?: true;
+    paymentUrl?: true;
+    notificationSent?: true;
+    createdAt?: true;
+    updatedAt?: true;
+  };
+
+  export type PaymentMaxAggregateInputType = {
+    id?: true;
+    userId?: true;
+    externalId?: true;
+    status?: true;
+    amount?: true;
+    paymentMethod?: true;
+    paymentMethodId?: true;
+    paymentProvider?: true;
+    paymentUrl?: true;
+    notificationSent?: true;
+    createdAt?: true;
+    updatedAt?: true;
+  };
+
+  export type PaymentCountAggregateInputType = {
+    id?: true;
+    userId?: true;
+    externalId?: true;
+    status?: true;
+    amount?: true;
+    paymentMethod?: true;
+    paymentMethodId?: true;
+    paymentProvider?: true;
+    paymentUrl?: true;
+    transactionDetails?: true;
+    notificationSent?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    _all?: true;
+  };
+
+  export type PaymentAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which Payment to aggregate.
+     */
+    where?: PaymentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?:
+      | PaymentOrderByWithRelationInput
+      | PaymentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: PaymentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Payments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned Payments
+     **/
+    _count?: true | PaymentCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: PaymentAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: PaymentSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: PaymentMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: PaymentMaxAggregateInputType;
+  };
+
+  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
+    [P in keyof T & keyof AggregatePayment]: P extends "_count" | "count"
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayment[P]>
+      : GetScalarType<T[P], AggregatePayment[P]>;
+  };
+
+  export type PaymentGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: PaymentWhereInput;
+    orderBy?:
+      | PaymentOrderByWithAggregationInput
+      | PaymentOrderByWithAggregationInput[];
+    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum;
+    having?: PaymentScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: PaymentCountAggregateInputType | true;
+    _avg?: PaymentAvgAggregateInputType;
+    _sum?: PaymentSumAggregateInputType;
+    _min?: PaymentMinAggregateInputType;
+    _max?: PaymentMaxAggregateInputType;
+  };
+
+  export type PaymentGroupByOutputType = {
+    id: string;
+    userId: string;
+    externalId: string | null;
+    status: $Enums.PaymentStatus;
+    amount: Decimal;
+    paymentMethod: string | null;
+    paymentMethodId: string | null;
+    paymentProvider: string;
+    paymentUrl: string | null;
+    transactionDetails: JsonValue | null;
+    notificationSent: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    _count: PaymentCountAggregateOutputType | null;
+    _avg: PaymentAvgAggregateOutputType | null;
+    _sum: PaymentSumAggregateOutputType | null;
+    _min: PaymentMinAggregateOutputType | null;
+    _max: PaymentMaxAggregateOutputType | null;
+  };
+
+  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> =
+    Prisma.PrismaPromise<
+      Array<
+        PickEnumerable<PaymentGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof PaymentGroupByOutputType]: P extends "_count"
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentGroupByOutputType[P]>;
+        }
+      >
+    >;
+
+  export type PaymentSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      userId?: boolean;
+      externalId?: boolean;
+      status?: boolean;
+      amount?: boolean;
+      paymentMethod?: boolean;
+      paymentMethodId?: boolean;
+      paymentProvider?: boolean;
+      paymentUrl?: boolean;
+      transactionDetails?: boolean;
+      notificationSent?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      user?: boolean | UserDefaultArgs<ExtArgs>;
+    },
+    ExtArgs["result"]["payment"]
+  >;
+
+  export type PaymentSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      userId?: boolean;
+      externalId?: boolean;
+      status?: boolean;
+      amount?: boolean;
+      paymentMethod?: boolean;
+      paymentMethodId?: boolean;
+      paymentProvider?: boolean;
+      paymentUrl?: boolean;
+      transactionDetails?: boolean;
+      notificationSent?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      user?: boolean | UserDefaultArgs<ExtArgs>;
+    },
+    ExtArgs["result"]["payment"]
+  >;
+
+  export type PaymentSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      userId?: boolean;
+      externalId?: boolean;
+      status?: boolean;
+      amount?: boolean;
+      paymentMethod?: boolean;
+      paymentMethodId?: boolean;
+      paymentProvider?: boolean;
+      paymentUrl?: boolean;
+      transactionDetails?: boolean;
+      notificationSent?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+      user?: boolean | UserDefaultArgs<ExtArgs>;
+    },
+    ExtArgs["result"]["payment"]
+  >;
+
+  export type PaymentSelectScalar = {
+    id?: boolean;
+    userId?: boolean;
+    externalId?: boolean;
+    status?: boolean;
+    amount?: boolean;
+    paymentMethod?: boolean;
+    paymentMethodId?: boolean;
+    paymentProvider?: boolean;
+    paymentUrl?: boolean;
+    transactionDetails?: boolean;
+    notificationSent?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+  };
+
+  export type PaymentOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    | "id"
+    | "userId"
+    | "externalId"
+    | "status"
+    | "amount"
+    | "paymentMethod"
+    | "paymentMethodId"
+    | "paymentProvider"
+    | "paymentUrl"
+    | "transactionDetails"
+    | "notificationSent"
+    | "createdAt"
+    | "updatedAt",
+    ExtArgs["result"]["payment"]
+  >;
+  export type PaymentInclude<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    user?: boolean | UserDefaultArgs<ExtArgs>;
+  };
+  export type PaymentIncludeCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    user?: boolean | UserDefaultArgs<ExtArgs>;
+  };
+  export type PaymentIncludeUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    user?: boolean | UserDefaultArgs<ExtArgs>;
+  };
+
+  export type $PaymentPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: "Payment";
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>;
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        userId: string;
+        externalId: string | null;
+        status: $Enums.PaymentStatus;
+        amount: Prisma.Decimal;
+        paymentMethod: string | null;
+        paymentMethodId: string | null;
+        paymentProvider: string;
+        paymentUrl: string | null;
+        transactionDetails: Prisma.JsonValue | null;
+        notificationSent: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+      },
+      ExtArgs["result"]["payment"]
+    >;
+    composites: {};
+  };
+
+  type PaymentGetPayload<
+    S extends boolean | null | undefined | PaymentDefaultArgs,
+  > = $Result.GetResult<Prisma.$PaymentPayload, S>;
+
+  type PaymentCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<PaymentFindManyArgs, "select" | "include" | "distinct" | "omit"> & {
+    select?: PaymentCountAggregateInputType | true;
+  };
+
+  export interface PaymentDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>["model"]["Payment"];
+      meta: { name: "Payment" };
+    };
+    /**
+     * Find zero or one Payment that matches the filter.
+     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentFindUniqueArgs>(
+      args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "findUnique",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "findUniqueOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first Payment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentFindFirstArgs>(
+      args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "findFirst",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first Payment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "findFirstOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more Payments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Payments
+     * const payments = await prisma.payment.findMany()
+     *
+     * // Get first 10 Payments
+     * const payments = await prisma.payment.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends PaymentFindManyArgs>(
+      args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create a Payment.
+     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
+     * @example
+     * // Create one Payment
+     * const Payment = await prisma.payment.create({
+     *   data: {
+     *     // ... data to create a Payment
+     *   }
+     * })
+     *
+     */
+    create<T extends PaymentCreateArgs>(
+      args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "create",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many Payments.
+     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends PaymentCreateManyArgs>(
+      args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many Payments and returns the data saved in the database.
+     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "createManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a Payment.
+     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
+     * @example
+     * // Delete one Payment
+     * const Payment = await prisma.payment.delete({
+     *   where: {
+     *     // ... filter to delete one Payment
+     *   }
+     * })
+     *
+     */
+    delete<T extends PaymentDeleteArgs>(
+      args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "delete",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one Payment.
+     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
+     * @example
+     * // Update one Payment
+     * const payment = await prisma.payment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends PaymentUpdateArgs>(
+      args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "update",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more Payments.
+     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
+     * @example
+     * // Delete a few Payments
+     * const { count } = await prisma.payment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends PaymentDeleteManyArgs>(
+      args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends PaymentUpdateManyArgs>(
+      args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more Payments and returns the data updated in the database.
+     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "updateManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one Payment.
+     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
+     * @example
+     * // Update or create a Payment
+     * const payment = await prisma.payment.upsert({
+     *   create: {
+     *     // ... data to create a Payment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Payment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentUpsertArgs>(
+      args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>,
+    ): Prisma__PaymentClient<
+      $Result.GetResult<
+        Prisma.$PaymentPayload<ExtArgs>,
+        T,
+        "upsert",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
+     * @example
+     * // Count the number of Payments
+     * const count = await prisma.payment.count({
+     *   where: {
+     *     // ... the filter for the Payments we want to count
+     *   }
+     * })
+     **/
+    count<T extends PaymentCountArgs>(
+      args?: Subset<T, PaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<"select", any>
+        ? T["select"] extends true
+          ? number
+          : GetScalarType<T["select"], PaymentCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends PaymentAggregateArgs>(
+      args: Subset<T, PaymentAggregateArgs>,
+    ): Prisma.PrismaPromise<GetPaymentAggregateType<T>>;
+
+    /**
+     * Group by Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends PaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentGroupByArgs["orderBy"] }
+        : { orderBy?: PaymentGroupByArgs["orderBy"] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
+      >,
+      ByFields extends MaybeTupleToUnion<T["by"]>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T["having"]>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T["by"] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [
+                      Error,
+                      "Field ",
+                      P,
+                      ` in "having" needs to be provided in "by"`,
+                    ];
+            }[HavingFields]
+          : "take" extends Keys<T>
+            ? "orderBy" extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : "skip" extends Keys<T>
+              ? "orderBy" extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors,
+    ): {} extends InputErrors
+      ? GetPaymentGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the Payment model
+     */
+    readonly fields: PaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Payment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, UserDefaultArgs<ExtArgs>>,
+    ): Prisma__UserClient<
+      | $Result.GetResult<
+          Prisma.$UserPayload<ExtArgs>,
+          T,
+          "findUniqueOrThrow",
+          GlobalOmitOptions
+        >
+      | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the Payment model
+   */
+  interface PaymentFieldRefs {
+    readonly id: FieldRef<"Payment", "String">;
+    readonly userId: FieldRef<"Payment", "String">;
+    readonly externalId: FieldRef<"Payment", "String">;
+    readonly status: FieldRef<"Payment", "PaymentStatus">;
+    readonly amount: FieldRef<"Payment", "Decimal">;
+    readonly paymentMethod: FieldRef<"Payment", "String">;
+    readonly paymentMethodId: FieldRef<"Payment", "String">;
+    readonly paymentProvider: FieldRef<"Payment", "String">;
+    readonly paymentUrl: FieldRef<"Payment", "String">;
+    readonly transactionDetails: FieldRef<"Payment", "Json">;
+    readonly notificationSent: FieldRef<"Payment", "Boolean">;
+    readonly createdAt: FieldRef<"Payment", "DateTime">;
+    readonly updatedAt: FieldRef<"Payment", "DateTime">;
+  }
+
+  // Custom InputTypes
+  /**
+   * Payment findUnique
+   */
+  export type PaymentFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput;
+  };
+
+  /**
+   * Payment findUniqueOrThrow
+   */
+  export type PaymentFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput;
+  };
+
+  /**
+   * Payment findFirst
+   */
+  export type PaymentFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?:
+      | PaymentOrderByWithRelationInput
+      | PaymentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Payments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
+  };
+
+  /**
+   * Payment findFirstOrThrow
+   */
+  export type PaymentFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?:
+      | PaymentOrderByWithRelationInput
+      | PaymentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Payments.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
+  };
+
+  /**
+   * Payment findMany
+   */
+  export type PaymentFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * Filter, which Payments to fetch.
+     */
+    where?: PaymentWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?:
+      | PaymentOrderByWithRelationInput
+      | PaymentOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing Payments.
+     */
+    cursor?: PaymentWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Payments.
+     */
+    skip?: number;
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
+  };
+
+  /**
+   * Payment create
+   */
+  export type PaymentCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a Payment.
+     */
+    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>;
+  };
+
+  /**
+   * Payment createMany
+   */
+  export type PaymentCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * Payment createManyAndReturn
+   */
+  export type PaymentCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[];
+    skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeCreateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * Payment update
+   */
+  export type PaymentUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a Payment.
+     */
+    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>;
+    /**
+     * Choose, which Payment to update.
+     */
+    where: PaymentWhereUniqueInput;
+  };
+
+  /**
+   * Payment updateMany
+   */
+  export type PaymentUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>;
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput;
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * Payment updateManyAndReturn
+   */
+  export type PaymentUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>;
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput;
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeUpdateManyAndReturn<ExtArgs> | null;
+  };
+
+  /**
+   * Payment upsert
+   */
+  export type PaymentUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the Payment to update in case it exists.
+     */
+    where: PaymentWhereUniqueInput;
+    /**
+     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
+     */
+    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>;
+    /**
+     * In case the Payment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>;
+  };
+
+  /**
+   * Payment delete
+   */
+  export type PaymentDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+    /**
+     * Filter which Payment to delete.
+     */
+    where: PaymentWhereUniqueInput;
+  };
+
+  /**
+   * Payment deleteMany
+   */
+  export type PaymentDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which Payments to delete
+     */
+    where?: PaymentWhereInput;
+    /**
+     * Limit how many Payments to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * Payment without action
+   */
+  export type PaymentDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null;
+  };
+
+  /**
+   * Model EmailNotification
+   */
+
+  export type AggregateEmailNotification = {
+    _count: EmailNotificationCountAggregateOutputType | null;
+    _min: EmailNotificationMinAggregateOutputType | null;
+    _max: EmailNotificationMaxAggregateOutputType | null;
+  };
+
+  export type EmailNotificationMinAggregateOutputType = {
+    id: string | null;
+    recipient: string | null;
+    subject: string | null;
+    content: string | null;
+    status: $Enums.EmailStatus | null;
+    sentAt: Date | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
+
+  export type EmailNotificationMaxAggregateOutputType = {
+    id: string | null;
+    recipient: string | null;
+    subject: string | null;
+    content: string | null;
+    status: $Enums.EmailStatus | null;
+    sentAt: Date | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  };
+
+  export type EmailNotificationCountAggregateOutputType = {
+    id: number;
+    recipient: number;
+    subject: number;
+    content: number;
+    status: number;
+    sentAt: number;
+    createdAt: number;
+    updatedAt: number;
+    _all: number;
+  };
+
+  export type EmailNotificationMinAggregateInputType = {
+    id?: true;
+    recipient?: true;
+    subject?: true;
+    content?: true;
+    status?: true;
+    sentAt?: true;
+    createdAt?: true;
+    updatedAt?: true;
+  };
+
+  export type EmailNotificationMaxAggregateInputType = {
+    id?: true;
+    recipient?: true;
+    subject?: true;
+    content?: true;
+    status?: true;
+    sentAt?: true;
+    createdAt?: true;
+    updatedAt?: true;
+  };
+
+  export type EmailNotificationCountAggregateInputType = {
+    id?: true;
+    recipient?: true;
+    subject?: true;
+    content?: true;
+    status?: true;
+    sentAt?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    _all?: true;
+  };
+
+  export type EmailNotificationAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which EmailNotification to aggregate.
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?:
+      | EmailNotificationOrderByWithRelationInput
+      | EmailNotificationOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: EmailNotificationWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned EmailNotifications
+     **/
+    _count?: true | EmailNotificationCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: EmailNotificationMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: EmailNotificationMaxAggregateInputType;
+  };
+
+  export type GetEmailNotificationAggregateType<
+    T extends EmailNotificationAggregateArgs,
+  > = {
+    [P in keyof T & keyof AggregateEmailNotification]: P extends
+      | "_count"
+      | "count"
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailNotification[P]>
+      : GetScalarType<T[P], AggregateEmailNotification[P]>;
+  };
+
+  export type EmailNotificationGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: EmailNotificationWhereInput;
+    orderBy?:
+      | EmailNotificationOrderByWithAggregationInput
+      | EmailNotificationOrderByWithAggregationInput[];
+    by: EmailNotificationScalarFieldEnum[] | EmailNotificationScalarFieldEnum;
+    having?: EmailNotificationScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: EmailNotificationCountAggregateInputType | true;
+    _min?: EmailNotificationMinAggregateInputType;
+    _max?: EmailNotificationMaxAggregateInputType;
+  };
+
+  export type EmailNotificationGroupByOutputType = {
+    id: string;
+    recipient: string;
+    subject: string;
+    content: string;
+    status: $Enums.EmailStatus;
+    sentAt: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
+    _count: EmailNotificationCountAggregateOutputType | null;
+    _min: EmailNotificationMinAggregateOutputType | null;
+    _max: EmailNotificationMaxAggregateOutputType | null;
+  };
+
+  type GetEmailNotificationGroupByPayload<
+    T extends EmailNotificationGroupByArgs,
+  > = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailNotificationGroupByOutputType, T["by"]> & {
+        [P in keyof T &
+          keyof EmailNotificationGroupByOutputType]: P extends "_count"
+          ? T[P] extends boolean
+            ? number
+            : GetScalarType<T[P], EmailNotificationGroupByOutputType[P]>
+          : GetScalarType<T[P], EmailNotificationGroupByOutputType[P]>;
+      }
+    >
+  >;
+
+  export type EmailNotificationSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      recipient?: boolean;
+      subject?: boolean;
+      content?: boolean;
+      status?: boolean;
+      sentAt?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+    },
+    ExtArgs["result"]["emailNotification"]
+  >;
+
+  export type EmailNotificationSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      recipient?: boolean;
+      subject?: boolean;
+      content?: boolean;
+      status?: boolean;
+      sentAt?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+    },
+    ExtArgs["result"]["emailNotification"]
+  >;
+
+  export type EmailNotificationSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      recipient?: boolean;
+      subject?: boolean;
+      content?: boolean;
+      status?: boolean;
+      sentAt?: boolean;
+      createdAt?: boolean;
+      updatedAt?: boolean;
+    },
+    ExtArgs["result"]["emailNotification"]
+  >;
+
+  export type EmailNotificationSelectScalar = {
+    id?: boolean;
+    recipient?: boolean;
+    subject?: boolean;
+    content?: boolean;
+    status?: boolean;
+    sentAt?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+  };
+
+  export type EmailNotificationOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    | "id"
+    | "recipient"
+    | "subject"
+    | "content"
+    | "status"
+    | "sentAt"
+    | "createdAt"
+    | "updatedAt",
+    ExtArgs["result"]["emailNotification"]
+  >;
+
+  export type $EmailNotificationPayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: "EmailNotification";
+    objects: {};
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        recipient: string;
+        subject: string;
+        content: string;
+        status: $Enums.EmailStatus;
+        sentAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+      },
+      ExtArgs["result"]["emailNotification"]
+    >;
+    composites: {};
+  };
+
+  type EmailNotificationGetPayload<
+    S extends boolean | null | undefined | EmailNotificationDefaultArgs,
+  > = $Result.GetResult<Prisma.$EmailNotificationPayload, S>;
+
+  type EmailNotificationCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<
+    EmailNotificationFindManyArgs,
+    "select" | "include" | "distinct" | "omit"
+  > & {
+    select?: EmailNotificationCountAggregateInputType | true;
+  };
+
+  export interface EmailNotificationDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>["model"]["EmailNotification"];
+      meta: { name: "EmailNotification" };
+    };
+    /**
+     * Find zero or one EmailNotification that matches the filter.
+     * @param {EmailNotificationFindUniqueArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailNotificationFindUniqueArgs>(
+      args: SelectSubset<T, EmailNotificationFindUniqueArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "findUnique",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one EmailNotification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmailNotificationFindUniqueOrThrowArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailNotificationFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, EmailNotificationFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "findUniqueOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first EmailNotification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationFindFirstArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailNotificationFindFirstArgs>(
+      args?: SelectSubset<T, EmailNotificationFindFirstArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "findFirst",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first EmailNotification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationFindFirstOrThrowArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailNotificationFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, EmailNotificationFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "findFirstOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more EmailNotifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailNotifications
+     * const emailNotifications = await prisma.emailNotification.findMany()
+     *
+     * // Get first 10 EmailNotifications
+     * const emailNotifications = await prisma.emailNotification.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const emailNotificationWithIdOnly = await prisma.emailNotification.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends EmailNotificationFindManyArgs>(
+      args?: SelectSubset<T, EmailNotificationFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create a EmailNotification.
+     * @param {EmailNotificationCreateArgs} args - Arguments to create a EmailNotification.
+     * @example
+     * // Create one EmailNotification
+     * const EmailNotification = await prisma.emailNotification.create({
+     *   data: {
+     *     // ... data to create a EmailNotification
+     *   }
+     * })
+     *
+     */
+    create<T extends EmailNotificationCreateArgs>(
+      args: SelectSubset<T, EmailNotificationCreateArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "create",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many EmailNotifications.
+     * @param {EmailNotificationCreateManyArgs} args - Arguments to create many EmailNotifications.
+     * @example
+     * // Create many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends EmailNotificationCreateManyArgs>(
+      args?: SelectSubset<T, EmailNotificationCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many EmailNotifications and returns the data saved in the database.
+     * @param {EmailNotificationCreateManyAndReturnArgs} args - Arguments to create many EmailNotifications.
+     * @example
+     * // Create many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many EmailNotifications and only return the `id`
+     * const emailNotificationWithIdOnly = await prisma.emailNotification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends EmailNotificationCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, EmailNotificationCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "createManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a EmailNotification.
+     * @param {EmailNotificationDeleteArgs} args - Arguments to delete one EmailNotification.
+     * @example
+     * // Delete one EmailNotification
+     * const EmailNotification = await prisma.emailNotification.delete({
+     *   where: {
+     *     // ... filter to delete one EmailNotification
+     *   }
+     * })
+     *
+     */
+    delete<T extends EmailNotificationDeleteArgs>(
+      args: SelectSubset<T, EmailNotificationDeleteArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "delete",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one EmailNotification.
+     * @param {EmailNotificationUpdateArgs} args - Arguments to update one EmailNotification.
+     * @example
+     * // Update one EmailNotification
+     * const emailNotification = await prisma.emailNotification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends EmailNotificationUpdateArgs>(
+      args: SelectSubset<T, EmailNotificationUpdateArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "update",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more EmailNotifications.
+     * @param {EmailNotificationDeleteManyArgs} args - Arguments to filter EmailNotifications to delete.
+     * @example
+     * // Delete a few EmailNotifications
+     * const { count } = await prisma.emailNotification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends EmailNotificationDeleteManyArgs>(
+      args?: SelectSubset<T, EmailNotificationDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more EmailNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends EmailNotificationUpdateManyArgs>(
+      args: SelectSubset<T, EmailNotificationUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more EmailNotifications and returns the data updated in the database.
+     * @param {EmailNotificationUpdateManyAndReturnArgs} args - Arguments to update many EmailNotifications.
+     * @example
+     * // Update many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more EmailNotifications and only return the `id`
+     * const emailNotificationWithIdOnly = await prisma.emailNotification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends EmailNotificationUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, EmailNotificationUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "updateManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one EmailNotification.
+     * @param {EmailNotificationUpsertArgs} args - Arguments to update or create a EmailNotification.
+     * @example
+     * // Update or create a EmailNotification
+     * const emailNotification = await prisma.emailNotification.upsert({
+     *   create: {
+     *     // ... data to create a EmailNotification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailNotification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailNotificationUpsertArgs>(
+      args: SelectSubset<T, EmailNotificationUpsertArgs<ExtArgs>>,
+    ): Prisma__EmailNotificationClient<
+      $Result.GetResult<
+        Prisma.$EmailNotificationPayload<ExtArgs>,
+        T,
+        "upsert",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of EmailNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationCountArgs} args - Arguments to filter EmailNotifications to count.
+     * @example
+     * // Count the number of EmailNotifications
+     * const count = await prisma.emailNotification.count({
+     *   where: {
+     *     // ... the filter for the EmailNotifications we want to count
+     *   }
+     * })
+     **/
+    count<T extends EmailNotificationCountArgs>(
+      args?: Subset<T, EmailNotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<"select", any>
+        ? T["select"] extends true
+          ? number
+          : GetScalarType<
+              T["select"],
+              EmailNotificationCountAggregateOutputType
+            >
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a EmailNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends EmailNotificationAggregateArgs>(
+      args: Subset<T, EmailNotificationAggregateArgs>,
+    ): Prisma.PrismaPromise<GetEmailNotificationAggregateType<T>>;
+
+    /**
+     * Group by EmailNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends EmailNotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailNotificationGroupByArgs["orderBy"] }
+        : { orderBy?: EmailNotificationGroupByArgs["orderBy"] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
+      >,
+      ByFields extends MaybeTupleToUnion<T["by"]>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T["having"]>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T["by"] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [
+                      Error,
+                      "Field ",
+                      P,
+                      ` in "having" needs to be provided in "by"`,
+                    ];
+            }[HavingFields]
+          : "take" extends Keys<T>
+            ? "orderBy" extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : "skip" extends Keys<T>
+              ? "orderBy" extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, EmailNotificationGroupByArgs, OrderByArg> &
+        InputErrors,
+    ): {} extends InputErrors
+      ? GetEmailNotificationGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the EmailNotification model
+     */
+    readonly fields: EmailNotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailNotification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailNotificationClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the EmailNotification model
+   */
+  interface EmailNotificationFieldRefs {
+    readonly id: FieldRef<"EmailNotification", "String">;
+    readonly recipient: FieldRef<"EmailNotification", "String">;
+    readonly subject: FieldRef<"EmailNotification", "String">;
+    readonly content: FieldRef<"EmailNotification", "String">;
+    readonly status: FieldRef<"EmailNotification", "EmailStatus">;
+    readonly sentAt: FieldRef<"EmailNotification", "DateTime">;
+    readonly createdAt: FieldRef<"EmailNotification", "DateTime">;
+    readonly updatedAt: FieldRef<"EmailNotification", "DateTime">;
+  }
+
+  // Custom InputTypes
+  /**
+   * EmailNotification findUnique
+   */
+  export type EmailNotificationFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where: EmailNotificationWhereUniqueInput;
+  };
+
+  /**
+   * EmailNotification findUniqueOrThrow
+   */
+  export type EmailNotificationFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where: EmailNotificationWhereUniqueInput;
+  };
+
+  /**
+   * EmailNotification findFirst
+   */
+  export type EmailNotificationFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?:
+      | EmailNotificationOrderByWithRelationInput
+      | EmailNotificationOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for EmailNotifications.
+     */
+    cursor?: EmailNotificationWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of EmailNotifications.
+     */
+    distinct?:
+      | EmailNotificationScalarFieldEnum
+      | EmailNotificationScalarFieldEnum[];
+  };
+
+  /**
+   * EmailNotification findFirstOrThrow
+   */
+  export type EmailNotificationFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?:
+      | EmailNotificationOrderByWithRelationInput
+      | EmailNotificationOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for EmailNotifications.
+     */
+    cursor?: EmailNotificationWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of EmailNotifications.
+     */
+    distinct?:
+      | EmailNotificationScalarFieldEnum
+      | EmailNotificationScalarFieldEnum[];
+  };
+
+  /**
+   * EmailNotification findMany
+   */
+  export type EmailNotificationFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * Filter, which EmailNotifications to fetch.
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?:
+      | EmailNotificationOrderByWithRelationInput
+      | EmailNotificationOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing EmailNotifications.
+     */
+    cursor?: EmailNotificationWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number;
+    distinct?:
+      | EmailNotificationScalarFieldEnum
+      | EmailNotificationScalarFieldEnum[];
+  };
+
+  /**
+   * EmailNotification create
+   */
+  export type EmailNotificationCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * The data needed to create a EmailNotification.
+     */
+    data: XOR<
+      EmailNotificationCreateInput,
+      EmailNotificationUncheckedCreateInput
+    >;
+  };
+
+  /**
+   * EmailNotification createMany
+   */
+  export type EmailNotificationCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many EmailNotifications.
+     */
+    data: EmailNotificationCreateManyInput | EmailNotificationCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * EmailNotification createManyAndReturn
+   */
+  export type EmailNotificationCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * The data used to create many EmailNotifications.
+     */
+    data: EmailNotificationCreateManyInput | EmailNotificationCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * EmailNotification update
+   */
+  export type EmailNotificationUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * The data needed to update a EmailNotification.
+     */
+    data: XOR<
+      EmailNotificationUpdateInput,
+      EmailNotificationUncheckedUpdateInput
+    >;
+    /**
+     * Choose, which EmailNotification to update.
+     */
+    where: EmailNotificationWhereUniqueInput;
+  };
+
+  /**
+   * EmailNotification updateMany
+   */
+  export type EmailNotificationUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update EmailNotifications.
+     */
+    data: XOR<
+      EmailNotificationUpdateManyMutationInput,
+      EmailNotificationUncheckedUpdateManyInput
+    >;
+    /**
+     * Filter which EmailNotifications to update
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * Limit how many EmailNotifications to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * EmailNotification updateManyAndReturn
+   */
+  export type EmailNotificationUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * The data used to update EmailNotifications.
+     */
+    data: XOR<
+      EmailNotificationUpdateManyMutationInput,
+      EmailNotificationUncheckedUpdateManyInput
+    >;
+    /**
+     * Filter which EmailNotifications to update
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * Limit how many EmailNotifications to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * EmailNotification upsert
+   */
+  export type EmailNotificationUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * The filter to search for the EmailNotification to update in case it exists.
+     */
+    where: EmailNotificationWhereUniqueInput;
+    /**
+     * In case the EmailNotification found by the `where` argument doesn't exist, create a new EmailNotification with this data.
+     */
+    create: XOR<
+      EmailNotificationCreateInput,
+      EmailNotificationUncheckedCreateInput
+    >;
+    /**
+     * In case the EmailNotification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<
+      EmailNotificationUpdateInput,
+      EmailNotificationUncheckedUpdateInput
+    >;
+  };
+
+  /**
+   * EmailNotification delete
+   */
+  export type EmailNotificationDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
+    /**
+     * Filter which EmailNotification to delete.
+     */
+    where: EmailNotificationWhereUniqueInput;
+  };
+
+  /**
+   * EmailNotification deleteMany
+   */
+  export type EmailNotificationDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which EmailNotifications to delete
+     */
+    where?: EmailNotificationWhereInput;
+    /**
+     * Limit how many EmailNotifications to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * EmailNotification without action
+   */
+  export type EmailNotificationDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null;
   };
 
   /**
@@ -5641,5500 +9791,6 @@ export namespace Prisma {
   };
 
   /**
-   * Model User
-   */
-
-  export type AggregateUser = {
-    _count: UserCountAggregateOutputType | null;
-    _min: UserMinAggregateOutputType | null;
-    _max: UserMaxAggregateOutputType | null;
-  };
-
-  export type UserMinAggregateOutputType = {
-    id: string | null;
-    name: string | null;
-    email: string | null;
-    imageUrl: string | null;
-    password: string | null;
-    plan: $Enums.Plan | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  };
-
-  export type UserMaxAggregateOutputType = {
-    id: string | null;
-    name: string | null;
-    email: string | null;
-    imageUrl: string | null;
-    password: string | null;
-    plan: $Enums.Plan | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  };
-
-  export type UserCountAggregateOutputType = {
-    id: number;
-    name: number;
-    email: number;
-    imageUrl: number;
-    password: number;
-    plan: number;
-    createdAt: number;
-    updatedAt: number;
-    _all: number;
-  };
-
-  export type UserMinAggregateInputType = {
-    id?: true;
-    name?: true;
-    email?: true;
-    imageUrl?: true;
-    password?: true;
-    plan?: true;
-    createdAt?: true;
-    updatedAt?: true;
-  };
-
-  export type UserMaxAggregateInputType = {
-    id?: true;
-    name?: true;
-    email?: true;
-    imageUrl?: true;
-    password?: true;
-    plan?: true;
-    createdAt?: true;
-    updatedAt?: true;
-  };
-
-  export type UserCountAggregateInputType = {
-    id?: true;
-    name?: true;
-    email?: true;
-    imageUrl?: true;
-    password?: true;
-    plan?: true;
-    createdAt?: true;
-    updatedAt?: true;
-    _all?: true;
-  };
-
-  export type UserAggregateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which User to aggregate.
-     */
-    where?: UserWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the start position
-     */
-    cursor?: UserWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Users.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Count returned Users
-     **/
-    _count?: true | UserCountAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the minimum value
-     **/
-    _min?: UserMinAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the maximum value
-     **/
-    _max?: UserMaxAggregateInputType;
-  };
-
-  export type GetUserAggregateType<T extends UserAggregateArgs> = {
-    [P in keyof T & keyof AggregateUser]: P extends "_count" | "count"
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateUser[P]>
-      : GetScalarType<T[P], AggregateUser[P]>;
-  };
-
-  export type UserGroupByArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    where?: UserWhereInput;
-    orderBy?:
-      | UserOrderByWithAggregationInput
-      | UserOrderByWithAggregationInput[];
-    by: UserScalarFieldEnum[] | UserScalarFieldEnum;
-    having?: UserScalarWhereWithAggregatesInput;
-    take?: number;
-    skip?: number;
-    _count?: UserCountAggregateInputType | true;
-    _min?: UserMinAggregateInputType;
-    _max?: UserMaxAggregateInputType;
-  };
-
-  export type UserGroupByOutputType = {
-    id: string;
-    name: string;
-    email: string;
-    imageUrl: string | null;
-    password: string;
-    plan: $Enums.Plan;
-    createdAt: Date;
-    updatedAt: Date;
-    _count: UserCountAggregateOutputType | null;
-    _min: UserMinAggregateOutputType | null;
-    _max: UserMaxAggregateOutputType | null;
-  };
-
-  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<UserGroupByOutputType, T["by"]> & {
-        [P in keyof T & keyof UserGroupByOutputType]: P extends "_count"
-          ? T[P] extends boolean
-            ? number
-            : GetScalarType<T[P], UserGroupByOutputType[P]>
-          : GetScalarType<T[P], UserGroupByOutputType[P]>;
-      }
-    >
-  >;
-
-  export type UserSelect<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      name?: boolean;
-      email?: boolean;
-      imageUrl?: boolean;
-      password?: boolean;
-      plan?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-      authProviders?: boolean | User$authProvidersArgs<ExtArgs>;
-      EmailVerification?: boolean | User$EmailVerificationArgs<ExtArgs>;
-      Interaction?: boolean | User$InteractionArgs<ExtArgs>;
-      UserPreference?: boolean | User$UserPreferenceArgs<ExtArgs>;
-      _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["user"]
-  >;
-
-  export type UserSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      name?: boolean;
-      email?: boolean;
-      imageUrl?: boolean;
-      password?: boolean;
-      plan?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["user"]
-  >;
-
-  export type UserSelectUpdateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      name?: boolean;
-      email?: boolean;
-      imageUrl?: boolean;
-      password?: boolean;
-      plan?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["user"]
-  >;
-
-  export type UserSelectScalar = {
-    id?: boolean;
-    name?: boolean;
-    email?: boolean;
-    imageUrl?: boolean;
-    password?: boolean;
-    plan?: boolean;
-    createdAt?: boolean;
-    updatedAt?: boolean;
-  };
-
-  export type UserOmit<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetOmit<
-    | "id"
-    | "name"
-    | "email"
-    | "imageUrl"
-    | "password"
-    | "plan"
-    | "createdAt"
-    | "updatedAt",
-    ExtArgs["result"]["user"]
-  >;
-  export type UserInclude<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    authProviders?: boolean | User$authProvidersArgs<ExtArgs>;
-    EmailVerification?: boolean | User$EmailVerificationArgs<ExtArgs>;
-    Interaction?: boolean | User$InteractionArgs<ExtArgs>;
-    UserPreference?: boolean | User$UserPreferenceArgs<ExtArgs>;
-    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
-  };
-  export type UserIncludeCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {};
-  export type UserIncludeUpdateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {};
-
-  export type $UserPayload<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    name: "User";
-    objects: {
-      authProviders: Prisma.$AuthProviderAccountPayload<ExtArgs>[];
-      EmailVerification: Prisma.$EmailVerificationPayload<ExtArgs>[];
-      Interaction: Prisma.$InteractionPayload<ExtArgs>[];
-      UserPreference: Prisma.$UserPreferencePayload<ExtArgs>[];
-    };
-    scalars: $Extensions.GetPayloadResult<
-      {
-        id: string;
-        name: string;
-        email: string;
-        imageUrl: string | null;
-        password: string;
-        plan: $Enums.Plan;
-        createdAt: Date;
-        updatedAt: Date;
-      },
-      ExtArgs["result"]["user"]
-    >;
-    composites: {};
-  };
-
-  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> =
-    $Result.GetResult<Prisma.$UserPayload, S>;
-
-  type UserCountArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = Omit<UserFindManyArgs, "select" | "include" | "distinct" | "omit"> & {
-    select?: UserCountAggregateInputType | true;
-  };
-
-  export interface UserDelegate<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > {
-    [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>["model"]["User"];
-      meta: { name: "User" };
-    };
-    /**
-     * Find zero or one User that matches the filter.
-     * @param {UserFindUniqueArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends UserFindUniqueArgs>(
-      args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "findUnique",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find one User that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "findUniqueOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first User that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends UserFindFirstArgs>(
-      args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "findFirst",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first User that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "findFirstOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find zero or more Users that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Users
-     * const users = await prisma.user.findMany()
-     *
-     * // Get first 10 Users
-     * const users = await prisma.user.findMany({ take: 10 })
-     *
-     * // Only select the `id`
-     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
-     *
-     */
-    findMany<T extends UserFindManyArgs>(
-      args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "findMany",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create a User.
-     * @param {UserCreateArgs} args - Arguments to create a User.
-     * @example
-     * // Create one User
-     * const User = await prisma.user.create({
-     *   data: {
-     *     // ... data to create a User
-     *   }
-     * })
-     *
-     */
-    create<T extends UserCreateArgs>(
-      args: SelectSubset<T, UserCreateArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "create",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Create many Users.
-     * @param {UserCreateManyArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     */
-    createMany<T extends UserCreateManyArgs>(
-      args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Create many Users and returns the data saved in the database.
-     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "createManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Delete a User.
-     * @param {UserDeleteArgs} args - Arguments to delete one User.
-     * @example
-     * // Delete one User
-     * const User = await prisma.user.delete({
-     *   where: {
-     *     // ... filter to delete one User
-     *   }
-     * })
-     *
-     */
-    delete<T extends UserDeleteArgs>(
-      args: SelectSubset<T, UserDeleteArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "delete",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Update one User.
-     * @param {UserUpdateArgs} args - Arguments to update one User.
-     * @example
-     * // Update one User
-     * const user = await prisma.user.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    update<T extends UserUpdateArgs>(
-      args: SelectSubset<T, UserUpdateArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "update",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Delete zero or more Users.
-     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
-     * @example
-     * // Delete a few Users
-     * const { count } = await prisma.user.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     *
-     */
-    deleteMany<T extends UserDeleteManyArgs>(
-      args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more Users.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    updateMany<T extends UserUpdateManyArgs>(
-      args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more Users and returns the data updated in the database.
-     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Update zero or more Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(
-      args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "updateManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create or update one User.
-     * @param {UserUpsertArgs} args - Arguments to update or create a User.
-     * @example
-     * // Update or create a User
-     * const user = await prisma.user.upsert({
-     *   create: {
-     *     // ... data to create a User
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the User we want to update
-     *   }
-     * })
-     */
-    upsert<T extends UserUpsertArgs>(
-      args: SelectSubset<T, UserUpsertArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      $Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
-        T,
-        "upsert",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Count the number of Users.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserCountArgs} args - Arguments to filter Users to count.
-     * @example
-     * // Count the number of Users
-     * const count = await prisma.user.count({
-     *   where: {
-     *     // ... the filter for the Users we want to count
-     *   }
-     * })
-     **/
-    count<T extends UserCountArgs>(
-      args?: Subset<T, UserCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<"select", any>
-        ? T["select"] extends true
-          ? number
-          : GetScalarType<T["select"], UserCountAggregateOutputType>
-        : number
-    >;
-
-    /**
-     * Allows you to perform aggregations operations on a User.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-     **/
-    aggregate<T extends UserAggregateArgs>(
-      args: Subset<T, UserAggregateArgs>,
-    ): Prisma.PrismaPromise<GetUserAggregateType<T>>;
-
-    /**
-     * Group by User.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     *
-     **/
-    groupBy<
-      T extends UserGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<"skip", Keys<T>>,
-        Extends<"take", Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserGroupByArgs["orderBy"] }
-        : { orderBy?: UserGroupByArgs["orderBy"] },
-      OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T["orderBy"]>>
-      >,
-      ByFields extends MaybeTupleToUnion<T["by"]>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T["having"]>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T["by"] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-        ? `Error: "by" must not be empty.`
-        : HavingValid extends False
-          ? {
-              [P in HavingFields]: P extends ByFields
-                ? never
-                : P extends string
-                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-                  : [
-                      Error,
-                      "Field ",
-                      P,
-                      ` in "having" needs to be provided in "by"`,
-                    ];
-            }[HavingFields]
-          : "take" extends Keys<T>
-            ? "orderBy" extends Keys<T>
-              ? ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields]
-              : 'Error: If you provide "take", you also need to provide "orderBy"'
-            : "skip" extends Keys<T>
-              ? "orderBy" extends Keys<T>
-                ? ByValid extends True
-                  ? {}
-                  : {
-                      [P in OrderFields]: P extends ByFields
-                        ? never
-                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                    }[OrderFields]
-                : 'Error: If you provide "skip", you also need to provide "orderBy"'
-              : ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields],
-    >(
-      args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors,
-    ): {} extends InputErrors
-      ? GetUserGroupByPayload<T>
-      : Prisma.PrismaPromise<InputErrors>;
-    /**
-     * Fields of the User model
-     */
-    readonly fields: UserFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for User.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__UserClient<
-    T,
-    Null = never,
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise";
-    authProviders<T extends User$authProvidersArgs<ExtArgs> = {}>(
-      args?: Subset<T, User$authProvidersArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      | $Result.GetResult<
-          Prisma.$AuthProviderAccountPayload<ExtArgs>,
-          T,
-          "findMany",
-          GlobalOmitOptions
-        >
-      | Null
-    >;
-    EmailVerification<T extends User$EmailVerificationArgs<ExtArgs> = {}>(
-      args?: Subset<T, User$EmailVerificationArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      | $Result.GetResult<
-          Prisma.$EmailVerificationPayload<ExtArgs>,
-          T,
-          "findMany",
-          GlobalOmitOptions
-        >
-      | Null
-    >;
-    Interaction<T extends User$InteractionArgs<ExtArgs> = {}>(
-      args?: Subset<T, User$InteractionArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      | $Result.GetResult<
-          Prisma.$InteractionPayload<ExtArgs>,
-          T,
-          "findMany",
-          GlobalOmitOptions
-        >
-      | Null
-    >;
-    UserPreference<T extends User$UserPreferenceArgs<ExtArgs> = {}>(
-      args?: Subset<T, User$UserPreferenceArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      | $Result.GetResult<
-          Prisma.$UserPreferencePayload<ExtArgs>,
-          T,
-          "findMany",
-          GlobalOmitOptions
-        >
-      | Null
-    >;
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(
-      onfulfilled?:
-        | ((value: T) => TResult1 | PromiseLike<TResult1>)
-        | undefined
-        | null,
-      onrejected?:
-        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(
-      onrejected?:
-        | ((reason: any) => TResult | PromiseLike<TResult>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-  /**
-   * Fields of the User model
-   */
-  interface UserFieldRefs {
-    readonly id: FieldRef<"User", "String">;
-    readonly name: FieldRef<"User", "String">;
-    readonly email: FieldRef<"User", "String">;
-    readonly imageUrl: FieldRef<"User", "String">;
-    readonly password: FieldRef<"User", "String">;
-    readonly plan: FieldRef<"User", "Plan">;
-    readonly createdAt: FieldRef<"User", "DateTime">;
-    readonly updatedAt: FieldRef<"User", "DateTime">;
-  }
-
-  // Custom InputTypes
-  /**
-   * User findUnique
-   */
-  export type UserFindUniqueArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * Filter, which User to fetch.
-     */
-    where: UserWhereUniqueInput;
-  };
-
-  /**
-   * User findUniqueOrThrow
-   */
-  export type UserFindUniqueOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * Filter, which User to fetch.
-     */
-    where: UserWhereUniqueInput;
-  };
-
-  /**
-   * User findFirst
-   */
-  export type UserFindFirstArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * Filter, which User to fetch.
-     */
-    where?: UserWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for Users.
-     */
-    cursor?: UserWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Users.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of Users.
-     */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[];
-  };
-
-  /**
-   * User findFirstOrThrow
-   */
-  export type UserFindFirstOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * Filter, which User to fetch.
-     */
-    where?: UserWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for Users.
-     */
-    cursor?: UserWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Users.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of Users.
-     */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[];
-  };
-
-  /**
-   * User findMany
-   */
-  export type UserFindManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * Filter, which Users to fetch.
-     */
-    where?: UserWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for listing Users.
-     */
-    cursor?: UserWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Users.
-     */
-    skip?: number;
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[];
-  };
-
-  /**
-   * User create
-   */
-  export type UserCreateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * The data needed to create a User.
-     */
-    data: XOR<UserCreateInput, UserUncheckedCreateInput>;
-  };
-
-  /**
-   * User createMany
-   */
-  export type UserCreateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * User createManyAndReturn
-   */
-  export type UserCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * User update
-   */
-  export type UserUpdateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * The data needed to update a User.
-     */
-    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>;
-    /**
-     * Choose, which User to update.
-     */
-    where: UserWhereUniqueInput;
-  };
-
-  /**
-   * User updateMany
-   */
-  export type UserUpdateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>;
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput;
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * User updateManyAndReturn
-   */
-  export type UserUpdateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>;
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput;
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * User upsert
-   */
-  export type UserUpsertArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * The filter to search for the User to update in case it exists.
-     */
-    where: UserWhereUniqueInput;
-    /**
-     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
-     */
-    create: XOR<UserCreateInput, UserUncheckedCreateInput>;
-    /**
-     * In case the User was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>;
-  };
-
-  /**
-   * User delete
-   */
-  export type UserDeleteArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-    /**
-     * Filter which User to delete.
-     */
-    where: UserWhereUniqueInput;
-  };
-
-  /**
-   * User deleteMany
-   */
-  export type UserDeleteManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which Users to delete
-     */
-    where?: UserWhereInput;
-    /**
-     * Limit how many Users to delete.
-     */
-    limit?: number;
-  };
-
-  /**
-   * User.authProviders
-   */
-  export type User$authProvidersArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    where?: AuthProviderAccountWhereInput;
-    orderBy?:
-      | AuthProviderAccountOrderByWithRelationInput
-      | AuthProviderAccountOrderByWithRelationInput[];
-    cursor?: AuthProviderAccountWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?:
-      | AuthProviderAccountScalarFieldEnum
-      | AuthProviderAccountScalarFieldEnum[];
-  };
-
-  /**
-   * User.EmailVerification
-   */
-  export type User$EmailVerificationArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailVerification
-     */
-    select?: EmailVerificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailVerification
-     */
-    omit?: EmailVerificationOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmailVerificationInclude<ExtArgs> | null;
-    where?: EmailVerificationWhereInput;
-    orderBy?:
-      | EmailVerificationOrderByWithRelationInput
-      | EmailVerificationOrderByWithRelationInput[];
-    cursor?: EmailVerificationWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?:
-      | EmailVerificationScalarFieldEnum
-      | EmailVerificationScalarFieldEnum[];
-  };
-
-  /**
-   * User.Interaction
-   */
-  export type User$InteractionArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Interaction
-     */
-    select?: InteractionSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Interaction
-     */
-    omit?: InteractionOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InteractionInclude<ExtArgs> | null;
-    where?: InteractionWhereInput;
-    orderBy?:
-      | InteractionOrderByWithRelationInput
-      | InteractionOrderByWithRelationInput[];
-    cursor?: InteractionWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: InteractionScalarFieldEnum | InteractionScalarFieldEnum[];
-  };
-
-  /**
-   * User.UserPreference
-   */
-  export type User$UserPreferenceArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the UserPreference
-     */
-    select?: UserPreferenceSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the UserPreference
-     */
-    omit?: UserPreferenceOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserPreferenceInclude<ExtArgs> | null;
-    where?: UserPreferenceWhereInput;
-    orderBy?:
-      | UserPreferenceOrderByWithRelationInput
-      | UserPreferenceOrderByWithRelationInput[];
-    cursor?: UserPreferenceWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: UserPreferenceScalarFieldEnum | UserPreferenceScalarFieldEnum[];
-  };
-
-  /**
-   * User without action
-   */
-  export type UserDefaultArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null;
-  };
-
-  /**
-   * Model AuthProviderAccount
-   */
-
-  export type AggregateAuthProviderAccount = {
-    _count: AuthProviderAccountCountAggregateOutputType | null;
-    _min: AuthProviderAccountMinAggregateOutputType | null;
-    _max: AuthProviderAccountMaxAggregateOutputType | null;
-  };
-
-  export type AuthProviderAccountMinAggregateOutputType = {
-    id: string | null;
-    provider: $Enums.Provider | null;
-    providerId: string | null;
-    userId: string | null;
-  };
-
-  export type AuthProviderAccountMaxAggregateOutputType = {
-    id: string | null;
-    provider: $Enums.Provider | null;
-    providerId: string | null;
-    userId: string | null;
-  };
-
-  export type AuthProviderAccountCountAggregateOutputType = {
-    id: number;
-    provider: number;
-    providerId: number;
-    userId: number;
-    _all: number;
-  };
-
-  export type AuthProviderAccountMinAggregateInputType = {
-    id?: true;
-    provider?: true;
-    providerId?: true;
-    userId?: true;
-  };
-
-  export type AuthProviderAccountMaxAggregateInputType = {
-    id?: true;
-    provider?: true;
-    providerId?: true;
-    userId?: true;
-  };
-
-  export type AuthProviderAccountCountAggregateInputType = {
-    id?: true;
-    provider?: true;
-    providerId?: true;
-    userId?: true;
-    _all?: true;
-  };
-
-  export type AuthProviderAccountAggregateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which AuthProviderAccount to aggregate.
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of AuthProviderAccounts to fetch.
-     */
-    orderBy?:
-      | AuthProviderAccountOrderByWithRelationInput
-      | AuthProviderAccountOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the start position
-     */
-    cursor?: AuthProviderAccountWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` AuthProviderAccounts from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` AuthProviderAccounts.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Count returned AuthProviderAccounts
-     **/
-    _count?: true | AuthProviderAccountCountAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the minimum value
-     **/
-    _min?: AuthProviderAccountMinAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the maximum value
-     **/
-    _max?: AuthProviderAccountMaxAggregateInputType;
-  };
-
-  export type GetAuthProviderAccountAggregateType<
-    T extends AuthProviderAccountAggregateArgs,
-  > = {
-    [P in keyof T & keyof AggregateAuthProviderAccount]: P extends
-      | "_count"
-      | "count"
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAuthProviderAccount[P]>
-      : GetScalarType<T[P], AggregateAuthProviderAccount[P]>;
-  };
-
-  export type AuthProviderAccountGroupByArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    where?: AuthProviderAccountWhereInput;
-    orderBy?:
-      | AuthProviderAccountOrderByWithAggregationInput
-      | AuthProviderAccountOrderByWithAggregationInput[];
-    by:
-      | AuthProviderAccountScalarFieldEnum[]
-      | AuthProviderAccountScalarFieldEnum;
-    having?: AuthProviderAccountScalarWhereWithAggregatesInput;
-    take?: number;
-    skip?: number;
-    _count?: AuthProviderAccountCountAggregateInputType | true;
-    _min?: AuthProviderAccountMinAggregateInputType;
-    _max?: AuthProviderAccountMaxAggregateInputType;
-  };
-
-  export type AuthProviderAccountGroupByOutputType = {
-    id: string;
-    provider: $Enums.Provider;
-    providerId: string;
-    userId: string;
-    _count: AuthProviderAccountCountAggregateOutputType | null;
-    _min: AuthProviderAccountMinAggregateOutputType | null;
-    _max: AuthProviderAccountMaxAggregateOutputType | null;
-  };
-
-  type GetAuthProviderAccountGroupByPayload<
-    T extends AuthProviderAccountGroupByArgs,
-  > = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<AuthProviderAccountGroupByOutputType, T["by"]> & {
-        [P in keyof T &
-          keyof AuthProviderAccountGroupByOutputType]: P extends "_count"
-          ? T[P] extends boolean
-            ? number
-            : GetScalarType<T[P], AuthProviderAccountGroupByOutputType[P]>
-          : GetScalarType<T[P], AuthProviderAccountGroupByOutputType[P]>;
-      }
-    >
-  >;
-
-  export type AuthProviderAccountSelect<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      provider?: boolean;
-      providerId?: boolean;
-      userId?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["authProviderAccount"]
-  >;
-
-  export type AuthProviderAccountSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      provider?: boolean;
-      providerId?: boolean;
-      userId?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["authProviderAccount"]
-  >;
-
-  export type AuthProviderAccountSelectUpdateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      provider?: boolean;
-      providerId?: boolean;
-      userId?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["authProviderAccount"]
-  >;
-
-  export type AuthProviderAccountSelectScalar = {
-    id?: boolean;
-    provider?: boolean;
-    providerId?: boolean;
-    userId?: boolean;
-  };
-
-  export type AuthProviderAccountOmit<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetOmit<
-    "id" | "provider" | "providerId" | "userId",
-    ExtArgs["result"]["authProviderAccount"]
-  >;
-  export type AuthProviderAccountInclude<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
-  };
-  export type AuthProviderAccountIncludeCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
-  };
-  export type AuthProviderAccountIncludeUpdateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
-  };
-
-  export type $AuthProviderAccountPayload<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    name: "AuthProviderAccount";
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>;
-    };
-    scalars: $Extensions.GetPayloadResult<
-      {
-        id: string;
-        provider: $Enums.Provider;
-        providerId: string;
-        userId: string;
-      },
-      ExtArgs["result"]["authProviderAccount"]
-    >;
-    composites: {};
-  };
-
-  type AuthProviderAccountGetPayload<
-    S extends boolean | null | undefined | AuthProviderAccountDefaultArgs,
-  > = $Result.GetResult<Prisma.$AuthProviderAccountPayload, S>;
-
-  type AuthProviderAccountCountArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = Omit<
-    AuthProviderAccountFindManyArgs,
-    "select" | "include" | "distinct" | "omit"
-  > & {
-    select?: AuthProviderAccountCountAggregateInputType | true;
-  };
-
-  export interface AuthProviderAccountDelegate<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > {
-    [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>["model"]["AuthProviderAccount"];
-      meta: { name: "AuthProviderAccount" };
-    };
-    /**
-     * Find zero or one AuthProviderAccount that matches the filter.
-     * @param {AuthProviderAccountFindUniqueArgs} args - Arguments to find a AuthProviderAccount
-     * @example
-     * // Get one AuthProviderAccount
-     * const authProviderAccount = await prisma.authProviderAccount.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends AuthProviderAccountFindUniqueArgs>(
-      args: SelectSubset<T, AuthProviderAccountFindUniqueArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "findUnique",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find one AuthProviderAccount that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {AuthProviderAccountFindUniqueOrThrowArgs} args - Arguments to find a AuthProviderAccount
-     * @example
-     * // Get one AuthProviderAccount
-     * const authProviderAccount = await prisma.authProviderAccount.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends AuthProviderAccountFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, AuthProviderAccountFindUniqueOrThrowArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "findUniqueOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first AuthProviderAccount that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountFindFirstArgs} args - Arguments to find a AuthProviderAccount
-     * @example
-     * // Get one AuthProviderAccount
-     * const authProviderAccount = await prisma.authProviderAccount.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends AuthProviderAccountFindFirstArgs>(
-      args?: SelectSubset<T, AuthProviderAccountFindFirstArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "findFirst",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first AuthProviderAccount that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountFindFirstOrThrowArgs} args - Arguments to find a AuthProviderAccount
-     * @example
-     * // Get one AuthProviderAccount
-     * const authProviderAccount = await prisma.authProviderAccount.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends AuthProviderAccountFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, AuthProviderAccountFindFirstOrThrowArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "findFirstOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find zero or more AuthProviderAccounts that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all AuthProviderAccounts
-     * const authProviderAccounts = await prisma.authProviderAccount.findMany()
-     *
-     * // Get first 10 AuthProviderAccounts
-     * const authProviderAccounts = await prisma.authProviderAccount.findMany({ take: 10 })
-     *
-     * // Only select the `id`
-     * const authProviderAccountWithIdOnly = await prisma.authProviderAccount.findMany({ select: { id: true } })
-     *
-     */
-    findMany<T extends AuthProviderAccountFindManyArgs>(
-      args?: SelectSubset<T, AuthProviderAccountFindManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "findMany",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create a AuthProviderAccount.
-     * @param {AuthProviderAccountCreateArgs} args - Arguments to create a AuthProviderAccount.
-     * @example
-     * // Create one AuthProviderAccount
-     * const AuthProviderAccount = await prisma.authProviderAccount.create({
-     *   data: {
-     *     // ... data to create a AuthProviderAccount
-     *   }
-     * })
-     *
-     */
-    create<T extends AuthProviderAccountCreateArgs>(
-      args: SelectSubset<T, AuthProviderAccountCreateArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "create",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Create many AuthProviderAccounts.
-     * @param {AuthProviderAccountCreateManyArgs} args - Arguments to create many AuthProviderAccounts.
-     * @example
-     * // Create many AuthProviderAccounts
-     * const authProviderAccount = await prisma.authProviderAccount.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     */
-    createMany<T extends AuthProviderAccountCreateManyArgs>(
-      args?: SelectSubset<T, AuthProviderAccountCreateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Create many AuthProviderAccounts and returns the data saved in the database.
-     * @param {AuthProviderAccountCreateManyAndReturnArgs} args - Arguments to create many AuthProviderAccounts.
-     * @example
-     * // Create many AuthProviderAccounts
-     * const authProviderAccount = await prisma.authProviderAccount.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many AuthProviderAccounts and only return the `id`
-     * const authProviderAccountWithIdOnly = await prisma.authProviderAccount.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends AuthProviderAccountCreateManyAndReturnArgs>(
-      args?: SelectSubset<
-        T,
-        AuthProviderAccountCreateManyAndReturnArgs<ExtArgs>
-      >,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "createManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Delete a AuthProviderAccount.
-     * @param {AuthProviderAccountDeleteArgs} args - Arguments to delete one AuthProviderAccount.
-     * @example
-     * // Delete one AuthProviderAccount
-     * const AuthProviderAccount = await prisma.authProviderAccount.delete({
-     *   where: {
-     *     // ... filter to delete one AuthProviderAccount
-     *   }
-     * })
-     *
-     */
-    delete<T extends AuthProviderAccountDeleteArgs>(
-      args: SelectSubset<T, AuthProviderAccountDeleteArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "delete",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Update one AuthProviderAccount.
-     * @param {AuthProviderAccountUpdateArgs} args - Arguments to update one AuthProviderAccount.
-     * @example
-     * // Update one AuthProviderAccount
-     * const authProviderAccount = await prisma.authProviderAccount.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    update<T extends AuthProviderAccountUpdateArgs>(
-      args: SelectSubset<T, AuthProviderAccountUpdateArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "update",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Delete zero or more AuthProviderAccounts.
-     * @param {AuthProviderAccountDeleteManyArgs} args - Arguments to filter AuthProviderAccounts to delete.
-     * @example
-     * // Delete a few AuthProviderAccounts
-     * const { count } = await prisma.authProviderAccount.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     *
-     */
-    deleteMany<T extends AuthProviderAccountDeleteManyArgs>(
-      args?: SelectSubset<T, AuthProviderAccountDeleteManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more AuthProviderAccounts.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many AuthProviderAccounts
-     * const authProviderAccount = await prisma.authProviderAccount.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    updateMany<T extends AuthProviderAccountUpdateManyArgs>(
-      args: SelectSubset<T, AuthProviderAccountUpdateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more AuthProviderAccounts and returns the data updated in the database.
-     * @param {AuthProviderAccountUpdateManyAndReturnArgs} args - Arguments to update many AuthProviderAccounts.
-     * @example
-     * // Update many AuthProviderAccounts
-     * const authProviderAccount = await prisma.authProviderAccount.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Update zero or more AuthProviderAccounts and only return the `id`
-     * const authProviderAccountWithIdOnly = await prisma.authProviderAccount.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    updateManyAndReturn<T extends AuthProviderAccountUpdateManyAndReturnArgs>(
-      args: SelectSubset<
-        T,
-        AuthProviderAccountUpdateManyAndReturnArgs<ExtArgs>
-      >,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "updateManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create or update one AuthProviderAccount.
-     * @param {AuthProviderAccountUpsertArgs} args - Arguments to update or create a AuthProviderAccount.
-     * @example
-     * // Update or create a AuthProviderAccount
-     * const authProviderAccount = await prisma.authProviderAccount.upsert({
-     *   create: {
-     *     // ... data to create a AuthProviderAccount
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the AuthProviderAccount we want to update
-     *   }
-     * })
-     */
-    upsert<T extends AuthProviderAccountUpsertArgs>(
-      args: SelectSubset<T, AuthProviderAccountUpsertArgs<ExtArgs>>,
-    ): Prisma__AuthProviderAccountClient<
-      $Result.GetResult<
-        Prisma.$AuthProviderAccountPayload<ExtArgs>,
-        T,
-        "upsert",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Count the number of AuthProviderAccounts.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountCountArgs} args - Arguments to filter AuthProviderAccounts to count.
-     * @example
-     * // Count the number of AuthProviderAccounts
-     * const count = await prisma.authProviderAccount.count({
-     *   where: {
-     *     // ... the filter for the AuthProviderAccounts we want to count
-     *   }
-     * })
-     **/
-    count<T extends AuthProviderAccountCountArgs>(
-      args?: Subset<T, AuthProviderAccountCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<"select", any>
-        ? T["select"] extends true
-          ? number
-          : GetScalarType<
-              T["select"],
-              AuthProviderAccountCountAggregateOutputType
-            >
-        : number
-    >;
-
-    /**
-     * Allows you to perform aggregations operations on a AuthProviderAccount.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-     **/
-    aggregate<T extends AuthProviderAccountAggregateArgs>(
-      args: Subset<T, AuthProviderAccountAggregateArgs>,
-    ): Prisma.PrismaPromise<GetAuthProviderAccountAggregateType<T>>;
-
-    /**
-     * Group by AuthProviderAccount.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuthProviderAccountGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     *
-     **/
-    groupBy<
-      T extends AuthProviderAccountGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<"skip", Keys<T>>,
-        Extends<"take", Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AuthProviderAccountGroupByArgs["orderBy"] }
-        : { orderBy?: AuthProviderAccountGroupByArgs["orderBy"] },
-      OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T["orderBy"]>>
-      >,
-      ByFields extends MaybeTupleToUnion<T["by"]>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T["having"]>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T["by"] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-        ? `Error: "by" must not be empty.`
-        : HavingValid extends False
-          ? {
-              [P in HavingFields]: P extends ByFields
-                ? never
-                : P extends string
-                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-                  : [
-                      Error,
-                      "Field ",
-                      P,
-                      ` in "having" needs to be provided in "by"`,
-                    ];
-            }[HavingFields]
-          : "take" extends Keys<T>
-            ? "orderBy" extends Keys<T>
-              ? ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields]
-              : 'Error: If you provide "take", you also need to provide "orderBy"'
-            : "skip" extends Keys<T>
-              ? "orderBy" extends Keys<T>
-                ? ByValid extends True
-                  ? {}
-                  : {
-                      [P in OrderFields]: P extends ByFields
-                        ? never
-                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                    }[OrderFields]
-                : 'Error: If you provide "skip", you also need to provide "orderBy"'
-              : ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields],
-    >(
-      args: SubsetIntersection<T, AuthProviderAccountGroupByArgs, OrderByArg> &
-        InputErrors,
-    ): {} extends InputErrors
-      ? GetAuthProviderAccountGroupByPayload<T>
-      : Prisma.PrismaPromise<InputErrors>;
-    /**
-     * Fields of the AuthProviderAccount model
-     */
-    readonly fields: AuthProviderAccountFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for AuthProviderAccount.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__AuthProviderAccountClient<
-    T,
-    Null = never,
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise";
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(
-      args?: Subset<T, UserDefaultArgs<ExtArgs>>,
-    ): Prisma__UserClient<
-      | $Result.GetResult<
-          Prisma.$UserPayload<ExtArgs>,
-          T,
-          "findUniqueOrThrow",
-          GlobalOmitOptions
-        >
-      | Null,
-      Null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(
-      onfulfilled?:
-        | ((value: T) => TResult1 | PromiseLike<TResult1>)
-        | undefined
-        | null,
-      onrejected?:
-        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(
-      onrejected?:
-        | ((reason: any) => TResult | PromiseLike<TResult>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-  /**
-   * Fields of the AuthProviderAccount model
-   */
-  interface AuthProviderAccountFieldRefs {
-    readonly id: FieldRef<"AuthProviderAccount", "String">;
-    readonly provider: FieldRef<"AuthProviderAccount", "Provider">;
-    readonly providerId: FieldRef<"AuthProviderAccount", "String">;
-    readonly userId: FieldRef<"AuthProviderAccount", "String">;
-  }
-
-  // Custom InputTypes
-  /**
-   * AuthProviderAccount findUnique
-   */
-  export type AuthProviderAccountFindUniqueArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * Filter, which AuthProviderAccount to fetch.
-     */
-    where: AuthProviderAccountWhereUniqueInput;
-  };
-
-  /**
-   * AuthProviderAccount findUniqueOrThrow
-   */
-  export type AuthProviderAccountFindUniqueOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * Filter, which AuthProviderAccount to fetch.
-     */
-    where: AuthProviderAccountWhereUniqueInput;
-  };
-
-  /**
-   * AuthProviderAccount findFirst
-   */
-  export type AuthProviderAccountFindFirstArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * Filter, which AuthProviderAccount to fetch.
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of AuthProviderAccounts to fetch.
-     */
-    orderBy?:
-      | AuthProviderAccountOrderByWithRelationInput
-      | AuthProviderAccountOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for AuthProviderAccounts.
-     */
-    cursor?: AuthProviderAccountWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` AuthProviderAccounts from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` AuthProviderAccounts.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of AuthProviderAccounts.
-     */
-    distinct?:
-      | AuthProviderAccountScalarFieldEnum
-      | AuthProviderAccountScalarFieldEnum[];
-  };
-
-  /**
-   * AuthProviderAccount findFirstOrThrow
-   */
-  export type AuthProviderAccountFindFirstOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * Filter, which AuthProviderAccount to fetch.
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of AuthProviderAccounts to fetch.
-     */
-    orderBy?:
-      | AuthProviderAccountOrderByWithRelationInput
-      | AuthProviderAccountOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for AuthProviderAccounts.
-     */
-    cursor?: AuthProviderAccountWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` AuthProviderAccounts from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` AuthProviderAccounts.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of AuthProviderAccounts.
-     */
-    distinct?:
-      | AuthProviderAccountScalarFieldEnum
-      | AuthProviderAccountScalarFieldEnum[];
-  };
-
-  /**
-   * AuthProviderAccount findMany
-   */
-  export type AuthProviderAccountFindManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * Filter, which AuthProviderAccounts to fetch.
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of AuthProviderAccounts to fetch.
-     */
-    orderBy?:
-      | AuthProviderAccountOrderByWithRelationInput
-      | AuthProviderAccountOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for listing AuthProviderAccounts.
-     */
-    cursor?: AuthProviderAccountWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` AuthProviderAccounts from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` AuthProviderAccounts.
-     */
-    skip?: number;
-    distinct?:
-      | AuthProviderAccountScalarFieldEnum
-      | AuthProviderAccountScalarFieldEnum[];
-  };
-
-  /**
-   * AuthProviderAccount create
-   */
-  export type AuthProviderAccountCreateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * The data needed to create a AuthProviderAccount.
-     */
-    data: XOR<
-      AuthProviderAccountCreateInput,
-      AuthProviderAccountUncheckedCreateInput
-    >;
-  };
-
-  /**
-   * AuthProviderAccount createMany
-   */
-  export type AuthProviderAccountCreateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to create many AuthProviderAccounts.
-     */
-    data:
-      | AuthProviderAccountCreateManyInput
-      | AuthProviderAccountCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * AuthProviderAccount createManyAndReturn
-   */
-  export type AuthProviderAccountCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * The data used to create many AuthProviderAccounts.
-     */
-    data:
-      | AuthProviderAccountCreateManyInput
-      | AuthProviderAccountCreateManyInput[];
-    skipDuplicates?: boolean;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountIncludeCreateManyAndReturn<ExtArgs> | null;
-  };
-
-  /**
-   * AuthProviderAccount update
-   */
-  export type AuthProviderAccountUpdateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * The data needed to update a AuthProviderAccount.
-     */
-    data: XOR<
-      AuthProviderAccountUpdateInput,
-      AuthProviderAccountUncheckedUpdateInput
-    >;
-    /**
-     * Choose, which AuthProviderAccount to update.
-     */
-    where: AuthProviderAccountWhereUniqueInput;
-  };
-
-  /**
-   * AuthProviderAccount updateMany
-   */
-  export type AuthProviderAccountUpdateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to update AuthProviderAccounts.
-     */
-    data: XOR<
-      AuthProviderAccountUpdateManyMutationInput,
-      AuthProviderAccountUncheckedUpdateManyInput
-    >;
-    /**
-     * Filter which AuthProviderAccounts to update
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * Limit how many AuthProviderAccounts to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * AuthProviderAccount updateManyAndReturn
-   */
-  export type AuthProviderAccountUpdateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelectUpdateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * The data used to update AuthProviderAccounts.
-     */
-    data: XOR<
-      AuthProviderAccountUpdateManyMutationInput,
-      AuthProviderAccountUncheckedUpdateManyInput
-    >;
-    /**
-     * Filter which AuthProviderAccounts to update
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * Limit how many AuthProviderAccounts to update.
-     */
-    limit?: number;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountIncludeUpdateManyAndReturn<ExtArgs> | null;
-  };
-
-  /**
-   * AuthProviderAccount upsert
-   */
-  export type AuthProviderAccountUpsertArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * The filter to search for the AuthProviderAccount to update in case it exists.
-     */
-    where: AuthProviderAccountWhereUniqueInput;
-    /**
-     * In case the AuthProviderAccount found by the `where` argument doesn't exist, create a new AuthProviderAccount with this data.
-     */
-    create: XOR<
-      AuthProviderAccountCreateInput,
-      AuthProviderAccountUncheckedCreateInput
-    >;
-    /**
-     * In case the AuthProviderAccount was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<
-      AuthProviderAccountUpdateInput,
-      AuthProviderAccountUncheckedUpdateInput
-    >;
-  };
-
-  /**
-   * AuthProviderAccount delete
-   */
-  export type AuthProviderAccountDeleteArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-    /**
-     * Filter which AuthProviderAccount to delete.
-     */
-    where: AuthProviderAccountWhereUniqueInput;
-  };
-
-  /**
-   * AuthProviderAccount deleteMany
-   */
-  export type AuthProviderAccountDeleteManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which AuthProviderAccounts to delete
-     */
-    where?: AuthProviderAccountWhereInput;
-    /**
-     * Limit how many AuthProviderAccounts to delete.
-     */
-    limit?: number;
-  };
-
-  /**
-   * AuthProviderAccount without action
-   */
-  export type AuthProviderAccountDefaultArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the AuthProviderAccount
-     */
-    select?: AuthProviderAccountSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the AuthProviderAccount
-     */
-    omit?: AuthProviderAccountOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuthProviderAccountInclude<ExtArgs> | null;
-  };
-
-  /**
-   * Model Payment
-   */
-
-  export type AggregatePayment = {
-    _count: PaymentCountAggregateOutputType | null;
-    _avg: PaymentAvgAggregateOutputType | null;
-    _sum: PaymentSumAggregateOutputType | null;
-    _min: PaymentMinAggregateOutputType | null;
-    _max: PaymentMaxAggregateOutputType | null;
-  };
-
-  export type PaymentAvgAggregateOutputType = {
-    amount: Decimal | null;
-  };
-
-  export type PaymentSumAggregateOutputType = {
-    amount: Decimal | null;
-  };
-
-  export type PaymentMinAggregateOutputType = {
-    id: string | null;
-    orderId: string | null;
-    externalId: string | null;
-    status: $Enums.PaymentStatus | null;
-    amount: Decimal | null;
-    paymentMethod: string | null;
-    paymentMethodId: string | null;
-    paymentProvider: string | null;
-    paymentUrl: string | null;
-    notificationSent: boolean | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  };
-
-  export type PaymentMaxAggregateOutputType = {
-    id: string | null;
-    orderId: string | null;
-    externalId: string | null;
-    status: $Enums.PaymentStatus | null;
-    amount: Decimal | null;
-    paymentMethod: string | null;
-    paymentMethodId: string | null;
-    paymentProvider: string | null;
-    paymentUrl: string | null;
-    notificationSent: boolean | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  };
-
-  export type PaymentCountAggregateOutputType = {
-    id: number;
-    orderId: number;
-    externalId: number;
-    status: number;
-    amount: number;
-    paymentMethod: number;
-    paymentMethodId: number;
-    paymentProvider: number;
-    paymentUrl: number;
-    transactionDetails: number;
-    notificationSent: number;
-    createdAt: number;
-    updatedAt: number;
-    _all: number;
-  };
-
-  export type PaymentAvgAggregateInputType = {
-    amount?: true;
-  };
-
-  export type PaymentSumAggregateInputType = {
-    amount?: true;
-  };
-
-  export type PaymentMinAggregateInputType = {
-    id?: true;
-    orderId?: true;
-    externalId?: true;
-    status?: true;
-    amount?: true;
-    paymentMethod?: true;
-    paymentMethodId?: true;
-    paymentProvider?: true;
-    paymentUrl?: true;
-    notificationSent?: true;
-    createdAt?: true;
-    updatedAt?: true;
-  };
-
-  export type PaymentMaxAggregateInputType = {
-    id?: true;
-    orderId?: true;
-    externalId?: true;
-    status?: true;
-    amount?: true;
-    paymentMethod?: true;
-    paymentMethodId?: true;
-    paymentProvider?: true;
-    paymentUrl?: true;
-    notificationSent?: true;
-    createdAt?: true;
-    updatedAt?: true;
-  };
-
-  export type PaymentCountAggregateInputType = {
-    id?: true;
-    orderId?: true;
-    externalId?: true;
-    status?: true;
-    amount?: true;
-    paymentMethod?: true;
-    paymentMethodId?: true;
-    paymentProvider?: true;
-    paymentUrl?: true;
-    transactionDetails?: true;
-    notificationSent?: true;
-    createdAt?: true;
-    updatedAt?: true;
-    _all?: true;
-  };
-
-  export type PaymentAggregateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which Payment to aggregate.
-     */
-    where?: PaymentWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Payments to fetch.
-     */
-    orderBy?:
-      | PaymentOrderByWithRelationInput
-      | PaymentOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the start position
-     */
-    cursor?: PaymentWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Payments from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Payments.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Count returned Payments
-     **/
-    _count?: true | PaymentCountAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to average
-     **/
-    _avg?: PaymentAvgAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to sum
-     **/
-    _sum?: PaymentSumAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the minimum value
-     **/
-    _min?: PaymentMinAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the maximum value
-     **/
-    _max?: PaymentMaxAggregateInputType;
-  };
-
-  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
-    [P in keyof T & keyof AggregatePayment]: P extends "_count" | "count"
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePayment[P]>
-      : GetScalarType<T[P], AggregatePayment[P]>;
-  };
-
-  export type PaymentGroupByArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    where?: PaymentWhereInput;
-    orderBy?:
-      | PaymentOrderByWithAggregationInput
-      | PaymentOrderByWithAggregationInput[];
-    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum;
-    having?: PaymentScalarWhereWithAggregatesInput;
-    take?: number;
-    skip?: number;
-    _count?: PaymentCountAggregateInputType | true;
-    _avg?: PaymentAvgAggregateInputType;
-    _sum?: PaymentSumAggregateInputType;
-    _min?: PaymentMinAggregateInputType;
-    _max?: PaymentMaxAggregateInputType;
-  };
-
-  export type PaymentGroupByOutputType = {
-    id: string;
-    orderId: string;
-    externalId: string | null;
-    status: $Enums.PaymentStatus;
-    amount: Decimal;
-    paymentMethod: string | null;
-    paymentMethodId: string | null;
-    paymentProvider: string;
-    paymentUrl: string | null;
-    transactionDetails: JsonValue | null;
-    notificationSent: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    _count: PaymentCountAggregateOutputType | null;
-    _avg: PaymentAvgAggregateOutputType | null;
-    _sum: PaymentSumAggregateOutputType | null;
-    _min: PaymentMinAggregateOutputType | null;
-    _max: PaymentMaxAggregateOutputType | null;
-  };
-
-  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> =
-    Prisma.PrismaPromise<
-      Array<
-        PickEnumerable<PaymentGroupByOutputType, T["by"]> & {
-          [P in keyof T & keyof PaymentGroupByOutputType]: P extends "_count"
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
-            : GetScalarType<T[P], PaymentGroupByOutputType[P]>;
-        }
-      >
-    >;
-
-  export type PaymentSelect<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      orderId?: boolean;
-      externalId?: boolean;
-      status?: boolean;
-      amount?: boolean;
-      paymentMethod?: boolean;
-      paymentMethodId?: boolean;
-      paymentProvider?: boolean;
-      paymentUrl?: boolean;
-      transactionDetails?: boolean;
-      notificationSent?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["payment"]
-  >;
-
-  export type PaymentSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      orderId?: boolean;
-      externalId?: boolean;
-      status?: boolean;
-      amount?: boolean;
-      paymentMethod?: boolean;
-      paymentMethodId?: boolean;
-      paymentProvider?: boolean;
-      paymentUrl?: boolean;
-      transactionDetails?: boolean;
-      notificationSent?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["payment"]
-  >;
-
-  export type PaymentSelectUpdateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      orderId?: boolean;
-      externalId?: boolean;
-      status?: boolean;
-      amount?: boolean;
-      paymentMethod?: boolean;
-      paymentMethodId?: boolean;
-      paymentProvider?: boolean;
-      paymentUrl?: boolean;
-      transactionDetails?: boolean;
-      notificationSent?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["payment"]
-  >;
-
-  export type PaymentSelectScalar = {
-    id?: boolean;
-    orderId?: boolean;
-    externalId?: boolean;
-    status?: boolean;
-    amount?: boolean;
-    paymentMethod?: boolean;
-    paymentMethodId?: boolean;
-    paymentProvider?: boolean;
-    paymentUrl?: boolean;
-    transactionDetails?: boolean;
-    notificationSent?: boolean;
-    createdAt?: boolean;
-    updatedAt?: boolean;
-  };
-
-  export type PaymentOmit<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetOmit<
-    | "id"
-    | "orderId"
-    | "externalId"
-    | "status"
-    | "amount"
-    | "paymentMethod"
-    | "paymentMethodId"
-    | "paymentProvider"
-    | "paymentUrl"
-    | "transactionDetails"
-    | "notificationSent"
-    | "createdAt"
-    | "updatedAt",
-    ExtArgs["result"]["payment"]
-  >;
-
-  export type $PaymentPayload<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    name: "Payment";
-    objects: {};
-    scalars: $Extensions.GetPayloadResult<
-      {
-        id: string;
-        orderId: string;
-        externalId: string | null;
-        status: $Enums.PaymentStatus;
-        amount: Prisma.Decimal;
-        paymentMethod: string | null;
-        paymentMethodId: string | null;
-        paymentProvider: string;
-        paymentUrl: string | null;
-        transactionDetails: Prisma.JsonValue | null;
-        notificationSent: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-      },
-      ExtArgs["result"]["payment"]
-    >;
-    composites: {};
-  };
-
-  type PaymentGetPayload<
-    S extends boolean | null | undefined | PaymentDefaultArgs,
-  > = $Result.GetResult<Prisma.$PaymentPayload, S>;
-
-  type PaymentCountArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = Omit<PaymentFindManyArgs, "select" | "include" | "distinct" | "omit"> & {
-    select?: PaymentCountAggregateInputType | true;
-  };
-
-  export interface PaymentDelegate<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > {
-    [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>["model"]["Payment"];
-      meta: { name: "Payment" };
-    };
-    /**
-     * Find zero or one Payment that matches the filter.
-     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
-     * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PaymentFindUniqueArgs>(
-      args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "findUnique",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
-     * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "findUniqueOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first Payment that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
-     * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PaymentFindFirstArgs>(
-      args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "findFirst",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first Payment that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
-     * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "findFirstOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find zero or more Payments that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Payments
-     * const payments = await prisma.payment.findMany()
-     *
-     * // Get first 10 Payments
-     * const payments = await prisma.payment.findMany({ take: 10 })
-     *
-     * // Only select the `id`
-     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
-     *
-     */
-    findMany<T extends PaymentFindManyArgs>(
-      args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "findMany",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create a Payment.
-     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
-     * @example
-     * // Create one Payment
-     * const Payment = await prisma.payment.create({
-     *   data: {
-     *     // ... data to create a Payment
-     *   }
-     * })
-     *
-     */
-    create<T extends PaymentCreateArgs>(
-      args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "create",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Create many Payments.
-     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
-     * @example
-     * // Create many Payments
-     * const payment = await prisma.payment.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     */
-    createMany<T extends PaymentCreateManyArgs>(
-      args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Create many Payments and returns the data saved in the database.
-     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
-     * @example
-     * // Create many Payments
-     * const payment = await prisma.payment.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Payments and only return the `id`
-     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "createManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Delete a Payment.
-     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
-     * @example
-     * // Delete one Payment
-     * const Payment = await prisma.payment.delete({
-     *   where: {
-     *     // ... filter to delete one Payment
-     *   }
-     * })
-     *
-     */
-    delete<T extends PaymentDeleteArgs>(
-      args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "delete",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Update one Payment.
-     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
-     * @example
-     * // Update one Payment
-     * const payment = await prisma.payment.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    update<T extends PaymentUpdateArgs>(
-      args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "update",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Delete zero or more Payments.
-     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
-     * @example
-     * // Delete a few Payments
-     * const { count } = await prisma.payment.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     *
-     */
-    deleteMany<T extends PaymentDeleteManyArgs>(
-      args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more Payments.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Payments
-     * const payment = await prisma.payment.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    updateMany<T extends PaymentUpdateManyArgs>(
-      args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more Payments and returns the data updated in the database.
-     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
-     * @example
-     * // Update many Payments
-     * const payment = await prisma.payment.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Update zero or more Payments and only return the `id`
-     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(
-      args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "updateManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create or update one Payment.
-     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
-     * @example
-     * // Update or create a Payment
-     * const payment = await prisma.payment.upsert({
-     *   create: {
-     *     // ... data to create a Payment
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Payment we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PaymentUpsertArgs>(
-      args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>,
-    ): Prisma__PaymentClient<
-      $Result.GetResult<
-        Prisma.$PaymentPayload<ExtArgs>,
-        T,
-        "upsert",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Count the number of Payments.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
-     * @example
-     * // Count the number of Payments
-     * const count = await prisma.payment.count({
-     *   where: {
-     *     // ... the filter for the Payments we want to count
-     *   }
-     * })
-     **/
-    count<T extends PaymentCountArgs>(
-      args?: Subset<T, PaymentCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<"select", any>
-        ? T["select"] extends true
-          ? number
-          : GetScalarType<T["select"], PaymentCountAggregateOutputType>
-        : number
-    >;
-
-    /**
-     * Allows you to perform aggregations operations on a Payment.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-     **/
-    aggregate<T extends PaymentAggregateArgs>(
-      args: Subset<T, PaymentAggregateArgs>,
-    ): Prisma.PrismaPromise<GetPaymentAggregateType<T>>;
-
-    /**
-     * Group by Payment.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     *
-     **/
-    groupBy<
-      T extends PaymentGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<"skip", Keys<T>>,
-        Extends<"take", Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PaymentGroupByArgs["orderBy"] }
-        : { orderBy?: PaymentGroupByArgs["orderBy"] },
-      OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T["orderBy"]>>
-      >,
-      ByFields extends MaybeTupleToUnion<T["by"]>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T["having"]>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T["by"] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-        ? `Error: "by" must not be empty.`
-        : HavingValid extends False
-          ? {
-              [P in HavingFields]: P extends ByFields
-                ? never
-                : P extends string
-                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-                  : [
-                      Error,
-                      "Field ",
-                      P,
-                      ` in "having" needs to be provided in "by"`,
-                    ];
-            }[HavingFields]
-          : "take" extends Keys<T>
-            ? "orderBy" extends Keys<T>
-              ? ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields]
-              : 'Error: If you provide "take", you also need to provide "orderBy"'
-            : "skip" extends Keys<T>
-              ? "orderBy" extends Keys<T>
-                ? ByValid extends True
-                  ? {}
-                  : {
-                      [P in OrderFields]: P extends ByFields
-                        ? never
-                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                    }[OrderFields]
-                : 'Error: If you provide "skip", you also need to provide "orderBy"'
-              : ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields],
-    >(
-      args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors,
-    ): {} extends InputErrors
-      ? GetPaymentGroupByPayload<T>
-      : Prisma.PrismaPromise<InputErrors>;
-    /**
-     * Fields of the Payment model
-     */
-    readonly fields: PaymentFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Payment.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PaymentClient<
-    T,
-    Null = never,
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise";
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(
-      onfulfilled?:
-        | ((value: T) => TResult1 | PromiseLike<TResult1>)
-        | undefined
-        | null,
-      onrejected?:
-        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(
-      onrejected?:
-        | ((reason: any) => TResult | PromiseLike<TResult>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-  /**
-   * Fields of the Payment model
-   */
-  interface PaymentFieldRefs {
-    readonly id: FieldRef<"Payment", "String">;
-    readonly orderId: FieldRef<"Payment", "String">;
-    readonly externalId: FieldRef<"Payment", "String">;
-    readonly status: FieldRef<"Payment", "PaymentStatus">;
-    readonly amount: FieldRef<"Payment", "Decimal">;
-    readonly paymentMethod: FieldRef<"Payment", "String">;
-    readonly paymentMethodId: FieldRef<"Payment", "String">;
-    readonly paymentProvider: FieldRef<"Payment", "String">;
-    readonly paymentUrl: FieldRef<"Payment", "String">;
-    readonly transactionDetails: FieldRef<"Payment", "Json">;
-    readonly notificationSent: FieldRef<"Payment", "Boolean">;
-    readonly createdAt: FieldRef<"Payment", "DateTime">;
-    readonly updatedAt: FieldRef<"Payment", "DateTime">;
-  }
-
-  // Custom InputTypes
-  /**
-   * Payment findUnique
-   */
-  export type PaymentFindUniqueArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * Filter, which Payment to fetch.
-     */
-    where: PaymentWhereUniqueInput;
-  };
-
-  /**
-   * Payment findUniqueOrThrow
-   */
-  export type PaymentFindUniqueOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * Filter, which Payment to fetch.
-     */
-    where: PaymentWhereUniqueInput;
-  };
-
-  /**
-   * Payment findFirst
-   */
-  export type PaymentFindFirstArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * Filter, which Payment to fetch.
-     */
-    where?: PaymentWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Payments to fetch.
-     */
-    orderBy?:
-      | PaymentOrderByWithRelationInput
-      | PaymentOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for Payments.
-     */
-    cursor?: PaymentWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Payments from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Payments.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of Payments.
-     */
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
-  };
-
-  /**
-   * Payment findFirstOrThrow
-   */
-  export type PaymentFindFirstOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * Filter, which Payment to fetch.
-     */
-    where?: PaymentWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Payments to fetch.
-     */
-    orderBy?:
-      | PaymentOrderByWithRelationInput
-      | PaymentOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for Payments.
-     */
-    cursor?: PaymentWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Payments from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Payments.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of Payments.
-     */
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
-  };
-
-  /**
-   * Payment findMany
-   */
-  export type PaymentFindManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * Filter, which Payments to fetch.
-     */
-    where?: PaymentWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of Payments to fetch.
-     */
-    orderBy?:
-      | PaymentOrderByWithRelationInput
-      | PaymentOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for listing Payments.
-     */
-    cursor?: PaymentWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` Payments from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` Payments.
-     */
-    skip?: number;
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[];
-  };
-
-  /**
-   * Payment create
-   */
-  export type PaymentCreateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * The data needed to create a Payment.
-     */
-    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>;
-  };
-
-  /**
-   * Payment createMany
-   */
-  export type PaymentCreateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to create many Payments.
-     */
-    data: PaymentCreateManyInput | PaymentCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Payment createManyAndReturn
-   */
-  export type PaymentCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * The data used to create many Payments.
-     */
-    data: PaymentCreateManyInput | PaymentCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Payment update
-   */
-  export type PaymentUpdateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * The data needed to update a Payment.
-     */
-    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>;
-    /**
-     * Choose, which Payment to update.
-     */
-    where: PaymentWhereUniqueInput;
-  };
-
-  /**
-   * Payment updateMany
-   */
-  export type PaymentUpdateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to update Payments.
-     */
-    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>;
-    /**
-     * Filter which Payments to update
-     */
-    where?: PaymentWhereInput;
-    /**
-     * Limit how many Payments to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * Payment updateManyAndReturn
-   */
-  export type PaymentUpdateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * The data used to update Payments.
-     */
-    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>;
-    /**
-     * Filter which Payments to update
-     */
-    where?: PaymentWhereInput;
-    /**
-     * Limit how many Payments to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * Payment upsert
-   */
-  export type PaymentUpsertArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * The filter to search for the Payment to update in case it exists.
-     */
-    where: PaymentWhereUniqueInput;
-    /**
-     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
-     */
-    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>;
-    /**
-     * In case the Payment was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>;
-  };
-
-  /**
-   * Payment delete
-   */
-  export type PaymentDeleteArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-    /**
-     * Filter which Payment to delete.
-     */
-    where: PaymentWhereUniqueInput;
-  };
-
-  /**
-   * Payment deleteMany
-   */
-  export type PaymentDeleteManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which Payments to delete
-     */
-    where?: PaymentWhereInput;
-    /**
-     * Limit how many Payments to delete.
-     */
-    limit?: number;
-  };
-
-  /**
-   * Payment without action
-   */
-  export type PaymentDefaultArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null;
-  };
-
-  /**
-   * Model EmailNotification
-   */
-
-  export type AggregateEmailNotification = {
-    _count: EmailNotificationCountAggregateOutputType | null;
-    _min: EmailNotificationMinAggregateOutputType | null;
-    _max: EmailNotificationMaxAggregateOutputType | null;
-  };
-
-  export type EmailNotificationMinAggregateOutputType = {
-    id: string | null;
-    recipient: string | null;
-    subject: string | null;
-    content: string | null;
-    status: $Enums.EmailStatus | null;
-    sentAt: Date | null;
-    errorMessage: string | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  };
-
-  export type EmailNotificationMaxAggregateOutputType = {
-    id: string | null;
-    recipient: string | null;
-    subject: string | null;
-    content: string | null;
-    status: $Enums.EmailStatus | null;
-    sentAt: Date | null;
-    errorMessage: string | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  };
-
-  export type EmailNotificationCountAggregateOutputType = {
-    id: number;
-    recipient: number;
-    subject: number;
-    content: number;
-    status: number;
-    sentAt: number;
-    errorMessage: number;
-    createdAt: number;
-    updatedAt: number;
-    _all: number;
-  };
-
-  export type EmailNotificationMinAggregateInputType = {
-    id?: true;
-    recipient?: true;
-    subject?: true;
-    content?: true;
-    status?: true;
-    sentAt?: true;
-    errorMessage?: true;
-    createdAt?: true;
-    updatedAt?: true;
-  };
-
-  export type EmailNotificationMaxAggregateInputType = {
-    id?: true;
-    recipient?: true;
-    subject?: true;
-    content?: true;
-    status?: true;
-    sentAt?: true;
-    errorMessage?: true;
-    createdAt?: true;
-    updatedAt?: true;
-  };
-
-  export type EmailNotificationCountAggregateInputType = {
-    id?: true;
-    recipient?: true;
-    subject?: true;
-    content?: true;
-    status?: true;
-    sentAt?: true;
-    errorMessage?: true;
-    createdAt?: true;
-    updatedAt?: true;
-    _all?: true;
-  };
-
-  export type EmailNotificationAggregateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which EmailNotification to aggregate.
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of EmailNotifications to fetch.
-     */
-    orderBy?:
-      | EmailNotificationOrderByWithRelationInput
-      | EmailNotificationOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the start position
-     */
-    cursor?: EmailNotificationWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` EmailNotifications from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` EmailNotifications.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Count returned EmailNotifications
-     **/
-    _count?: true | EmailNotificationCountAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the minimum value
-     **/
-    _min?: EmailNotificationMinAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the maximum value
-     **/
-    _max?: EmailNotificationMaxAggregateInputType;
-  };
-
-  export type GetEmailNotificationAggregateType<
-    T extends EmailNotificationAggregateArgs,
-  > = {
-    [P in keyof T & keyof AggregateEmailNotification]: P extends
-      | "_count"
-      | "count"
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateEmailNotification[P]>
-      : GetScalarType<T[P], AggregateEmailNotification[P]>;
-  };
-
-  export type EmailNotificationGroupByArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    where?: EmailNotificationWhereInput;
-    orderBy?:
-      | EmailNotificationOrderByWithAggregationInput
-      | EmailNotificationOrderByWithAggregationInput[];
-    by: EmailNotificationScalarFieldEnum[] | EmailNotificationScalarFieldEnum;
-    having?: EmailNotificationScalarWhereWithAggregatesInput;
-    take?: number;
-    skip?: number;
-    _count?: EmailNotificationCountAggregateInputType | true;
-    _min?: EmailNotificationMinAggregateInputType;
-    _max?: EmailNotificationMaxAggregateInputType;
-  };
-
-  export type EmailNotificationGroupByOutputType = {
-    id: string;
-    recipient: string;
-    subject: string;
-    content: string;
-    status: $Enums.EmailStatus;
-    sentAt: Date | null;
-    errorMessage: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-    _count: EmailNotificationCountAggregateOutputType | null;
-    _min: EmailNotificationMinAggregateOutputType | null;
-    _max: EmailNotificationMaxAggregateOutputType | null;
-  };
-
-  type GetEmailNotificationGroupByPayload<
-    T extends EmailNotificationGroupByArgs,
-  > = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<EmailNotificationGroupByOutputType, T["by"]> & {
-        [P in keyof T &
-          keyof EmailNotificationGroupByOutputType]: P extends "_count"
-          ? T[P] extends boolean
-            ? number
-            : GetScalarType<T[P], EmailNotificationGroupByOutputType[P]>
-          : GetScalarType<T[P], EmailNotificationGroupByOutputType[P]>;
-      }
-    >
-  >;
-
-  export type EmailNotificationSelect<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      recipient?: boolean;
-      subject?: boolean;
-      content?: boolean;
-      status?: boolean;
-      sentAt?: boolean;
-      errorMessage?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["emailNotification"]
-  >;
-
-  export type EmailNotificationSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      recipient?: boolean;
-      subject?: boolean;
-      content?: boolean;
-      status?: boolean;
-      sentAt?: boolean;
-      errorMessage?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["emailNotification"]
-  >;
-
-  export type EmailNotificationSelectUpdateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      recipient?: boolean;
-      subject?: boolean;
-      content?: boolean;
-      status?: boolean;
-      sentAt?: boolean;
-      errorMessage?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["emailNotification"]
-  >;
-
-  export type EmailNotificationSelectScalar = {
-    id?: boolean;
-    recipient?: boolean;
-    subject?: boolean;
-    content?: boolean;
-    status?: boolean;
-    sentAt?: boolean;
-    errorMessage?: boolean;
-    createdAt?: boolean;
-    updatedAt?: boolean;
-  };
-
-  export type EmailNotificationOmit<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = $Extensions.GetOmit<
-    | "id"
-    | "recipient"
-    | "subject"
-    | "content"
-    | "status"
-    | "sentAt"
-    | "errorMessage"
-    | "createdAt"
-    | "updatedAt",
-    ExtArgs["result"]["emailNotification"]
-  >;
-
-  export type $EmailNotificationPayload<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    name: "EmailNotification";
-    objects: {};
-    scalars: $Extensions.GetPayloadResult<
-      {
-        id: string;
-        recipient: string;
-        subject: string;
-        content: string;
-        status: $Enums.EmailStatus;
-        sentAt: Date | null;
-        errorMessage: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-      },
-      ExtArgs["result"]["emailNotification"]
-    >;
-    composites: {};
-  };
-
-  type EmailNotificationGetPayload<
-    S extends boolean | null | undefined | EmailNotificationDefaultArgs,
-  > = $Result.GetResult<Prisma.$EmailNotificationPayload, S>;
-
-  type EmailNotificationCountArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = Omit<
-    EmailNotificationFindManyArgs,
-    "select" | "include" | "distinct" | "omit"
-  > & {
-    select?: EmailNotificationCountAggregateInputType | true;
-  };
-
-  export interface EmailNotificationDelegate<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > {
-    [K: symbol]: {
-      types: Prisma.TypeMap<ExtArgs>["model"]["EmailNotification"];
-      meta: { name: "EmailNotification" };
-    };
-    /**
-     * Find zero or one EmailNotification that matches the filter.
-     * @param {EmailNotificationFindUniqueArgs} args - Arguments to find a EmailNotification
-     * @example
-     * // Get one EmailNotification
-     * const emailNotification = await prisma.emailNotification.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends EmailNotificationFindUniqueArgs>(
-      args: SelectSubset<T, EmailNotificationFindUniqueArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "findUnique",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find one EmailNotification that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {EmailNotificationFindUniqueOrThrowArgs} args - Arguments to find a EmailNotification
-     * @example
-     * // Get one EmailNotification
-     * const emailNotification = await prisma.emailNotification.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends EmailNotificationFindUniqueOrThrowArgs>(
-      args: SelectSubset<T, EmailNotificationFindUniqueOrThrowArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "findUniqueOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first EmailNotification that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationFindFirstArgs} args - Arguments to find a EmailNotification
-     * @example
-     * // Get one EmailNotification
-     * const emailNotification = await prisma.emailNotification.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends EmailNotificationFindFirstArgs>(
-      args?: SelectSubset<T, EmailNotificationFindFirstArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "findFirst",
-        GlobalOmitOptions
-      > | null,
-      null,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find the first EmailNotification that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationFindFirstOrThrowArgs} args - Arguments to find a EmailNotification
-     * @example
-     * // Get one EmailNotification
-     * const emailNotification = await prisma.emailNotification.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends EmailNotificationFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, EmailNotificationFindFirstOrThrowArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "findFirstOrThrow",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Find zero or more EmailNotifications that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all EmailNotifications
-     * const emailNotifications = await prisma.emailNotification.findMany()
-     *
-     * // Get first 10 EmailNotifications
-     * const emailNotifications = await prisma.emailNotification.findMany({ take: 10 })
-     *
-     * // Only select the `id`
-     * const emailNotificationWithIdOnly = await prisma.emailNotification.findMany({ select: { id: true } })
-     *
-     */
-    findMany<T extends EmailNotificationFindManyArgs>(
-      args?: SelectSubset<T, EmailNotificationFindManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "findMany",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create a EmailNotification.
-     * @param {EmailNotificationCreateArgs} args - Arguments to create a EmailNotification.
-     * @example
-     * // Create one EmailNotification
-     * const EmailNotification = await prisma.emailNotification.create({
-     *   data: {
-     *     // ... data to create a EmailNotification
-     *   }
-     * })
-     *
-     */
-    create<T extends EmailNotificationCreateArgs>(
-      args: SelectSubset<T, EmailNotificationCreateArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "create",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Create many EmailNotifications.
-     * @param {EmailNotificationCreateManyArgs} args - Arguments to create many EmailNotifications.
-     * @example
-     * // Create many EmailNotifications
-     * const emailNotification = await prisma.emailNotification.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     */
-    createMany<T extends EmailNotificationCreateManyArgs>(
-      args?: SelectSubset<T, EmailNotificationCreateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Create many EmailNotifications and returns the data saved in the database.
-     * @param {EmailNotificationCreateManyAndReturnArgs} args - Arguments to create many EmailNotifications.
-     * @example
-     * // Create many EmailNotifications
-     * const emailNotification = await prisma.emailNotification.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many EmailNotifications and only return the `id`
-     * const emailNotificationWithIdOnly = await prisma.emailNotification.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends EmailNotificationCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, EmailNotificationCreateManyAndReturnArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "createManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Delete a EmailNotification.
-     * @param {EmailNotificationDeleteArgs} args - Arguments to delete one EmailNotification.
-     * @example
-     * // Delete one EmailNotification
-     * const EmailNotification = await prisma.emailNotification.delete({
-     *   where: {
-     *     // ... filter to delete one EmailNotification
-     *   }
-     * })
-     *
-     */
-    delete<T extends EmailNotificationDeleteArgs>(
-      args: SelectSubset<T, EmailNotificationDeleteArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "delete",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Update one EmailNotification.
-     * @param {EmailNotificationUpdateArgs} args - Arguments to update one EmailNotification.
-     * @example
-     * // Update one EmailNotification
-     * const emailNotification = await prisma.emailNotification.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    update<T extends EmailNotificationUpdateArgs>(
-      args: SelectSubset<T, EmailNotificationUpdateArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "update",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Delete zero or more EmailNotifications.
-     * @param {EmailNotificationDeleteManyArgs} args - Arguments to filter EmailNotifications to delete.
-     * @example
-     * // Delete a few EmailNotifications
-     * const { count } = await prisma.emailNotification.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     *
-     */
-    deleteMany<T extends EmailNotificationDeleteManyArgs>(
-      args?: SelectSubset<T, EmailNotificationDeleteManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more EmailNotifications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many EmailNotifications
-     * const emailNotification = await prisma.emailNotification.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    updateMany<T extends EmailNotificationUpdateManyArgs>(
-      args: SelectSubset<T, EmailNotificationUpdateManyArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<BatchPayload>;
-
-    /**
-     * Update zero or more EmailNotifications and returns the data updated in the database.
-     * @param {EmailNotificationUpdateManyAndReturnArgs} args - Arguments to update many EmailNotifications.
-     * @example
-     * // Update many EmailNotifications
-     * const emailNotification = await prisma.emailNotification.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Update zero or more EmailNotifications and only return the `id`
-     * const emailNotificationWithIdOnly = await prisma.emailNotification.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    updateManyAndReturn<T extends EmailNotificationUpdateManyAndReturnArgs>(
-      args: SelectSubset<T, EmailNotificationUpdateManyAndReturnArgs<ExtArgs>>,
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "updateManyAndReturn",
-        GlobalOmitOptions
-      >
-    >;
-
-    /**
-     * Create or update one EmailNotification.
-     * @param {EmailNotificationUpsertArgs} args - Arguments to update or create a EmailNotification.
-     * @example
-     * // Update or create a EmailNotification
-     * const emailNotification = await prisma.emailNotification.upsert({
-     *   create: {
-     *     // ... data to create a EmailNotification
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the EmailNotification we want to update
-     *   }
-     * })
-     */
-    upsert<T extends EmailNotificationUpsertArgs>(
-      args: SelectSubset<T, EmailNotificationUpsertArgs<ExtArgs>>,
-    ): Prisma__EmailNotificationClient<
-      $Result.GetResult<
-        Prisma.$EmailNotificationPayload<ExtArgs>,
-        T,
-        "upsert",
-        GlobalOmitOptions
-      >,
-      never,
-      ExtArgs,
-      GlobalOmitOptions
-    >;
-
-    /**
-     * Count the number of EmailNotifications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationCountArgs} args - Arguments to filter EmailNotifications to count.
-     * @example
-     * // Count the number of EmailNotifications
-     * const count = await prisma.emailNotification.count({
-     *   where: {
-     *     // ... the filter for the EmailNotifications we want to count
-     *   }
-     * })
-     **/
-    count<T extends EmailNotificationCountArgs>(
-      args?: Subset<T, EmailNotificationCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<"select", any>
-        ? T["select"] extends true
-          ? number
-          : GetScalarType<
-              T["select"],
-              EmailNotificationCountAggregateOutputType
-            >
-        : number
-    >;
-
-    /**
-     * Allows you to perform aggregations operations on a EmailNotification.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-     **/
-    aggregate<T extends EmailNotificationAggregateArgs>(
-      args: Subset<T, EmailNotificationAggregateArgs>,
-    ): Prisma.PrismaPromise<GetEmailNotificationAggregateType<T>>;
-
-    /**
-     * Group by EmailNotification.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EmailNotificationGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     *
-     **/
-    groupBy<
-      T extends EmailNotificationGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<"skip", Keys<T>>,
-        Extends<"take", Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: EmailNotificationGroupByArgs["orderBy"] }
-        : { orderBy?: EmailNotificationGroupByArgs["orderBy"] },
-      OrderFields extends ExcludeUnderscoreKeys<
-        Keys<MaybeTupleToUnion<T["orderBy"]>>
-      >,
-      ByFields extends MaybeTupleToUnion<T["by"]>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T["having"]>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T["by"] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-        ? `Error: "by" must not be empty.`
-        : HavingValid extends False
-          ? {
-              [P in HavingFields]: P extends ByFields
-                ? never
-                : P extends string
-                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-                  : [
-                      Error,
-                      "Field ",
-                      P,
-                      ` in "having" needs to be provided in "by"`,
-                    ];
-            }[HavingFields]
-          : "take" extends Keys<T>
-            ? "orderBy" extends Keys<T>
-              ? ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields]
-              : 'Error: If you provide "take", you also need to provide "orderBy"'
-            : "skip" extends Keys<T>
-              ? "orderBy" extends Keys<T>
-                ? ByValid extends True
-                  ? {}
-                  : {
-                      [P in OrderFields]: P extends ByFields
-                        ? never
-                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                    }[OrderFields]
-                : 'Error: If you provide "skip", you also need to provide "orderBy"'
-              : ByValid extends True
-                ? {}
-                : {
-                    [P in OrderFields]: P extends ByFields
-                      ? never
-                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
-                  }[OrderFields],
-    >(
-      args: SubsetIntersection<T, EmailNotificationGroupByArgs, OrderByArg> &
-        InputErrors,
-    ): {} extends InputErrors
-      ? GetEmailNotificationGroupByPayload<T>
-      : Prisma.PrismaPromise<InputErrors>;
-    /**
-     * Fields of the EmailNotification model
-     */
-    readonly fields: EmailNotificationFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for EmailNotification.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__EmailNotificationClient<
-    T,
-    Null = never,
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-    GlobalOmitOptions = {},
-  > extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise";
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(
-      onfulfilled?:
-        | ((value: T) => TResult1 | PromiseLike<TResult1>)
-        | undefined
-        | null,
-      onrejected?:
-        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(
-      onrejected?:
-        | ((reason: any) => TResult | PromiseLike<TResult>)
-        | undefined
-        | null,
-    ): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-  /**
-   * Fields of the EmailNotification model
-   */
-  interface EmailNotificationFieldRefs {
-    readonly id: FieldRef<"EmailNotification", "String">;
-    readonly recipient: FieldRef<"EmailNotification", "String">;
-    readonly subject: FieldRef<"EmailNotification", "String">;
-    readonly content: FieldRef<"EmailNotification", "String">;
-    readonly status: FieldRef<"EmailNotification", "EmailStatus">;
-    readonly sentAt: FieldRef<"EmailNotification", "DateTime">;
-    readonly errorMessage: FieldRef<"EmailNotification", "String">;
-    readonly createdAt: FieldRef<"EmailNotification", "DateTime">;
-    readonly updatedAt: FieldRef<"EmailNotification", "DateTime">;
-  }
-
-  // Custom InputTypes
-  /**
-   * EmailNotification findUnique
-   */
-  export type EmailNotificationFindUniqueArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * Filter, which EmailNotification to fetch.
-     */
-    where: EmailNotificationWhereUniqueInput;
-  };
-
-  /**
-   * EmailNotification findUniqueOrThrow
-   */
-  export type EmailNotificationFindUniqueOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * Filter, which EmailNotification to fetch.
-     */
-    where: EmailNotificationWhereUniqueInput;
-  };
-
-  /**
-   * EmailNotification findFirst
-   */
-  export type EmailNotificationFindFirstArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * Filter, which EmailNotification to fetch.
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of EmailNotifications to fetch.
-     */
-    orderBy?:
-      | EmailNotificationOrderByWithRelationInput
-      | EmailNotificationOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for EmailNotifications.
-     */
-    cursor?: EmailNotificationWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` EmailNotifications from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` EmailNotifications.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of EmailNotifications.
-     */
-    distinct?:
-      | EmailNotificationScalarFieldEnum
-      | EmailNotificationScalarFieldEnum[];
-  };
-
-  /**
-   * EmailNotification findFirstOrThrow
-   */
-  export type EmailNotificationFindFirstOrThrowArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * Filter, which EmailNotification to fetch.
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of EmailNotifications to fetch.
-     */
-    orderBy?:
-      | EmailNotificationOrderByWithRelationInput
-      | EmailNotificationOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for EmailNotifications.
-     */
-    cursor?: EmailNotificationWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` EmailNotifications from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` EmailNotifications.
-     */
-    skip?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of EmailNotifications.
-     */
-    distinct?:
-      | EmailNotificationScalarFieldEnum
-      | EmailNotificationScalarFieldEnum[];
-  };
-
-  /**
-   * EmailNotification findMany
-   */
-  export type EmailNotificationFindManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * Filter, which EmailNotifications to fetch.
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of EmailNotifications to fetch.
-     */
-    orderBy?:
-      | EmailNotificationOrderByWithRelationInput
-      | EmailNotificationOrderByWithRelationInput[];
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for listing EmailNotifications.
-     */
-    cursor?: EmailNotificationWhereUniqueInput;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` EmailNotifications from the position of the cursor.
-     */
-    take?: number;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` EmailNotifications.
-     */
-    skip?: number;
-    distinct?:
-      | EmailNotificationScalarFieldEnum
-      | EmailNotificationScalarFieldEnum[];
-  };
-
-  /**
-   * EmailNotification create
-   */
-  export type EmailNotificationCreateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * The data needed to create a EmailNotification.
-     */
-    data: XOR<
-      EmailNotificationCreateInput,
-      EmailNotificationUncheckedCreateInput
-    >;
-  };
-
-  /**
-   * EmailNotification createMany
-   */
-  export type EmailNotificationCreateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to create many EmailNotifications.
-     */
-    data: EmailNotificationCreateManyInput | EmailNotificationCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * EmailNotification createManyAndReturn
-   */
-  export type EmailNotificationCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * The data used to create many EmailNotifications.
-     */
-    data: EmailNotificationCreateManyInput | EmailNotificationCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * EmailNotification update
-   */
-  export type EmailNotificationUpdateArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * The data needed to update a EmailNotification.
-     */
-    data: XOR<
-      EmailNotificationUpdateInput,
-      EmailNotificationUncheckedUpdateInput
-    >;
-    /**
-     * Choose, which EmailNotification to update.
-     */
-    where: EmailNotificationWhereUniqueInput;
-  };
-
-  /**
-   * EmailNotification updateMany
-   */
-  export type EmailNotificationUpdateManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * The data used to update EmailNotifications.
-     */
-    data: XOR<
-      EmailNotificationUpdateManyMutationInput,
-      EmailNotificationUncheckedUpdateManyInput
-    >;
-    /**
-     * Filter which EmailNotifications to update
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * Limit how many EmailNotifications to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * EmailNotification updateManyAndReturn
-   */
-  export type EmailNotificationUpdateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelectUpdateManyAndReturn<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * The data used to update EmailNotifications.
-     */
-    data: XOR<
-      EmailNotificationUpdateManyMutationInput,
-      EmailNotificationUncheckedUpdateManyInput
-    >;
-    /**
-     * Filter which EmailNotifications to update
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * Limit how many EmailNotifications to update.
-     */
-    limit?: number;
-  };
-
-  /**
-   * EmailNotification upsert
-   */
-  export type EmailNotificationUpsertArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * The filter to search for the EmailNotification to update in case it exists.
-     */
-    where: EmailNotificationWhereUniqueInput;
-    /**
-     * In case the EmailNotification found by the `where` argument doesn't exist, create a new EmailNotification with this data.
-     */
-    create: XOR<
-      EmailNotificationCreateInput,
-      EmailNotificationUncheckedCreateInput
-    >;
-    /**
-     * In case the EmailNotification was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<
-      EmailNotificationUpdateInput,
-      EmailNotificationUncheckedUpdateInput
-    >;
-  };
-
-  /**
-   * EmailNotification delete
-   */
-  export type EmailNotificationDeleteArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-    /**
-     * Filter which EmailNotification to delete.
-     */
-    where: EmailNotificationWhereUniqueInput;
-  };
-
-  /**
-   * EmailNotification deleteMany
-   */
-  export type EmailNotificationDeleteManyArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Filter which EmailNotifications to delete
-     */
-    where?: EmailNotificationWhereInput;
-    /**
-     * Limit how many EmailNotifications to delete.
-     */
-    limit?: number;
-  };
-
-  /**
-   * EmailNotification without action
-   */
-  export type EmailNotificationDefaultArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
-  > = {
-    /**
-     * Select specific fields to fetch from the EmailNotification
-     */
-    select?: EmailNotificationSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the EmailNotification
-     */
-    omit?: EmailNotificationOmit<ExtArgs> | null;
-  };
-
-  /**
    * Enums
    */
 
@@ -11147,6 +9803,21 @@ export namespace Prisma {
 
   export type TransactionIsolationLevel =
     (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
+
+  export const UserScalarFieldEnum: {
+    id: "id";
+    name: "name";
+    email: "email";
+    image: "image";
+    provider: "provider";
+    providerId: "providerId";
+    plan: "plan";
+    createdAt: "createdAt";
+    updatedAt: "updatedAt";
+  };
+
+  export type UserScalarFieldEnum =
+    (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 
   export const InteractionScalarFieldEnum: {
     id: "id";
@@ -11163,53 +9834,18 @@ export namespace Prisma {
   export const UserPreferenceScalarFieldEnum: {
     id: "id";
     userId: "userId";
-    preference: "preference";
-    preferenceValue: "preferenceValue";
+    language: "language";
+    theme: "theme";
+    createdAt: "createdAt";
     updatedAt: "updatedAt";
   };
 
   export type UserPreferenceScalarFieldEnum =
     (typeof UserPreferenceScalarFieldEnum)[keyof typeof UserPreferenceScalarFieldEnum];
 
-  export const EmailVerificationScalarFieldEnum: {
-    id: "id";
-    code: "code";
-    expiresAt: "expiresAt";
-    contactId: "contactId";
-    createdAt: "createdAt";
-    userId: "userId";
-  };
-
-  export type EmailVerificationScalarFieldEnum =
-    (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum];
-
-  export const UserScalarFieldEnum: {
-    id: "id";
-    name: "name";
-    email: "email";
-    imageUrl: "imageUrl";
-    password: "password";
-    plan: "plan";
-    createdAt: "createdAt";
-    updatedAt: "updatedAt";
-  };
-
-  export type UserScalarFieldEnum =
-    (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
-
-  export const AuthProviderAccountScalarFieldEnum: {
-    id: "id";
-    provider: "provider";
-    providerId: "providerId";
-    userId: "userId";
-  };
-
-  export type AuthProviderAccountScalarFieldEnum =
-    (typeof AuthProviderAccountScalarFieldEnum)[keyof typeof AuthProviderAccountScalarFieldEnum];
-
   export const PaymentScalarFieldEnum: {
     id: "id";
-    orderId: "orderId";
+    userId: "userId";
     externalId: "externalId";
     status: "status";
     amount: "amount";
@@ -11233,13 +9869,24 @@ export namespace Prisma {
     content: "content";
     status: "status";
     sentAt: "sentAt";
-    errorMessage: "errorMessage";
     createdAt: "createdAt";
     updatedAt: "updatedAt";
   };
 
   export type EmailNotificationScalarFieldEnum =
     (typeof EmailNotificationScalarFieldEnum)[keyof typeof EmailNotificationScalarFieldEnum];
+
+  export const EmailVerificationScalarFieldEnum: {
+    id: "id";
+    code: "code";
+    expiresAt: "expiresAt";
+    contactId: "contactId";
+    createdAt: "createdAt";
+    userId: "userId";
+  };
+
+  export type EmailVerificationScalarFieldEnum =
+    (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum];
 
   export const SortOrder: {
     asc: "asc";
@@ -11263,6 +9910,13 @@ export namespace Prisma {
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
 
+  export const NullsOrder: {
+    first: "first";
+    last: "last";
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull;
     JsonNull: typeof JsonNull;
@@ -11271,13 +9925,6 @@ export namespace Prisma {
 
   export type JsonNullValueFilter =
     (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
-
-  export const NullsOrder: {
-    first: "first";
-    last: "last";
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 
   /**
    * Field references
@@ -11297,6 +9944,38 @@ export namespace Prisma {
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<
     $PrismaModel,
     "String[]"
+  >;
+
+  /**
+   * Reference to a field of type 'Provider'
+   */
+  export type EnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Provider"
+  >;
+
+  /**
+   * Reference to a field of type 'Provider[]'
+   */
+  export type ListEnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Provider[]"
+  >;
+
+  /**
+   * Reference to a field of type 'Plan'
+   */
+  export type EnumPlanFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Plan"
+  >;
+
+  /**
+   * Reference to a field of type 'Plan[]'
+   */
+  export type ListEnumPlanFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Plan[]"
   >;
 
   /**
@@ -11329,38 +10008,6 @@ export namespace Prisma {
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<
     $PrismaModel,
     "QueryMode"
-  >;
-
-  /**
-   * Reference to a field of type 'Plan'
-   */
-  export type EnumPlanFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Plan"
-  >;
-
-  /**
-   * Reference to a field of type 'Plan[]'
-   */
-  export type ListEnumPlanFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Plan[]"
-  >;
-
-  /**
-   * Reference to a field of type 'Provider'
-   */
-  export type EnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Provider"
-  >;
-
-  /**
-   * Reference to a field of type 'Provider[]'
-   */
-  export type ListEnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Provider[]"
   >;
 
   /**
@@ -11435,6 +10082,97 @@ export namespace Prisma {
    * Deep Input Types
    */
 
+  export type UserWhereInput = {
+    AND?: UserWhereInput | UserWhereInput[];
+    OR?: UserWhereInput[];
+    NOT?: UserWhereInput | UserWhereInput[];
+    id?: StringFilter<"User"> | string;
+    name?: StringNullableFilter<"User"> | string | null;
+    email?: StringFilter<"User"> | string;
+    image?: StringNullableFilter<"User"> | string | null;
+    provider?: EnumProviderFilter<"User"> | $Enums.Provider;
+    providerId?: StringFilter<"User"> | string;
+    plan?: EnumPlanFilter<"User"> | $Enums.Plan;
+    createdAt?: DateTimeFilter<"User"> | Date | string;
+    updatedAt?: DateTimeFilter<"User"> | Date | string;
+    interactions?: InteractionListRelationFilter;
+    preferences?: UserPreferenceListRelationFilter;
+    payments?: PaymentListRelationFilter;
+    emailVerifications?: EmailVerificationListRelationFilter;
+  };
+
+  export type UserOrderByWithRelationInput = {
+    id?: SortOrder;
+    name?: SortOrderInput | SortOrder;
+    email?: SortOrder;
+    image?: SortOrderInput | SortOrder;
+    provider?: SortOrder;
+    providerId?: SortOrder;
+    plan?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    interactions?: InteractionOrderByRelationAggregateInput;
+    preferences?: UserPreferenceOrderByRelationAggregateInput;
+    payments?: PaymentOrderByRelationAggregateInput;
+    emailVerifications?: EmailVerificationOrderByRelationAggregateInput;
+  };
+
+  export type UserWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      email?: string;
+      AND?: UserWhereInput | UserWhereInput[];
+      OR?: UserWhereInput[];
+      NOT?: UserWhereInput | UserWhereInput[];
+      name?: StringNullableFilter<"User"> | string | null;
+      image?: StringNullableFilter<"User"> | string | null;
+      provider?: EnumProviderFilter<"User"> | $Enums.Provider;
+      providerId?: StringFilter<"User"> | string;
+      plan?: EnumPlanFilter<"User"> | $Enums.Plan;
+      createdAt?: DateTimeFilter<"User"> | Date | string;
+      updatedAt?: DateTimeFilter<"User"> | Date | string;
+      interactions?: InteractionListRelationFilter;
+      preferences?: UserPreferenceListRelationFilter;
+      payments?: PaymentListRelationFilter;
+      emailVerifications?: EmailVerificationListRelationFilter;
+    },
+    "id" | "email"
+  >;
+
+  export type UserOrderByWithAggregationInput = {
+    id?: SortOrder;
+    name?: SortOrderInput | SortOrder;
+    email?: SortOrder;
+    image?: SortOrderInput | SortOrder;
+    provider?: SortOrder;
+    providerId?: SortOrder;
+    plan?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    _count?: UserCountOrderByAggregateInput;
+    _max?: UserMaxOrderByAggregateInput;
+    _min?: UserMinOrderByAggregateInput;
+  };
+
+  export type UserScalarWhereWithAggregatesInput = {
+    AND?:
+      | UserScalarWhereWithAggregatesInput
+      | UserScalarWhereWithAggregatesInput[];
+    OR?: UserScalarWhereWithAggregatesInput[];
+    NOT?:
+      | UserScalarWhereWithAggregatesInput
+      | UserScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<"User"> | string;
+    name?: StringNullableWithAggregatesFilter<"User"> | string | null;
+    email?: StringWithAggregatesFilter<"User"> | string;
+    image?: StringNullableWithAggregatesFilter<"User"> | string | null;
+    provider?: EnumProviderWithAggregatesFilter<"User"> | $Enums.Provider;
+    providerId?: StringWithAggregatesFilter<"User"> | string;
+    plan?: EnumPlanWithAggregatesFilter<"User"> | $Enums.Plan;
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
+  };
+
   export type InteractionWhereInput = {
     AND?: InteractionWhereInput | InteractionWhereInput[];
     OR?: InteractionWhereInput[];
@@ -11508,8 +10246,9 @@ export namespace Prisma {
     NOT?: UserPreferenceWhereInput | UserPreferenceWhereInput[];
     id?: StringFilter<"UserPreference"> | string;
     userId?: StringFilter<"UserPreference"> | string;
-    preference?: StringFilter<"UserPreference"> | string;
-    preferenceValue?: StringFilter<"UserPreference"> | string;
+    language?: StringFilter<"UserPreference"> | string;
+    theme?: StringNullableFilter<"UserPreference"> | string | null;
+    createdAt?: DateTimeFilter<"UserPreference"> | Date | string;
     updatedAt?: DateTimeFilter<"UserPreference"> | Date | string;
     user?: XOR<UserScalarRelationFilter, UserWhereInput>;
   };
@@ -11517,8 +10256,9 @@ export namespace Prisma {
   export type UserPreferenceOrderByWithRelationInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    preference?: SortOrder;
-    preferenceValue?: SortOrder;
+    language?: SortOrder;
+    theme?: SortOrderInput | SortOrder;
+    createdAt?: SortOrder;
     updatedAt?: SortOrder;
     user?: UserOrderByWithRelationInput;
   };
@@ -11526,23 +10266,25 @@ export namespace Prisma {
   export type UserPreferenceWhereUniqueInput = Prisma.AtLeast<
     {
       id?: string;
+      userId?: string;
       AND?: UserPreferenceWhereInput | UserPreferenceWhereInput[];
       OR?: UserPreferenceWhereInput[];
       NOT?: UserPreferenceWhereInput | UserPreferenceWhereInput[];
-      userId?: StringFilter<"UserPreference"> | string;
-      preference?: StringFilter<"UserPreference"> | string;
-      preferenceValue?: StringFilter<"UserPreference"> | string;
+      language?: StringFilter<"UserPreference"> | string;
+      theme?: StringNullableFilter<"UserPreference"> | string | null;
+      createdAt?: DateTimeFilter<"UserPreference"> | Date | string;
       updatedAt?: DateTimeFilter<"UserPreference"> | Date | string;
       user?: XOR<UserScalarRelationFilter, UserWhereInput>;
     },
-    "id"
+    "id" | "userId"
   >;
 
   export type UserPreferenceOrderByWithAggregationInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    preference?: SortOrder;
-    preferenceValue?: SortOrder;
+    language?: SortOrder;
+    theme?: SortOrderInput | SortOrder;
+    createdAt?: SortOrder;
     updatedAt?: SortOrder;
     _count?: UserPreferenceCountOrderByAggregateInput;
     _max?: UserPreferenceMaxOrderByAggregateInput;
@@ -11559,9 +10301,230 @@ export namespace Prisma {
       | UserPreferenceScalarWhereWithAggregatesInput[];
     id?: StringWithAggregatesFilter<"UserPreference"> | string;
     userId?: StringWithAggregatesFilter<"UserPreference"> | string;
-    preference?: StringWithAggregatesFilter<"UserPreference"> | string;
-    preferenceValue?: StringWithAggregatesFilter<"UserPreference"> | string;
+    language?: StringWithAggregatesFilter<"UserPreference"> | string;
+    theme?:
+      | StringNullableWithAggregatesFilter<"UserPreference">
+      | string
+      | null;
+    createdAt?: DateTimeWithAggregatesFilter<"UserPreference"> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<"UserPreference"> | Date | string;
+  };
+
+  export type PaymentWhereInput = {
+    AND?: PaymentWhereInput | PaymentWhereInput[];
+    OR?: PaymentWhereInput[];
+    NOT?: PaymentWhereInput | PaymentWhereInput[];
+    id?: StringFilter<"Payment"> | string;
+    userId?: StringFilter<"Payment"> | string;
+    externalId?: StringNullableFilter<"Payment"> | string | null;
+    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFilter<"Payment">
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: StringNullableFilter<"Payment"> | string | null;
+    paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
+    paymentProvider?: StringFilter<"Payment"> | string;
+    paymentUrl?: StringNullableFilter<"Payment"> | string | null;
+    transactionDetails?: JsonNullableFilter<"Payment">;
+    notificationSent?: BoolFilter<"Payment"> | boolean;
+    createdAt?: DateTimeFilter<"Payment"> | Date | string;
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string;
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+  };
+
+  export type PaymentOrderByWithRelationInput = {
+    id?: SortOrder;
+    userId?: SortOrder;
+    externalId?: SortOrderInput | SortOrder;
+    status?: SortOrder;
+    amount?: SortOrder;
+    paymentMethod?: SortOrderInput | SortOrder;
+    paymentMethodId?: SortOrderInput | SortOrder;
+    paymentProvider?: SortOrder;
+    paymentUrl?: SortOrderInput | SortOrder;
+    transactionDetails?: SortOrderInput | SortOrder;
+    notificationSent?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    user?: UserOrderByWithRelationInput;
+  };
+
+  export type PaymentWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      AND?: PaymentWhereInput | PaymentWhereInput[];
+      OR?: PaymentWhereInput[];
+      NOT?: PaymentWhereInput | PaymentWhereInput[];
+      userId?: StringFilter<"Payment"> | string;
+      externalId?: StringNullableFilter<"Payment"> | string | null;
+      status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus;
+      amount?:
+        | DecimalFilter<"Payment">
+        | Decimal
+        | DecimalJsLike
+        | number
+        | string;
+      paymentMethod?: StringNullableFilter<"Payment"> | string | null;
+      paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
+      paymentProvider?: StringFilter<"Payment"> | string;
+      paymentUrl?: StringNullableFilter<"Payment"> | string | null;
+      transactionDetails?: JsonNullableFilter<"Payment">;
+      notificationSent?: BoolFilter<"Payment"> | boolean;
+      createdAt?: DateTimeFilter<"Payment"> | Date | string;
+      updatedAt?: DateTimeFilter<"Payment"> | Date | string;
+      user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+    },
+    "id"
+  >;
+
+  export type PaymentOrderByWithAggregationInput = {
+    id?: SortOrder;
+    userId?: SortOrder;
+    externalId?: SortOrderInput | SortOrder;
+    status?: SortOrder;
+    amount?: SortOrder;
+    paymentMethod?: SortOrderInput | SortOrder;
+    paymentMethodId?: SortOrderInput | SortOrder;
+    paymentProvider?: SortOrder;
+    paymentUrl?: SortOrderInput | SortOrder;
+    transactionDetails?: SortOrderInput | SortOrder;
+    notificationSent?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    _count?: PaymentCountOrderByAggregateInput;
+    _avg?: PaymentAvgOrderByAggregateInput;
+    _max?: PaymentMaxOrderByAggregateInput;
+    _min?: PaymentMinOrderByAggregateInput;
+    _sum?: PaymentSumOrderByAggregateInput;
+  };
+
+  export type PaymentScalarWhereWithAggregatesInput = {
+    AND?:
+      | PaymentScalarWhereWithAggregatesInput
+      | PaymentScalarWhereWithAggregatesInput[];
+    OR?: PaymentScalarWhereWithAggregatesInput[];
+    NOT?:
+      | PaymentScalarWhereWithAggregatesInput
+      | PaymentScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<"Payment"> | string;
+    userId?: StringWithAggregatesFilter<"Payment"> | string;
+    externalId?: StringNullableWithAggregatesFilter<"Payment"> | string | null;
+    status?:
+      | EnumPaymentStatusWithAggregatesFilter<"Payment">
+      | $Enums.PaymentStatus;
+    amount?:
+      | DecimalWithAggregatesFilter<"Payment">
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?:
+      | StringNullableWithAggregatesFilter<"Payment">
+      | string
+      | null;
+    paymentMethodId?:
+      | StringNullableWithAggregatesFilter<"Payment">
+      | string
+      | null;
+    paymentProvider?: StringWithAggregatesFilter<"Payment"> | string;
+    paymentUrl?: StringNullableWithAggregatesFilter<"Payment"> | string | null;
+    transactionDetails?: JsonNullableWithAggregatesFilter<"Payment">;
+    notificationSent?: BoolWithAggregatesFilter<"Payment"> | boolean;
+    createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string;
+    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string;
+  };
+
+  export type EmailNotificationWhereInput = {
+    AND?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
+    OR?: EmailNotificationWhereInput[];
+    NOT?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
+    id?: StringFilter<"EmailNotification"> | string;
+    recipient?: StringFilter<"EmailNotification"> | string;
+    subject?: StringFilter<"EmailNotification"> | string;
+    content?: StringFilter<"EmailNotification"> | string;
+    status?: EnumEmailStatusFilter<"EmailNotification"> | $Enums.EmailStatus;
+    sentAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null;
+    createdAt?: DateTimeFilter<"EmailNotification"> | Date | string;
+    updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string;
+  };
+
+  export type EmailNotificationOrderByWithRelationInput = {
+    id?: SortOrder;
+    recipient?: SortOrder;
+    subject?: SortOrder;
+    content?: SortOrder;
+    status?: SortOrder;
+    sentAt?: SortOrderInput | SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+  };
+
+  export type EmailNotificationWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      AND?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
+      OR?: EmailNotificationWhereInput[];
+      NOT?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
+      recipient?: StringFilter<"EmailNotification"> | string;
+      subject?: StringFilter<"EmailNotification"> | string;
+      content?: StringFilter<"EmailNotification"> | string;
+      status?: EnumEmailStatusFilter<"EmailNotification"> | $Enums.EmailStatus;
+      sentAt?:
+        | DateTimeNullableFilter<"EmailNotification">
+        | Date
+        | string
+        | null;
+      createdAt?: DateTimeFilter<"EmailNotification"> | Date | string;
+      updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string;
+    },
+    "id"
+  >;
+
+  export type EmailNotificationOrderByWithAggregationInput = {
+    id?: SortOrder;
+    recipient?: SortOrder;
+    subject?: SortOrder;
+    content?: SortOrder;
+    status?: SortOrder;
+    sentAt?: SortOrderInput | SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+    _count?: EmailNotificationCountOrderByAggregateInput;
+    _max?: EmailNotificationMaxOrderByAggregateInput;
+    _min?: EmailNotificationMinOrderByAggregateInput;
+  };
+
+  export type EmailNotificationScalarWhereWithAggregatesInput = {
+    AND?:
+      | EmailNotificationScalarWhereWithAggregatesInput
+      | EmailNotificationScalarWhereWithAggregatesInput[];
+    OR?: EmailNotificationScalarWhereWithAggregatesInput[];
+    NOT?:
+      | EmailNotificationScalarWhereWithAggregatesInput
+      | EmailNotificationScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<"EmailNotification"> | string;
+    recipient?: StringWithAggregatesFilter<"EmailNotification"> | string;
+    subject?: StringWithAggregatesFilter<"EmailNotification"> | string;
+    content?: StringWithAggregatesFilter<"EmailNotification"> | string;
+    status?:
+      | EnumEmailStatusWithAggregatesFilter<"EmailNotification">
+      | $Enums.EmailStatus;
+    sentAt?:
+      | DateTimeNullableWithAggregatesFilter<"EmailNotification">
+      | Date
+      | string
+      | null;
+    createdAt?:
+      | DateTimeWithAggregatesFilter<"EmailNotification">
+      | Date
+      | string;
+    updatedAt?:
+      | DateTimeWithAggregatesFilter<"EmailNotification">
+      | Date
+      | string;
   };
 
   export type EmailVerificationWhereInput = {
@@ -11637,372 +10600,104 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"EmailVerification"> | string;
   };
 
-  export type UserWhereInput = {
-    AND?: UserWhereInput | UserWhereInput[];
-    OR?: UserWhereInput[];
-    NOT?: UserWhereInput | UserWhereInput[];
-    id?: StringFilter<"User"> | string;
-    name?: StringFilter<"User"> | string;
-    email?: StringFilter<"User"> | string;
-    imageUrl?: StringNullableFilter<"User"> | string | null;
-    password?: StringFilter<"User"> | string;
-    plan?: EnumPlanFilter<"User"> | $Enums.Plan;
-    createdAt?: DateTimeFilter<"User"> | Date | string;
-    updatedAt?: DateTimeFilter<"User"> | Date | string;
-    authProviders?: AuthProviderAccountListRelationFilter;
-    EmailVerification?: EmailVerificationListRelationFilter;
-    Interaction?: InteractionListRelationFilter;
-    UserPreference?: UserPreferenceListRelationFilter;
+  export type UserCreateInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionCreateNestedManyWithoutUserInput;
+    preferences?: UserPreferenceCreateNestedManyWithoutUserInput;
+    payments?: PaymentCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput;
   };
 
-  export type UserOrderByWithRelationInput = {
-    id?: SortOrder;
-    name?: SortOrder;
-    email?: SortOrder;
-    imageUrl?: SortOrderInput | SortOrder;
-    password?: SortOrder;
-    plan?: SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-    authProviders?: AuthProviderAccountOrderByRelationAggregateInput;
-    EmailVerification?: EmailVerificationOrderByRelationAggregateInput;
-    Interaction?: InteractionOrderByRelationAggregateInput;
-    UserPreference?: UserPreferenceOrderByRelationAggregateInput;
+  export type UserUncheckedCreateInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
+    preferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
   };
 
-  export type UserWhereUniqueInput = Prisma.AtLeast<
-    {
-      id?: string;
-      email?: string;
-      AND?: UserWhereInput | UserWhereInput[];
-      OR?: UserWhereInput[];
-      NOT?: UserWhereInput | UserWhereInput[];
-      name?: StringFilter<"User"> | string;
-      imageUrl?: StringNullableFilter<"User"> | string | null;
-      password?: StringFilter<"User"> | string;
-      plan?: EnumPlanFilter<"User"> | $Enums.Plan;
-      createdAt?: DateTimeFilter<"User"> | Date | string;
-      updatedAt?: DateTimeFilter<"User"> | Date | string;
-      authProviders?: AuthProviderAccountListRelationFilter;
-      EmailVerification?: EmailVerificationListRelationFilter;
-      Interaction?: InteractionListRelationFilter;
-      UserPreference?: UserPreferenceListRelationFilter;
-    },
-    "id" | "email"
-  >;
-
-  export type UserOrderByWithAggregationInput = {
-    id?: SortOrder;
-    name?: SortOrder;
-    email?: SortOrder;
-    imageUrl?: SortOrderInput | SortOrder;
-    password?: SortOrder;
-    plan?: SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-    _count?: UserCountOrderByAggregateInput;
-    _max?: UserMaxOrderByAggregateInput;
-    _min?: UserMinOrderByAggregateInput;
+  export type UserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUpdateManyWithoutUserNestedInput;
+    preferences?: UserPreferenceUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput;
   };
 
-  export type UserScalarWhereWithAggregatesInput = {
-    AND?:
-      | UserScalarWhereWithAggregatesInput
-      | UserScalarWhereWithAggregatesInput[];
-    OR?: UserScalarWhereWithAggregatesInput[];
-    NOT?:
-      | UserScalarWhereWithAggregatesInput
-      | UserScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<"User"> | string;
-    name?: StringWithAggregatesFilter<"User"> | string;
-    email?: StringWithAggregatesFilter<"User"> | string;
-    imageUrl?: StringNullableWithAggregatesFilter<"User"> | string | null;
-    password?: StringWithAggregatesFilter<"User"> | string;
-    plan?: EnumPlanWithAggregatesFilter<"User"> | $Enums.Plan;
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
+  export type UserUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
+    preferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
   };
 
-  export type AuthProviderAccountWhereInput = {
-    AND?: AuthProviderAccountWhereInput | AuthProviderAccountWhereInput[];
-    OR?: AuthProviderAccountWhereInput[];
-    NOT?: AuthProviderAccountWhereInput | AuthProviderAccountWhereInput[];
-    id?: StringFilter<"AuthProviderAccount"> | string;
-    provider?: EnumProviderFilter<"AuthProviderAccount"> | $Enums.Provider;
-    providerId?: StringFilter<"AuthProviderAccount"> | string;
-    userId?: StringFilter<"AuthProviderAccount"> | string;
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>;
+  export type UserCreateManyInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
   };
 
-  export type AuthProviderAccountOrderByWithRelationInput = {
-    id?: SortOrder;
-    provider?: SortOrder;
-    providerId?: SortOrder;
-    userId?: SortOrder;
-    user?: UserOrderByWithRelationInput;
+  export type UserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
-  export type AuthProviderAccountWhereUniqueInput = Prisma.AtLeast<
-    {
-      id?: string;
-      provider_providerId?: AuthProviderAccountProviderProviderIdCompoundUniqueInput;
-      AND?: AuthProviderAccountWhereInput | AuthProviderAccountWhereInput[];
-      OR?: AuthProviderAccountWhereInput[];
-      NOT?: AuthProviderAccountWhereInput | AuthProviderAccountWhereInput[];
-      provider?: EnumProviderFilter<"AuthProviderAccount"> | $Enums.Provider;
-      providerId?: StringFilter<"AuthProviderAccount"> | string;
-      userId?: StringFilter<"AuthProviderAccount"> | string;
-      user?: XOR<UserScalarRelationFilter, UserWhereInput>;
-    },
-    "id" | "provider_providerId"
-  >;
-
-  export type AuthProviderAccountOrderByWithAggregationInput = {
-    id?: SortOrder;
-    provider?: SortOrder;
-    providerId?: SortOrder;
-    userId?: SortOrder;
-    _count?: AuthProviderAccountCountOrderByAggregateInput;
-    _max?: AuthProviderAccountMaxOrderByAggregateInput;
-    _min?: AuthProviderAccountMinOrderByAggregateInput;
-  };
-
-  export type AuthProviderAccountScalarWhereWithAggregatesInput = {
-    AND?:
-      | AuthProviderAccountScalarWhereWithAggregatesInput
-      | AuthProviderAccountScalarWhereWithAggregatesInput[];
-    OR?: AuthProviderAccountScalarWhereWithAggregatesInput[];
-    NOT?:
-      | AuthProviderAccountScalarWhereWithAggregatesInput
-      | AuthProviderAccountScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<"AuthProviderAccount"> | string;
-    provider?:
-      | EnumProviderWithAggregatesFilter<"AuthProviderAccount">
-      | $Enums.Provider;
-    providerId?: StringWithAggregatesFilter<"AuthProviderAccount"> | string;
-    userId?: StringWithAggregatesFilter<"AuthProviderAccount"> | string;
-  };
-
-  export type PaymentWhereInput = {
-    AND?: PaymentWhereInput | PaymentWhereInput[];
-    OR?: PaymentWhereInput[];
-    NOT?: PaymentWhereInput | PaymentWhereInput[];
-    id?: StringFilter<"Payment"> | string;
-    orderId?: StringFilter<"Payment"> | string;
-    externalId?: StringNullableFilter<"Payment"> | string | null;
-    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus;
-    amount?:
-      | DecimalFilter<"Payment">
-      | Decimal
-      | DecimalJsLike
-      | number
-      | string;
-    paymentMethod?: StringNullableFilter<"Payment"> | string | null;
-    paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
-    paymentProvider?: StringFilter<"Payment"> | string;
-    paymentUrl?: StringNullableFilter<"Payment"> | string | null;
-    transactionDetails?: JsonNullableFilter<"Payment">;
-    notificationSent?: BoolFilter<"Payment"> | boolean;
-    createdAt?: DateTimeFilter<"Payment"> | Date | string;
-    updatedAt?: DateTimeFilter<"Payment"> | Date | string;
-  };
-
-  export type PaymentOrderByWithRelationInput = {
-    id?: SortOrder;
-    orderId?: SortOrder;
-    externalId?: SortOrderInput | SortOrder;
-    status?: SortOrder;
-    amount?: SortOrder;
-    paymentMethod?: SortOrderInput | SortOrder;
-    paymentMethodId?: SortOrderInput | SortOrder;
-    paymentProvider?: SortOrder;
-    paymentUrl?: SortOrderInput | SortOrder;
-    transactionDetails?: SortOrderInput | SortOrder;
-    notificationSent?: SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-  };
-
-  export type PaymentWhereUniqueInput = Prisma.AtLeast<
-    {
-      id?: string;
-      AND?: PaymentWhereInput | PaymentWhereInput[];
-      OR?: PaymentWhereInput[];
-      NOT?: PaymentWhereInput | PaymentWhereInput[];
-      orderId?: StringFilter<"Payment"> | string;
-      externalId?: StringNullableFilter<"Payment"> | string | null;
-      status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus;
-      amount?:
-        | DecimalFilter<"Payment">
-        | Decimal
-        | DecimalJsLike
-        | number
-        | string;
-      paymentMethod?: StringNullableFilter<"Payment"> | string | null;
-      paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
-      paymentProvider?: StringFilter<"Payment"> | string;
-      paymentUrl?: StringNullableFilter<"Payment"> | string | null;
-      transactionDetails?: JsonNullableFilter<"Payment">;
-      notificationSent?: BoolFilter<"Payment"> | boolean;
-      createdAt?: DateTimeFilter<"Payment"> | Date | string;
-      updatedAt?: DateTimeFilter<"Payment"> | Date | string;
-    },
-    "id"
-  >;
-
-  export type PaymentOrderByWithAggregationInput = {
-    id?: SortOrder;
-    orderId?: SortOrder;
-    externalId?: SortOrderInput | SortOrder;
-    status?: SortOrder;
-    amount?: SortOrder;
-    paymentMethod?: SortOrderInput | SortOrder;
-    paymentMethodId?: SortOrderInput | SortOrder;
-    paymentProvider?: SortOrder;
-    paymentUrl?: SortOrderInput | SortOrder;
-    transactionDetails?: SortOrderInput | SortOrder;
-    notificationSent?: SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-    _count?: PaymentCountOrderByAggregateInput;
-    _avg?: PaymentAvgOrderByAggregateInput;
-    _max?: PaymentMaxOrderByAggregateInput;
-    _min?: PaymentMinOrderByAggregateInput;
-    _sum?: PaymentSumOrderByAggregateInput;
-  };
-
-  export type PaymentScalarWhereWithAggregatesInput = {
-    AND?:
-      | PaymentScalarWhereWithAggregatesInput
-      | PaymentScalarWhereWithAggregatesInput[];
-    OR?: PaymentScalarWhereWithAggregatesInput[];
-    NOT?:
-      | PaymentScalarWhereWithAggregatesInput
-      | PaymentScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<"Payment"> | string;
-    orderId?: StringWithAggregatesFilter<"Payment"> | string;
-    externalId?: StringNullableWithAggregatesFilter<"Payment"> | string | null;
-    status?:
-      | EnumPaymentStatusWithAggregatesFilter<"Payment">
-      | $Enums.PaymentStatus;
-    amount?:
-      | DecimalWithAggregatesFilter<"Payment">
-      | Decimal
-      | DecimalJsLike
-      | number
-      | string;
-    paymentMethod?:
-      | StringNullableWithAggregatesFilter<"Payment">
-      | string
-      | null;
-    paymentMethodId?:
-      | StringNullableWithAggregatesFilter<"Payment">
-      | string
-      | null;
-    paymentProvider?: StringWithAggregatesFilter<"Payment"> | string;
-    paymentUrl?: StringNullableWithAggregatesFilter<"Payment"> | string | null;
-    transactionDetails?: JsonNullableWithAggregatesFilter<"Payment">;
-    notificationSent?: BoolWithAggregatesFilter<"Payment"> | boolean;
-    createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string;
-    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string;
-  };
-
-  export type EmailNotificationWhereInput = {
-    AND?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
-    OR?: EmailNotificationWhereInput[];
-    NOT?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
-    id?: StringFilter<"EmailNotification"> | string;
-    recipient?: StringFilter<"EmailNotification"> | string;
-    subject?: StringFilter<"EmailNotification"> | string;
-    content?: StringFilter<"EmailNotification"> | string;
-    status?: EnumEmailStatusFilter<"EmailNotification"> | $Enums.EmailStatus;
-    sentAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null;
-    errorMessage?: StringNullableFilter<"EmailNotification"> | string | null;
-    createdAt?: DateTimeFilter<"EmailNotification"> | Date | string;
-    updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string;
-  };
-
-  export type EmailNotificationOrderByWithRelationInput = {
-    id?: SortOrder;
-    recipient?: SortOrder;
-    subject?: SortOrder;
-    content?: SortOrder;
-    status?: SortOrder;
-    sentAt?: SortOrderInput | SortOrder;
-    errorMessage?: SortOrderInput | SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-  };
-
-  export type EmailNotificationWhereUniqueInput = Prisma.AtLeast<
-    {
-      id?: string;
-      AND?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
-      OR?: EmailNotificationWhereInput[];
-      NOT?: EmailNotificationWhereInput | EmailNotificationWhereInput[];
-      recipient?: StringFilter<"EmailNotification"> | string;
-      subject?: StringFilter<"EmailNotification"> | string;
-      content?: StringFilter<"EmailNotification"> | string;
-      status?: EnumEmailStatusFilter<"EmailNotification"> | $Enums.EmailStatus;
-      sentAt?:
-        | DateTimeNullableFilter<"EmailNotification">
-        | Date
-        | string
-        | null;
-      errorMessage?: StringNullableFilter<"EmailNotification"> | string | null;
-      createdAt?: DateTimeFilter<"EmailNotification"> | Date | string;
-      updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string;
-    },
-    "id"
-  >;
-
-  export type EmailNotificationOrderByWithAggregationInput = {
-    id?: SortOrder;
-    recipient?: SortOrder;
-    subject?: SortOrder;
-    content?: SortOrder;
-    status?: SortOrder;
-    sentAt?: SortOrderInput | SortOrder;
-    errorMessage?: SortOrderInput | SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-    _count?: EmailNotificationCountOrderByAggregateInput;
-    _max?: EmailNotificationMaxOrderByAggregateInput;
-    _min?: EmailNotificationMinOrderByAggregateInput;
-  };
-
-  export type EmailNotificationScalarWhereWithAggregatesInput = {
-    AND?:
-      | EmailNotificationScalarWhereWithAggregatesInput
-      | EmailNotificationScalarWhereWithAggregatesInput[];
-    OR?: EmailNotificationScalarWhereWithAggregatesInput[];
-    NOT?:
-      | EmailNotificationScalarWhereWithAggregatesInput
-      | EmailNotificationScalarWhereWithAggregatesInput[];
-    id?: StringWithAggregatesFilter<"EmailNotification"> | string;
-    recipient?: StringWithAggregatesFilter<"EmailNotification"> | string;
-    subject?: StringWithAggregatesFilter<"EmailNotification"> | string;
-    content?: StringWithAggregatesFilter<"EmailNotification"> | string;
-    status?:
-      | EnumEmailStatusWithAggregatesFilter<"EmailNotification">
-      | $Enums.EmailStatus;
-    sentAt?:
-      | DateTimeNullableWithAggregatesFilter<"EmailNotification">
-      | Date
-      | string
-      | null;
-    errorMessage?:
-      | StringNullableWithAggregatesFilter<"EmailNotification">
-      | string
-      | null;
-    createdAt?:
-      | DateTimeWithAggregatesFilter<"EmailNotification">
-      | Date
-      | string;
-    updatedAt?:
-      | DateTimeWithAggregatesFilter<"EmailNotification">
-      | Date
-      | string;
+  export type UserUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type InteractionCreateInput = {
@@ -12011,7 +10706,7 @@ export namespace Prisma {
     response: string;
     timestamp?: Date | string;
     context?: NullableJsonNullValueInput | InputJsonValue;
-    user: UserCreateNestedOneWithoutInteractionInput;
+    user: UserCreateNestedOneWithoutInteractionsInput;
   };
 
   export type InteractionUncheckedCreateInput = {
@@ -12029,7 +10724,7 @@ export namespace Prisma {
     response?: StringFieldUpdateOperationsInput | string;
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string;
     context?: NullableJsonNullValueInput | InputJsonValue;
-    user?: UserUpdateOneRequiredWithoutInteractionNestedInput;
+    user?: UserUpdateOneRequiredWithoutInteractionsNestedInput;
   };
 
   export type InteractionUncheckedUpdateInput = {
@@ -12069,56 +10764,271 @@ export namespace Prisma {
 
   export type UserPreferenceCreateInput = {
     id?: string;
-    preference: string;
-    preferenceValue: string;
-    updatedAt: Date | string;
-    user: UserCreateNestedOneWithoutUserPreferenceInput;
+    language: string;
+    theme?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    user: UserCreateNestedOneWithoutPreferencesInput;
   };
 
   export type UserPreferenceUncheckedCreateInput = {
     id?: string;
     userId: string;
-    preference: string;
-    preferenceValue: string;
-    updatedAt: Date | string;
+    language: string;
+    theme?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
   };
 
   export type UserPreferenceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutUserPreferenceNestedInput;
+    user?: UserUpdateOneRequiredWithoutPreferencesNestedInput;
   };
 
   export type UserPreferenceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserPreferenceCreateManyInput = {
     id?: string;
     userId: string;
-    preference: string;
-    preferenceValue: string;
-    updatedAt: Date | string;
+    language: string;
+    theme?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
   };
 
   export type UserPreferenceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserPreferenceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type PaymentCreateInput = {
+    id?: string;
+    externalId?: string | null;
+    status?: $Enums.PaymentStatus;
+    amount: Decimal | DecimalJsLike | number | string;
+    paymentMethod?: string | null;
+    paymentMethodId?: string | null;
+    paymentProvider?: string;
+    paymentUrl?: string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    user: UserCreateNestedOneWithoutPaymentsInput;
+  };
+
+  export type PaymentUncheckedCreateInput = {
+    id?: string;
+    userId: string;
+    externalId?: string | null;
+    status?: $Enums.PaymentStatus;
+    amount: Decimal | DecimalJsLike | number | string;
+    paymentMethod?: string | null;
+    paymentMethodId?: string | null;
+    paymentProvider?: string;
+    paymentUrl?: string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type PaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput;
+  };
+
+  export type PaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type PaymentCreateManyInput = {
+    id?: string;
+    userId: string;
+    externalId?: string | null;
+    status?: $Enums.PaymentStatus;
+    amount: Decimal | DecimalJsLike | number | string;
+    paymentMethod?: string | null;
+    paymentMethodId?: string | null;
+    paymentProvider?: string;
+    paymentUrl?: string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type PaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type PaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailNotificationCreateInput = {
+    id?: string;
+    recipient: string;
+    subject: string;
+    content: string;
+    status?: $Enums.EmailStatus;
+    sentAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type EmailNotificationUncheckedCreateInput = {
+    id?: string;
+    recipient: string;
+    subject: string;
+    content: string;
+    status?: $Enums.EmailStatus;
+    sentAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type EmailNotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    recipient?: StringFieldUpdateOperationsInput | string;
+    subject?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailNotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    recipient?: StringFieldUpdateOperationsInput | string;
+    subject?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailNotificationCreateManyInput = {
+    id?: string;
+    recipient: string;
+    subject: string;
+    content: string;
+    status?: $Enums.EmailStatus;
+    sentAt?: Date | string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type EmailNotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    recipient?: StringFieldUpdateOperationsInput | string;
+    subject?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailNotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    recipient?: StringFieldUpdateOperationsInput | string;
+    subject?: StringFieldUpdateOperationsInput | string;
+    content?: StringFieldUpdateOperationsInput | string;
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
@@ -12128,7 +11038,7 @@ export namespace Prisma {
     expiresAt: Date | string;
     contactId: string;
     createdAt?: Date | string;
-    user: UserCreateNestedOneWithoutEmailVerificationInput;
+    user: UserCreateNestedOneWithoutEmailVerificationsInput;
   };
 
   export type EmailVerificationUncheckedCreateInput = {
@@ -12146,7 +11056,7 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     contactId?: StringFieldUpdateOperationsInput | string;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: UserUpdateOneRequiredWithoutEmailVerificationNestedInput;
+    user?: UserUpdateOneRequiredWithoutEmailVerificationsNestedInput;
   };
 
   export type EmailVerificationUncheckedUpdateInput = {
@@ -12184,363 +11094,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string;
   };
 
-  export type UserCreateInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountCreateNestedManyWithoutUserInput;
-    EmailVerification?: EmailVerificationCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserUncheckedCreateInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountUncheckedCreateNestedManyWithoutUserInput;
-    EmailVerification?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionUncheckedCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUpdateManyWithoutUserNestedInput;
-    EmailVerification?: EmailVerificationUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUncheckedUpdateManyWithoutUserNestedInput;
-    EmailVerification?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserCreateManyInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type UserUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type UserUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type AuthProviderAccountCreateInput = {
-    id?: string;
-    provider: $Enums.Provider;
-    providerId: string;
-    user: UserCreateNestedOneWithoutAuthProvidersInput;
-  };
-
-  export type AuthProviderAccountUncheckedCreateInput = {
-    id?: string;
-    provider: $Enums.Provider;
-    providerId: string;
-    userId: string;
-  };
-
-  export type AuthProviderAccountUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
-    user?: UserUpdateOneRequiredWithoutAuthProvidersNestedInput;
-  };
-
-  export type AuthProviderAccountUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
-  };
-
-  export type AuthProviderAccountCreateManyInput = {
-    id?: string;
-    provider: $Enums.Provider;
-    providerId: string;
-    userId: string;
-  };
-
-  export type AuthProviderAccountUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
-  };
-
-  export type AuthProviderAccountUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
-    userId?: StringFieldUpdateOperationsInput | string;
-  };
-
-  export type PaymentCreateInput = {
-    id?: string;
-    orderId: string;
-    externalId?: string | null;
-    status?: $Enums.PaymentStatus;
-    amount: Decimal | DecimalJsLike | number | string;
-    paymentMethod?: string | null;
-    paymentMethodId?: string | null;
-    paymentProvider?: string;
-    paymentUrl?: string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type PaymentUncheckedCreateInput = {
-    id?: string;
-    orderId: string;
-    externalId?: string | null;
-    status?: $Enums.PaymentStatus;
-    amount: Decimal | DecimalJsLike | number | string;
-    paymentMethod?: string | null;
-    paymentMethodId?: string | null;
-    paymentProvider?: string;
-    paymentUrl?: string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type PaymentUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    orderId?: StringFieldUpdateOperationsInput | string;
-    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
-    amount?:
-      | DecimalFieldUpdateOperationsInput
-      | Decimal
-      | DecimalJsLike
-      | number
-      | string;
-    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentProvider?: StringFieldUpdateOperationsInput | string;
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type PaymentUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    orderId?: StringFieldUpdateOperationsInput | string;
-    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
-    amount?:
-      | DecimalFieldUpdateOperationsInput
-      | Decimal
-      | DecimalJsLike
-      | number
-      | string;
-    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentProvider?: StringFieldUpdateOperationsInput | string;
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type PaymentCreateManyInput = {
-    id?: string;
-    orderId: string;
-    externalId?: string | null;
-    status?: $Enums.PaymentStatus;
-    amount: Decimal | DecimalJsLike | number | string;
-    paymentMethod?: string | null;
-    paymentMethodId?: string | null;
-    paymentProvider?: string;
-    paymentUrl?: string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: boolean;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type PaymentUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    orderId?: StringFieldUpdateOperationsInput | string;
-    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
-    amount?:
-      | DecimalFieldUpdateOperationsInput
-      | Decimal
-      | DecimalJsLike
-      | number
-      | string;
-    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentProvider?: StringFieldUpdateOperationsInput | string;
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type PaymentUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    orderId?: StringFieldUpdateOperationsInput | string;
-    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
-    amount?:
-      | DecimalFieldUpdateOperationsInput
-      | Decimal
-      | DecimalJsLike
-      | number
-      | string;
-    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
-    paymentProvider?: StringFieldUpdateOperationsInput | string;
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
-    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type EmailNotificationCreateInput = {
-    id?: string;
-    recipient: string;
-    subject: string;
-    content: string;
-    status?: $Enums.EmailStatus;
-    sentAt?: Date | string | null;
-    errorMessage?: string | null;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type EmailNotificationUncheckedCreateInput = {
-    id?: string;
-    recipient: string;
-    subject: string;
-    content: string;
-    status?: $Enums.EmailStatus;
-    sentAt?: Date | string | null;
-    errorMessage?: string | null;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type EmailNotificationUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    recipient?: StringFieldUpdateOperationsInput | string;
-    subject?: StringFieldUpdateOperationsInput | string;
-    content?: StringFieldUpdateOperationsInput | string;
-    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
-    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type EmailNotificationUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    recipient?: StringFieldUpdateOperationsInput | string;
-    subject?: StringFieldUpdateOperationsInput | string;
-    content?: StringFieldUpdateOperationsInput | string;
-    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
-    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type EmailNotificationCreateManyInput = {
-    id?: string;
-    recipient: string;
-    subject: string;
-    content: string;
-    status?: $Enums.EmailStatus;
-    sentAt?: Date | string | null;
-    errorMessage?: string | null;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-  };
-
-  export type EmailNotificationUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    recipient?: StringFieldUpdateOperationsInput | string;
-    subject?: StringFieldUpdateOperationsInput | string;
-    content?: StringFieldUpdateOperationsInput | string;
-    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
-    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type EmailNotificationUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    recipient?: StringFieldUpdateOperationsInput | string;
-    subject?: StringFieldUpdateOperationsInput | string;
-    content?: StringFieldUpdateOperationsInput | string;
-    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus;
-    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>;
     in?: string[] | ListStringFieldRefInput<$PrismaModel>;
@@ -12556,6 +11109,35 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string;
   };
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
+
+  export type EnumProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
+    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
+  };
+
+  export type EnumPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
+  };
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
@@ -12565,6 +11147,162 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string;
+  };
+
+  export type InteractionListRelationFilter = {
+    every?: InteractionWhereInput;
+    some?: InteractionWhereInput;
+    none?: InteractionWhereInput;
+  };
+
+  export type UserPreferenceListRelationFilter = {
+    every?: UserPreferenceWhereInput;
+    some?: UserPreferenceWhereInput;
+    none?: UserPreferenceWhereInput;
+  };
+
+  export type PaymentListRelationFilter = {
+    every?: PaymentWhereInput;
+    some?: PaymentWhereInput;
+    none?: PaymentWhereInput;
+  };
+
+  export type EmailVerificationListRelationFilter = {
+    every?: EmailVerificationWhereInput;
+    some?: EmailVerificationWhereInput;
+    none?: EmailVerificationWhereInput;
+  };
+
+  export type SortOrderInput = {
+    sort: SortOrder;
+    nulls?: NullsOrder;
+  };
+
+  export type InteractionOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
+  export type UserPreferenceOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
+  export type PaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
+  export type EmailVerificationOrderByRelationAggregateInput = {
+    _count?: SortOrder;
+  };
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder;
+    name?: SortOrder;
+    email?: SortOrder;
+    image?: SortOrder;
+    provider?: SortOrder;
+    providerId?: SortOrder;
+    plan?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+  };
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    name?: SortOrder;
+    email?: SortOrder;
+    image?: SortOrder;
+    provider?: SortOrder;
+    providerId?: SortOrder;
+    plan?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+  };
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder;
+    name?: SortOrder;
+    email?: SortOrder;
+    image?: SortOrder;
+    provider?: SortOrder;
+    providerId?: SortOrder;
+    plan?: SortOrder;
+    createdAt?: SortOrder;
+    updatedAt?: SortOrder;
+  };
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedStringFilter<$PrismaModel>;
+    _max?: NestedStringFilter<$PrismaModel>;
+  };
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?:
+      | NestedStringNullableWithAggregatesFilter<$PrismaModel>
+      | string
+      | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedStringNullableFilter<$PrismaModel>;
+    _max?: NestedStringNullableFilter<$PrismaModel>;
+  };
+
+  export type EnumProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
+    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    not?:
+      | NestedEnumProviderWithAggregatesFilter<$PrismaModel>
+      | $Enums.Provider;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumProviderFilter<$PrismaModel>;
+    _max?: NestedEnumProviderFilter<$PrismaModel>;
+  };
+
+  export type EnumPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumPlanFilter<$PrismaModel>;
+    _max?: NestedEnumPlanFilter<$PrismaModel>;
+  };
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedDateTimeFilter<$PrismaModel>;
+    _max?: NestedDateTimeFilter<$PrismaModel>;
   };
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -12606,11 +11344,6 @@ export namespace Prisma {
     isNot?: UserWhereInput;
   };
 
-  export type SortOrderInput = {
-    sort: SortOrder;
-    nulls?: NullsOrder;
-  };
-
   export type InteractionCountOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
@@ -12634,38 +11367,6 @@ export namespace Prisma {
     input?: SortOrder;
     response?: SortOrder;
     timestamp?: SortOrder;
-  };
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    mode?: QueryMode;
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedStringFilter<$PrismaModel>;
-    _max?: NestedStringFilter<$PrismaModel>;
-  };
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedDateTimeFilter<$PrismaModel>;
-    _max?: NestedDateTimeFilter<$PrismaModel>;
   };
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -12714,223 +11415,28 @@ export namespace Prisma {
   export type UserPreferenceCountOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    preference?: SortOrder;
-    preferenceValue?: SortOrder;
+    language?: SortOrder;
+    theme?: SortOrder;
+    createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
 
   export type UserPreferenceMaxOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    preference?: SortOrder;
-    preferenceValue?: SortOrder;
+    language?: SortOrder;
+    theme?: SortOrder;
+    createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
 
   export type UserPreferenceMinOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
-    preference?: SortOrder;
-    preferenceValue?: SortOrder;
-    updatedAt?: SortOrder;
-  };
-
-  export type EmailVerificationCountOrderByAggregateInput = {
-    id?: SortOrder;
-    code?: SortOrder;
-    expiresAt?: SortOrder;
-    contactId?: SortOrder;
-    createdAt?: SortOrder;
-    userId?: SortOrder;
-  };
-
-  export type EmailVerificationMaxOrderByAggregateInput = {
-    id?: SortOrder;
-    code?: SortOrder;
-    expiresAt?: SortOrder;
-    contactId?: SortOrder;
-    createdAt?: SortOrder;
-    userId?: SortOrder;
-  };
-
-  export type EmailVerificationMinOrderByAggregateInput = {
-    id?: SortOrder;
-    code?: SortOrder;
-    expiresAt?: SortOrder;
-    contactId?: SortOrder;
-    createdAt?: SortOrder;
-    userId?: SortOrder;
-  };
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    mode?: QueryMode;
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
-  };
-
-  export type EnumPlanFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
-  };
-
-  export type AuthProviderAccountListRelationFilter = {
-    every?: AuthProviderAccountWhereInput;
-    some?: AuthProviderAccountWhereInput;
-    none?: AuthProviderAccountWhereInput;
-  };
-
-  export type EmailVerificationListRelationFilter = {
-    every?: EmailVerificationWhereInput;
-    some?: EmailVerificationWhereInput;
-    none?: EmailVerificationWhereInput;
-  };
-
-  export type InteractionListRelationFilter = {
-    every?: InteractionWhereInput;
-    some?: InteractionWhereInput;
-    none?: InteractionWhereInput;
-  };
-
-  export type UserPreferenceListRelationFilter = {
-    every?: UserPreferenceWhereInput;
-    some?: UserPreferenceWhereInput;
-    none?: UserPreferenceWhereInput;
-  };
-
-  export type AuthProviderAccountOrderByRelationAggregateInput = {
-    _count?: SortOrder;
-  };
-
-  export type EmailVerificationOrderByRelationAggregateInput = {
-    _count?: SortOrder;
-  };
-
-  export type InteractionOrderByRelationAggregateInput = {
-    _count?: SortOrder;
-  };
-
-  export type UserPreferenceOrderByRelationAggregateInput = {
-    _count?: SortOrder;
-  };
-
-  export type UserCountOrderByAggregateInput = {
-    id?: SortOrder;
-    name?: SortOrder;
-    email?: SortOrder;
-    imageUrl?: SortOrder;
-    password?: SortOrder;
-    plan?: SortOrder;
+    language?: SortOrder;
+    theme?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
-  };
-
-  export type UserMaxOrderByAggregateInput = {
-    id?: SortOrder;
-    name?: SortOrder;
-    email?: SortOrder;
-    imageUrl?: SortOrder;
-    password?: SortOrder;
-    plan?: SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-  };
-
-  export type UserMinOrderByAggregateInput = {
-    id?: SortOrder;
-    name?: SortOrder;
-    email?: SortOrder;
-    imageUrl?: SortOrder;
-    password?: SortOrder;
-    plan?: SortOrder;
-    createdAt?: SortOrder;
-    updatedAt?: SortOrder;
-  };
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    mode?: QueryMode;
-    not?:
-      | NestedStringNullableWithAggregatesFilter<$PrismaModel>
-      | string
-      | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedStringNullableFilter<$PrismaModel>;
-    _max?: NestedStringNullableFilter<$PrismaModel>;
-  };
-
-  export type EnumPlanWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumPlanFilter<$PrismaModel>;
-    _max?: NestedEnumPlanFilter<$PrismaModel>;
-  };
-
-  export type EnumProviderFilter<$PrismaModel = never> = {
-    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
-    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
-  };
-
-  export type AuthProviderAccountProviderProviderIdCompoundUniqueInput = {
-    provider: $Enums.Provider;
-    providerId: string;
-  };
-
-  export type AuthProviderAccountCountOrderByAggregateInput = {
-    id?: SortOrder;
-    provider?: SortOrder;
-    providerId?: SortOrder;
-    userId?: SortOrder;
-  };
-
-  export type AuthProviderAccountMaxOrderByAggregateInput = {
-    id?: SortOrder;
-    provider?: SortOrder;
-    providerId?: SortOrder;
-    userId?: SortOrder;
-  };
-
-  export type AuthProviderAccountMinOrderByAggregateInput = {
-    id?: SortOrder;
-    provider?: SortOrder;
-    providerId?: SortOrder;
-    userId?: SortOrder;
-  };
-
-  export type EnumProviderWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
-    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    not?:
-      | NestedEnumProviderWithAggregatesFilter<$PrismaModel>
-      | $Enums.Provider;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumProviderFilter<$PrismaModel>;
-    _max?: NestedEnumProviderFilter<$PrismaModel>;
   };
 
   export type EnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -13004,7 +11510,7 @@ export namespace Prisma {
 
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder;
-    orderId?: SortOrder;
+    userId?: SortOrder;
     externalId?: SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
@@ -13024,7 +11530,7 @@ export namespace Prisma {
 
   export type PaymentMaxOrderByAggregateInput = {
     id?: SortOrder;
-    orderId?: SortOrder;
+    userId?: SortOrder;
     externalId?: SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
@@ -13039,7 +11545,7 @@ export namespace Prisma {
 
   export type PaymentMinOrderByAggregateInput = {
     id?: SortOrder;
-    orderId?: SortOrder;
+    userId?: SortOrder;
     externalId?: SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
@@ -13165,7 +11671,6 @@ export namespace Prisma {
     content?: SortOrder;
     status?: SortOrder;
     sentAt?: SortOrder;
-    errorMessage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
@@ -13177,7 +11682,6 @@ export namespace Prisma {
     content?: SortOrder;
     status?: SortOrder;
     sentAt?: SortOrder;
-    errorMessage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
@@ -13189,7 +11693,6 @@ export namespace Prisma {
     content?: SortOrder;
     status?: SortOrder;
     sentAt?: SortOrder;
-    errorMessage?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
@@ -13226,124 +11729,31 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
-  export type UserCreateNestedOneWithoutInteractionInput = {
-    create?: XOR<
-      UserCreateWithoutInteractionInput,
-      UserUncheckedCreateWithoutInteractionInput
-    >;
-    connectOrCreate?: UserCreateOrConnectWithoutInteractionInput;
-    connect?: UserWhereUniqueInput;
+  export type EmailVerificationCountOrderByAggregateInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    expiresAt?: SortOrder;
+    contactId?: SortOrder;
+    createdAt?: SortOrder;
+    userId?: SortOrder;
   };
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string;
+  export type EmailVerificationMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    expiresAt?: SortOrder;
+    contactId?: SortOrder;
+    createdAt?: SortOrder;
+    userId?: SortOrder;
   };
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string;
-  };
-
-  export type UserUpdateOneRequiredWithoutInteractionNestedInput = {
-    create?: XOR<
-      UserCreateWithoutInteractionInput,
-      UserUncheckedCreateWithoutInteractionInput
-    >;
-    connectOrCreate?: UserCreateOrConnectWithoutInteractionInput;
-    upsert?: UserUpsertWithoutInteractionInput;
-    connect?: UserWhereUniqueInput;
-    update?: XOR<
-      XOR<
-        UserUpdateToOneWithWhereWithoutInteractionInput,
-        UserUpdateWithoutInteractionInput
-      >,
-      UserUncheckedUpdateWithoutInteractionInput
-    >;
-  };
-
-  export type UserCreateNestedOneWithoutUserPreferenceInput = {
-    create?: XOR<
-      UserCreateWithoutUserPreferenceInput,
-      UserUncheckedCreateWithoutUserPreferenceInput
-    >;
-    connectOrCreate?: UserCreateOrConnectWithoutUserPreferenceInput;
-    connect?: UserWhereUniqueInput;
-  };
-
-  export type UserUpdateOneRequiredWithoutUserPreferenceNestedInput = {
-    create?: XOR<
-      UserCreateWithoutUserPreferenceInput,
-      UserUncheckedCreateWithoutUserPreferenceInput
-    >;
-    connectOrCreate?: UserCreateOrConnectWithoutUserPreferenceInput;
-    upsert?: UserUpsertWithoutUserPreferenceInput;
-    connect?: UserWhereUniqueInput;
-    update?: XOR<
-      XOR<
-        UserUpdateToOneWithWhereWithoutUserPreferenceInput,
-        UserUpdateWithoutUserPreferenceInput
-      >,
-      UserUncheckedUpdateWithoutUserPreferenceInput
-    >;
-  };
-
-  export type UserCreateNestedOneWithoutEmailVerificationInput = {
-    create?: XOR<
-      UserCreateWithoutEmailVerificationInput,
-      UserUncheckedCreateWithoutEmailVerificationInput
-    >;
-    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationInput;
-    connect?: UserWhereUniqueInput;
-  };
-
-  export type UserUpdateOneRequiredWithoutEmailVerificationNestedInput = {
-    create?: XOR<
-      UserCreateWithoutEmailVerificationInput,
-      UserUncheckedCreateWithoutEmailVerificationInput
-    >;
-    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationInput;
-    upsert?: UserUpsertWithoutEmailVerificationInput;
-    connect?: UserWhereUniqueInput;
-    update?: XOR<
-      XOR<
-        UserUpdateToOneWithWhereWithoutEmailVerificationInput,
-        UserUpdateWithoutEmailVerificationInput
-      >,
-      UserUncheckedUpdateWithoutEmailVerificationInput
-    >;
-  };
-
-  export type AuthProviderAccountCreateNestedManyWithoutUserInput = {
-    create?:
-      | XOR<
-          AuthProviderAccountCreateWithoutUserInput,
-          AuthProviderAccountUncheckedCreateWithoutUserInput
-        >
-      | AuthProviderAccountCreateWithoutUserInput[]
-      | AuthProviderAccountUncheckedCreateWithoutUserInput[];
-    connectOrCreate?:
-      | AuthProviderAccountCreateOrConnectWithoutUserInput
-      | AuthProviderAccountCreateOrConnectWithoutUserInput[];
-    createMany?: AuthProviderAccountCreateManyUserInputEnvelope;
-    connect?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-  };
-
-  export type EmailVerificationCreateNestedManyWithoutUserInput = {
-    create?:
-      | XOR<
-          EmailVerificationCreateWithoutUserInput,
-          EmailVerificationUncheckedCreateWithoutUserInput
-        >
-      | EmailVerificationCreateWithoutUserInput[]
-      | EmailVerificationUncheckedCreateWithoutUserInput[];
-    connectOrCreate?:
-      | EmailVerificationCreateOrConnectWithoutUserInput
-      | EmailVerificationCreateOrConnectWithoutUserInput[];
-    createMany?: EmailVerificationCreateManyUserInputEnvelope;
-    connect?:
-      | EmailVerificationWhereUniqueInput
-      | EmailVerificationWhereUniqueInput[];
+  export type EmailVerificationMinOrderByAggregateInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    expiresAt?: SortOrder;
+    contactId?: SortOrder;
+    createdAt?: SortOrder;
+    userId?: SortOrder;
   };
 
   export type InteractionCreateNestedManyWithoutUserInput = {
@@ -13376,24 +11786,22 @@ export namespace Prisma {
     connect?: UserPreferenceWhereUniqueInput | UserPreferenceWhereUniqueInput[];
   };
 
-  export type AuthProviderAccountUncheckedCreateNestedManyWithoutUserInput = {
+  export type PaymentCreateNestedManyWithoutUserInput = {
     create?:
       | XOR<
-          AuthProviderAccountCreateWithoutUserInput,
-          AuthProviderAccountUncheckedCreateWithoutUserInput
+          PaymentCreateWithoutUserInput,
+          PaymentUncheckedCreateWithoutUserInput
         >
-      | AuthProviderAccountCreateWithoutUserInput[]
-      | AuthProviderAccountUncheckedCreateWithoutUserInput[];
+      | PaymentCreateWithoutUserInput[]
+      | PaymentUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | AuthProviderAccountCreateOrConnectWithoutUserInput
-      | AuthProviderAccountCreateOrConnectWithoutUserInput[];
-    createMany?: AuthProviderAccountCreateManyUserInputEnvelope;
-    connect?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
+      | PaymentCreateOrConnectWithoutUserInput
+      | PaymentCreateOrConnectWithoutUserInput[];
+    createMany?: PaymentCreateManyUserInputEnvelope;
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
   };
 
-  export type EmailVerificationUncheckedCreateNestedManyWithoutUserInput = {
+  export type EmailVerificationCreateNestedManyWithoutUserInput = {
     create?:
       | XOR<
           EmailVerificationCreateWithoutUserInput,
@@ -13440,53 +11848,22 @@ export namespace Prisma {
     connect?: UserPreferenceWhereUniqueInput | UserPreferenceWhereUniqueInput[];
   };
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null;
-  };
-
-  export type EnumPlanFieldUpdateOperationsInput = {
-    set?: $Enums.Plan;
-  };
-
-  export type AuthProviderAccountUpdateManyWithoutUserNestedInput = {
+  export type PaymentUncheckedCreateNestedManyWithoutUserInput = {
     create?:
       | XOR<
-          AuthProviderAccountCreateWithoutUserInput,
-          AuthProviderAccountUncheckedCreateWithoutUserInput
+          PaymentCreateWithoutUserInput,
+          PaymentUncheckedCreateWithoutUserInput
         >
-      | AuthProviderAccountCreateWithoutUserInput[]
-      | AuthProviderAccountUncheckedCreateWithoutUserInput[];
+      | PaymentCreateWithoutUserInput[]
+      | PaymentUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | AuthProviderAccountCreateOrConnectWithoutUserInput
-      | AuthProviderAccountCreateOrConnectWithoutUserInput[];
-    upsert?:
-      | AuthProviderAccountUpsertWithWhereUniqueWithoutUserInput
-      | AuthProviderAccountUpsertWithWhereUniqueWithoutUserInput[];
-    createMany?: AuthProviderAccountCreateManyUserInputEnvelope;
-    set?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    disconnect?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    delete?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    connect?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    update?:
-      | AuthProviderAccountUpdateWithWhereUniqueWithoutUserInput
-      | AuthProviderAccountUpdateWithWhereUniqueWithoutUserInput[];
-    updateMany?:
-      | AuthProviderAccountUpdateManyWithWhereWithoutUserInput
-      | AuthProviderAccountUpdateManyWithWhereWithoutUserInput[];
-    deleteMany?:
-      | AuthProviderAccountScalarWhereInput
-      | AuthProviderAccountScalarWhereInput[];
+      | PaymentCreateOrConnectWithoutUserInput
+      | PaymentCreateOrConnectWithoutUserInput[];
+    createMany?: PaymentCreateManyUserInputEnvelope;
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
   };
 
-  export type EmailVerificationUpdateManyWithoutUserNestedInput = {
+  export type EmailVerificationUncheckedCreateNestedManyWithoutUserInput = {
     create?:
       | XOR<
           EmailVerificationCreateWithoutUserInput,
@@ -13497,31 +11874,30 @@ export namespace Prisma {
     connectOrCreate?:
       | EmailVerificationCreateOrConnectWithoutUserInput
       | EmailVerificationCreateOrConnectWithoutUserInput[];
-    upsert?:
-      | EmailVerificationUpsertWithWhereUniqueWithoutUserInput
-      | EmailVerificationUpsertWithWhereUniqueWithoutUserInput[];
     createMany?: EmailVerificationCreateManyUserInputEnvelope;
-    set?:
-      | EmailVerificationWhereUniqueInput
-      | EmailVerificationWhereUniqueInput[];
-    disconnect?:
-      | EmailVerificationWhereUniqueInput
-      | EmailVerificationWhereUniqueInput[];
-    delete?:
-      | EmailVerificationWhereUniqueInput
-      | EmailVerificationWhereUniqueInput[];
     connect?:
       | EmailVerificationWhereUniqueInput
       | EmailVerificationWhereUniqueInput[];
-    update?:
-      | EmailVerificationUpdateWithWhereUniqueWithoutUserInput
-      | EmailVerificationUpdateWithWhereUniqueWithoutUserInput[];
-    updateMany?:
-      | EmailVerificationUpdateManyWithWhereWithoutUserInput
-      | EmailVerificationUpdateManyWithWhereWithoutUserInput[];
-    deleteMany?:
-      | EmailVerificationScalarWhereInput
-      | EmailVerificationScalarWhereInput[];
+  };
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string;
+  };
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null;
+  };
+
+  export type EnumProviderFieldUpdateOperationsInput = {
+    set?: $Enums.Provider;
+  };
+
+  export type EnumPlanFieldUpdateOperationsInput = {
+    set?: $Enums.Plan;
+  };
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string;
   };
 
   export type InteractionUpdateManyWithoutUserNestedInput = {
@@ -13584,45 +11960,35 @@ export namespace Prisma {
       | UserPreferenceScalarWhereInput[];
   };
 
-  export type AuthProviderAccountUncheckedUpdateManyWithoutUserNestedInput = {
+  export type PaymentUpdateManyWithoutUserNestedInput = {
     create?:
       | XOR<
-          AuthProviderAccountCreateWithoutUserInput,
-          AuthProviderAccountUncheckedCreateWithoutUserInput
+          PaymentCreateWithoutUserInput,
+          PaymentUncheckedCreateWithoutUserInput
         >
-      | AuthProviderAccountCreateWithoutUserInput[]
-      | AuthProviderAccountUncheckedCreateWithoutUserInput[];
+      | PaymentCreateWithoutUserInput[]
+      | PaymentUncheckedCreateWithoutUserInput[];
     connectOrCreate?:
-      | AuthProviderAccountCreateOrConnectWithoutUserInput
-      | AuthProviderAccountCreateOrConnectWithoutUserInput[];
+      | PaymentCreateOrConnectWithoutUserInput
+      | PaymentCreateOrConnectWithoutUserInput[];
     upsert?:
-      | AuthProviderAccountUpsertWithWhereUniqueWithoutUserInput
-      | AuthProviderAccountUpsertWithWhereUniqueWithoutUserInput[];
-    createMany?: AuthProviderAccountCreateManyUserInputEnvelope;
-    set?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    disconnect?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    delete?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
-    connect?:
-      | AuthProviderAccountWhereUniqueInput
-      | AuthProviderAccountWhereUniqueInput[];
+      | PaymentUpsertWithWhereUniqueWithoutUserInput
+      | PaymentUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: PaymentCreateManyUserInputEnvelope;
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
     update?:
-      | AuthProviderAccountUpdateWithWhereUniqueWithoutUserInput
-      | AuthProviderAccountUpdateWithWhereUniqueWithoutUserInput[];
+      | PaymentUpdateWithWhereUniqueWithoutUserInput
+      | PaymentUpdateWithWhereUniqueWithoutUserInput[];
     updateMany?:
-      | AuthProviderAccountUpdateManyWithWhereWithoutUserInput
-      | AuthProviderAccountUpdateManyWithWhereWithoutUserInput[];
-    deleteMany?:
-      | AuthProviderAccountScalarWhereInput
-      | AuthProviderAccountScalarWhereInput[];
+      | PaymentUpdateManyWithWhereWithoutUserInput
+      | PaymentUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[];
   };
 
-  export type EmailVerificationUncheckedUpdateManyWithoutUserNestedInput = {
+  export type EmailVerificationUpdateManyWithoutUserNestedInput = {
     create?:
       | XOR<
           EmailVerificationCreateWithoutUserInput,
@@ -13720,34 +12086,131 @@ export namespace Prisma {
       | UserPreferenceScalarWhereInput[];
   };
 
-  export type UserCreateNestedOneWithoutAuthProvidersInput = {
+  export type PaymentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?:
+      | XOR<
+          PaymentCreateWithoutUserInput,
+          PaymentUncheckedCreateWithoutUserInput
+        >
+      | PaymentCreateWithoutUserInput[]
+      | PaymentUncheckedCreateWithoutUserInput[];
+    connectOrCreate?:
+      | PaymentCreateOrConnectWithoutUserInput
+      | PaymentCreateOrConnectWithoutUserInput[];
+    upsert?:
+      | PaymentUpsertWithWhereUniqueWithoutUserInput
+      | PaymentUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: PaymentCreateManyUserInputEnvelope;
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[];
+    update?:
+      | PaymentUpdateWithWhereUniqueWithoutUserInput
+      | PaymentUpdateWithWhereUniqueWithoutUserInput[];
+    updateMany?:
+      | PaymentUpdateManyWithWhereWithoutUserInput
+      | PaymentUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[];
+  };
+
+  export type EmailVerificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?:
+      | XOR<
+          EmailVerificationCreateWithoutUserInput,
+          EmailVerificationUncheckedCreateWithoutUserInput
+        >
+      | EmailVerificationCreateWithoutUserInput[]
+      | EmailVerificationUncheckedCreateWithoutUserInput[];
+    connectOrCreate?:
+      | EmailVerificationCreateOrConnectWithoutUserInput
+      | EmailVerificationCreateOrConnectWithoutUserInput[];
+    upsert?:
+      | EmailVerificationUpsertWithWhereUniqueWithoutUserInput
+      | EmailVerificationUpsertWithWhereUniqueWithoutUserInput[];
+    createMany?: EmailVerificationCreateManyUserInputEnvelope;
+    set?:
+      | EmailVerificationWhereUniqueInput
+      | EmailVerificationWhereUniqueInput[];
+    disconnect?:
+      | EmailVerificationWhereUniqueInput
+      | EmailVerificationWhereUniqueInput[];
+    delete?:
+      | EmailVerificationWhereUniqueInput
+      | EmailVerificationWhereUniqueInput[];
+    connect?:
+      | EmailVerificationWhereUniqueInput
+      | EmailVerificationWhereUniqueInput[];
+    update?:
+      | EmailVerificationUpdateWithWhereUniqueWithoutUserInput
+      | EmailVerificationUpdateWithWhereUniqueWithoutUserInput[];
+    updateMany?:
+      | EmailVerificationUpdateManyWithWhereWithoutUserInput
+      | EmailVerificationUpdateManyWithWhereWithoutUserInput[];
+    deleteMany?:
+      | EmailVerificationScalarWhereInput
+      | EmailVerificationScalarWhereInput[];
+  };
+
+  export type UserCreateNestedOneWithoutInteractionsInput = {
     create?: XOR<
-      UserCreateWithoutAuthProvidersInput,
-      UserUncheckedCreateWithoutAuthProvidersInput
+      UserCreateWithoutInteractionsInput,
+      UserUncheckedCreateWithoutInteractionsInput
     >;
-    connectOrCreate?: UserCreateOrConnectWithoutAuthProvidersInput;
+    connectOrCreate?: UserCreateOrConnectWithoutInteractionsInput;
     connect?: UserWhereUniqueInput;
   };
 
-  export type EnumProviderFieldUpdateOperationsInput = {
-    set?: $Enums.Provider;
-  };
-
-  export type UserUpdateOneRequiredWithoutAuthProvidersNestedInput = {
+  export type UserUpdateOneRequiredWithoutInteractionsNestedInput = {
     create?: XOR<
-      UserCreateWithoutAuthProvidersInput,
-      UserUncheckedCreateWithoutAuthProvidersInput
+      UserCreateWithoutInteractionsInput,
+      UserUncheckedCreateWithoutInteractionsInput
     >;
-    connectOrCreate?: UserCreateOrConnectWithoutAuthProvidersInput;
-    upsert?: UserUpsertWithoutAuthProvidersInput;
+    connectOrCreate?: UserCreateOrConnectWithoutInteractionsInput;
+    upsert?: UserUpsertWithoutInteractionsInput;
     connect?: UserWhereUniqueInput;
     update?: XOR<
       XOR<
-        UserUpdateToOneWithWhereWithoutAuthProvidersInput,
-        UserUpdateWithoutAuthProvidersInput
+        UserUpdateToOneWithWhereWithoutInteractionsInput,
+        UserUpdateWithoutInteractionsInput
       >,
-      UserUncheckedUpdateWithoutAuthProvidersInput
+      UserUncheckedUpdateWithoutInteractionsInput
     >;
+  };
+
+  export type UserCreateNestedOneWithoutPreferencesInput = {
+    create?: XOR<
+      UserCreateWithoutPreferencesInput,
+      UserUncheckedCreateWithoutPreferencesInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutPreferencesInput;
+    connect?: UserWhereUniqueInput;
+  };
+
+  export type UserUpdateOneRequiredWithoutPreferencesNestedInput = {
+    create?: XOR<
+      UserCreateWithoutPreferencesInput,
+      UserUncheckedCreateWithoutPreferencesInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutPreferencesInput;
+    upsert?: UserUpsertWithoutPreferencesInput;
+    connect?: UserWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        UserUpdateToOneWithWhereWithoutPreferencesInput,
+        UserUpdateWithoutPreferencesInput
+      >,
+      UserUncheckedUpdateWithoutPreferencesInput
+    >;
+  };
+
+  export type UserCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<
+      UserCreateWithoutPaymentsInput,
+      UserUncheckedCreateWithoutPaymentsInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput;
+    connect?: UserWhereUniqueInput;
   };
 
   export type EnumPaymentStatusFieldUpdateOperationsInput = {
@@ -13766,12 +12229,55 @@ export namespace Prisma {
     set?: boolean;
   };
 
+  export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<
+      UserCreateWithoutPaymentsInput,
+      UserUncheckedCreateWithoutPaymentsInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput;
+    upsert?: UserUpsertWithoutPaymentsInput;
+    connect?: UserWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        UserUpdateToOneWithWhereWithoutPaymentsInput,
+        UserUpdateWithoutPaymentsInput
+      >,
+      UserUncheckedUpdateWithoutPaymentsInput
+    >;
+  };
+
   export type EnumEmailStatusFieldUpdateOperationsInput = {
     set?: $Enums.EmailStatus;
   };
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null;
+  };
+
+  export type UserCreateNestedOneWithoutEmailVerificationsInput = {
+    create?: XOR<
+      UserCreateWithoutEmailVerificationsInput,
+      UserUncheckedCreateWithoutEmailVerificationsInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationsInput;
+    connect?: UserWhereUniqueInput;
+  };
+
+  export type UserUpdateOneRequiredWithoutEmailVerificationsNestedInput = {
+    create?: XOR<
+      UserCreateWithoutEmailVerificationsInput,
+      UserUncheckedCreateWithoutEmailVerificationsInput
+    >;
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationsInput;
+    upsert?: UserUpsertWithoutEmailVerificationsInput;
+    connect?: UserWhereUniqueInput;
+    update?: XOR<
+      XOR<
+        UserUpdateToOneWithWhereWithoutEmailVerificationsInput,
+        UserUpdateWithoutEmailVerificationsInput
+      >,
+      UserUncheckedUpdateWithoutEmailVerificationsInput
+    >;
   };
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13786,6 +12292,34 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>;
     endsWith?: string | StringFieldRefInput<$PrismaModel>;
     not?: NestedStringFilter<$PrismaModel> | string;
+  };
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
+
+  export type NestedEnumProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
+    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
+  };
+
+  export type NestedEnumPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
   };
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -13827,6 +12361,59 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number;
   };
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?:
+      | NestedStringNullableWithAggregatesFilter<$PrismaModel>
+      | string
+      | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedStringNullableFilter<$PrismaModel>;
+    _max?: NestedStringNullableFilter<$PrismaModel>;
+  };
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
+  };
+
+  export type NestedEnumProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
+    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    not?:
+      | NestedEnumProviderWithAggregatesFilter<$PrismaModel>
+      | $Enums.Provider;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumProviderFilter<$PrismaModel>;
+    _max?: NestedEnumProviderFilter<$PrismaModel>;
+  };
+
+  export type NestedEnumPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumPlanFilter<$PrismaModel>;
+    _max?: NestedEnumPlanFilter<$PrismaModel>;
+  };
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
@@ -13839,17 +12426,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>;
     _min?: NestedDateTimeFilter<$PrismaModel>;
     _max?: NestedDateTimeFilter<$PrismaModel>;
-  };
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null;
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
-    lt?: number | IntFieldRefInput<$PrismaModel>;
-    lte?: number | IntFieldRefInput<$PrismaModel>;
-    gt?: number | IntFieldRefInput<$PrismaModel>;
-    gte?: number | IntFieldRefInput<$PrismaModel>;
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
   };
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -13887,76 +12463,6 @@ export namespace Prisma {
       | InputJsonValue
       | JsonFieldRefInput<$PrismaModel>
       | JsonNullValueFilter;
-  };
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
-  };
-
-  export type NestedEnumPlanFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
-  };
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    not?:
-      | NestedStringNullableWithAggregatesFilter<$PrismaModel>
-      | string
-      | null;
-    _count?: NestedIntNullableFilter<$PrismaModel>;
-    _min?: NestedStringNullableFilter<$PrismaModel>;
-    _max?: NestedStringNullableFilter<$PrismaModel>;
-  };
-
-  export type NestedEnumPlanWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumPlanFilter<$PrismaModel>;
-    _max?: NestedEnumPlanFilter<$PrismaModel>;
-  };
-
-  export type NestedEnumProviderFilter<$PrismaModel = never> = {
-    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
-    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
-  };
-
-  export type NestedEnumProviderWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
-    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    not?:
-      | NestedEnumProviderWithAggregatesFilter<$PrismaModel>
-      | $Enums.Provider;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumProviderFilter<$PrismaModel>;
-    _max?: NestedEnumProviderFilter<$PrismaModel>;
   };
 
   export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -14172,282 +12678,106 @@ export namespace Prisma {
       _max?: NestedDateTimeNullableFilter<$PrismaModel>;
     };
 
-  export type UserCreateWithoutInteractionInput = {
+  export type InteractionCreateWithoutUserInput = {
     id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
+    input: string;
+    response: string;
+    timestamp?: Date | string;
+    context?: NullableJsonNullValueInput | InputJsonValue;
+  };
+
+  export type InteractionUncheckedCreateWithoutUserInput = {
+    id?: string;
+    input: string;
+    response: string;
+    timestamp?: Date | string;
+    context?: NullableJsonNullValueInput | InputJsonValue;
+  };
+
+  export type InteractionCreateOrConnectWithoutUserInput = {
+    where: InteractionWhereUniqueInput;
+    create: XOR<
+      InteractionCreateWithoutUserInput,
+      InteractionUncheckedCreateWithoutUserInput
+    >;
+  };
+
+  export type InteractionCreateManyUserInputEnvelope = {
+    data: InteractionCreateManyUserInput | InteractionCreateManyUserInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type UserPreferenceCreateWithoutUserInput = {
+    id?: string;
+    language: string;
+    theme?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountCreateNestedManyWithoutUserInput;
-    EmailVerification?: EmailVerificationCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceCreateNestedManyWithoutUserInput;
   };
 
-  export type UserUncheckedCreateWithoutInteractionInput = {
+  export type UserPreferenceUncheckedCreateWithoutUserInput = {
     id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
+    language: string;
+    theme?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountUncheckedCreateNestedManyWithoutUserInput;
-    EmailVerification?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
   };
 
-  export type UserCreateOrConnectWithoutInteractionInput = {
-    where: UserWhereUniqueInput;
+  export type UserPreferenceCreateOrConnectWithoutUserInput = {
+    where: UserPreferenceWhereUniqueInput;
     create: XOR<
-      UserCreateWithoutInteractionInput,
-      UserUncheckedCreateWithoutInteractionInput
+      UserPreferenceCreateWithoutUserInput,
+      UserPreferenceUncheckedCreateWithoutUserInput
     >;
   };
 
-  export type UserUpsertWithoutInteractionInput = {
-    update: XOR<
-      UserUpdateWithoutInteractionInput,
-      UserUncheckedUpdateWithoutInteractionInput
-    >;
-    create: XOR<
-      UserCreateWithoutInteractionInput,
-      UserUncheckedCreateWithoutInteractionInput
-    >;
-    where?: UserWhereInput;
-  };
-
-  export type UserUpdateToOneWithWhereWithoutInteractionInput = {
-    where?: UserWhereInput;
-    data: XOR<
-      UserUpdateWithoutInteractionInput,
-      UserUncheckedUpdateWithoutInteractionInput
-    >;
-  };
-
-  export type UserUpdateWithoutInteractionInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUpdateManyWithoutUserNestedInput;
-    EmailVerification?: EmailVerificationUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserUncheckedUpdateWithoutInteractionInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUncheckedUpdateManyWithoutUserNestedInput;
-    EmailVerification?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserCreateWithoutUserPreferenceInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountCreateNestedManyWithoutUserInput;
-    EmailVerification?: EmailVerificationCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserUncheckedCreateWithoutUserPreferenceInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountUncheckedCreateNestedManyWithoutUserInput;
-    EmailVerification?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionUncheckedCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserCreateOrConnectWithoutUserPreferenceInput = {
-    where: UserWhereUniqueInput;
-    create: XOR<
-      UserCreateWithoutUserPreferenceInput,
-      UserUncheckedCreateWithoutUserPreferenceInput
-    >;
-  };
-
-  export type UserUpsertWithoutUserPreferenceInput = {
-    update: XOR<
-      UserUpdateWithoutUserPreferenceInput,
-      UserUncheckedUpdateWithoutUserPreferenceInput
-    >;
-    create: XOR<
-      UserCreateWithoutUserPreferenceInput,
-      UserUncheckedCreateWithoutUserPreferenceInput
-    >;
-    where?: UserWhereInput;
-  };
-
-  export type UserUpdateToOneWithWhereWithoutUserPreferenceInput = {
-    where?: UserWhereInput;
-    data: XOR<
-      UserUpdateWithoutUserPreferenceInput,
-      UserUncheckedUpdateWithoutUserPreferenceInput
-    >;
-  };
-
-  export type UserUpdateWithoutUserPreferenceInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUpdateManyWithoutUserNestedInput;
-    EmailVerification?: EmailVerificationUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserUncheckedUpdateWithoutUserPreferenceInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUncheckedUpdateManyWithoutUserNestedInput;
-    EmailVerification?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserCreateWithoutEmailVerificationInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserUncheckedCreateWithoutEmailVerificationInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    authProviders?: AuthProviderAccountUncheckedCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionUncheckedCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserCreateOrConnectWithoutEmailVerificationInput = {
-    where: UserWhereUniqueInput;
-    create: XOR<
-      UserCreateWithoutEmailVerificationInput,
-      UserUncheckedCreateWithoutEmailVerificationInput
-    >;
-  };
-
-  export type UserUpsertWithoutEmailVerificationInput = {
-    update: XOR<
-      UserUpdateWithoutEmailVerificationInput,
-      UserUncheckedUpdateWithoutEmailVerificationInput
-    >;
-    create: XOR<
-      UserCreateWithoutEmailVerificationInput,
-      UserUncheckedCreateWithoutEmailVerificationInput
-    >;
-    where?: UserWhereInput;
-  };
-
-  export type UserUpdateToOneWithWhereWithoutEmailVerificationInput = {
-    where?: UserWhereInput;
-    data: XOR<
-      UserUpdateWithoutEmailVerificationInput,
-      UserUncheckedUpdateWithoutEmailVerificationInput
-    >;
-  };
-
-  export type UserUpdateWithoutEmailVerificationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUpdateManyWithoutUserNestedInput;
-  };
-
-  export type UserUncheckedUpdateWithoutEmailVerificationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    authProviders?: AuthProviderAccountUncheckedUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
-  };
-
-  export type AuthProviderAccountCreateWithoutUserInput = {
-    id?: string;
-    provider: $Enums.Provider;
-    providerId: string;
-  };
-
-  export type AuthProviderAccountUncheckedCreateWithoutUserInput = {
-    id?: string;
-    provider: $Enums.Provider;
-    providerId: string;
-  };
-
-  export type AuthProviderAccountCreateOrConnectWithoutUserInput = {
-    where: AuthProviderAccountWhereUniqueInput;
-    create: XOR<
-      AuthProviderAccountCreateWithoutUserInput,
-      AuthProviderAccountUncheckedCreateWithoutUserInput
-    >;
-  };
-
-  export type AuthProviderAccountCreateManyUserInputEnvelope = {
+  export type UserPreferenceCreateManyUserInputEnvelope = {
     data:
-      | AuthProviderAccountCreateManyUserInput
-      | AuthProviderAccountCreateManyUserInput[];
+      | UserPreferenceCreateManyUserInput
+      | UserPreferenceCreateManyUserInput[];
+    skipDuplicates?: boolean;
+  };
+
+  export type PaymentCreateWithoutUserInput = {
+    id?: string;
+    externalId?: string | null;
+    status?: $Enums.PaymentStatus;
+    amount: Decimal | DecimalJsLike | number | string;
+    paymentMethod?: string | null;
+    paymentMethodId?: string | null;
+    paymentProvider?: string;
+    paymentUrl?: string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type PaymentUncheckedCreateWithoutUserInput = {
+    id?: string;
+    externalId?: string | null;
+    status?: $Enums.PaymentStatus;
+    amount: Decimal | DecimalJsLike | number | string;
+    paymentMethod?: string | null;
+    paymentMethodId?: string | null;
+    paymentProvider?: string;
+    paymentUrl?: string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+  };
+
+  export type PaymentCreateOrConnectWithoutUserInput = {
+    where: PaymentWhereUniqueInput;
+    create: XOR<
+      PaymentCreateWithoutUserInput,
+      PaymentUncheckedCreateWithoutUserInput
+    >;
+  };
+
+  export type PaymentCreateManyUserInputEnvelope = {
+    data: PaymentCreateManyUserInput | PaymentCreateManyUserInput[];
     skipDuplicates?: boolean;
   };
 
@@ -14480,150 +12810,6 @@ export namespace Prisma {
       | EmailVerificationCreateManyUserInput
       | EmailVerificationCreateManyUserInput[];
     skipDuplicates?: boolean;
-  };
-
-  export type InteractionCreateWithoutUserInput = {
-    id?: string;
-    input: string;
-    response: string;
-    timestamp?: Date | string;
-    context?: NullableJsonNullValueInput | InputJsonValue;
-  };
-
-  export type InteractionUncheckedCreateWithoutUserInput = {
-    id?: string;
-    input: string;
-    response: string;
-    timestamp?: Date | string;
-    context?: NullableJsonNullValueInput | InputJsonValue;
-  };
-
-  export type InteractionCreateOrConnectWithoutUserInput = {
-    where: InteractionWhereUniqueInput;
-    create: XOR<
-      InteractionCreateWithoutUserInput,
-      InteractionUncheckedCreateWithoutUserInput
-    >;
-  };
-
-  export type InteractionCreateManyUserInputEnvelope = {
-    data: InteractionCreateManyUserInput | InteractionCreateManyUserInput[];
-    skipDuplicates?: boolean;
-  };
-
-  export type UserPreferenceCreateWithoutUserInput = {
-    id?: string;
-    preference: string;
-    preferenceValue: string;
-    updatedAt: Date | string;
-  };
-
-  export type UserPreferenceUncheckedCreateWithoutUserInput = {
-    id?: string;
-    preference: string;
-    preferenceValue: string;
-    updatedAt: Date | string;
-  };
-
-  export type UserPreferenceCreateOrConnectWithoutUserInput = {
-    where: UserPreferenceWhereUniqueInput;
-    create: XOR<
-      UserPreferenceCreateWithoutUserInput,
-      UserPreferenceUncheckedCreateWithoutUserInput
-    >;
-  };
-
-  export type UserPreferenceCreateManyUserInputEnvelope = {
-    data:
-      | UserPreferenceCreateManyUserInput
-      | UserPreferenceCreateManyUserInput[];
-    skipDuplicates?: boolean;
-  };
-
-  export type AuthProviderAccountUpsertWithWhereUniqueWithoutUserInput = {
-    where: AuthProviderAccountWhereUniqueInput;
-    update: XOR<
-      AuthProviderAccountUpdateWithoutUserInput,
-      AuthProviderAccountUncheckedUpdateWithoutUserInput
-    >;
-    create: XOR<
-      AuthProviderAccountCreateWithoutUserInput,
-      AuthProviderAccountUncheckedCreateWithoutUserInput
-    >;
-  };
-
-  export type AuthProviderAccountUpdateWithWhereUniqueWithoutUserInput = {
-    where: AuthProviderAccountWhereUniqueInput;
-    data: XOR<
-      AuthProviderAccountUpdateWithoutUserInput,
-      AuthProviderAccountUncheckedUpdateWithoutUserInput
-    >;
-  };
-
-  export type AuthProviderAccountUpdateManyWithWhereWithoutUserInput = {
-    where: AuthProviderAccountScalarWhereInput;
-    data: XOR<
-      AuthProviderAccountUpdateManyMutationInput,
-      AuthProviderAccountUncheckedUpdateManyWithoutUserInput
-    >;
-  };
-
-  export type AuthProviderAccountScalarWhereInput = {
-    AND?:
-      | AuthProviderAccountScalarWhereInput
-      | AuthProviderAccountScalarWhereInput[];
-    OR?: AuthProviderAccountScalarWhereInput[];
-    NOT?:
-      | AuthProviderAccountScalarWhereInput
-      | AuthProviderAccountScalarWhereInput[];
-    id?: StringFilter<"AuthProviderAccount"> | string;
-    provider?: EnumProviderFilter<"AuthProviderAccount"> | $Enums.Provider;
-    providerId?: StringFilter<"AuthProviderAccount"> | string;
-    userId?: StringFilter<"AuthProviderAccount"> | string;
-  };
-
-  export type EmailVerificationUpsertWithWhereUniqueWithoutUserInput = {
-    where: EmailVerificationWhereUniqueInput;
-    update: XOR<
-      EmailVerificationUpdateWithoutUserInput,
-      EmailVerificationUncheckedUpdateWithoutUserInput
-    >;
-    create: XOR<
-      EmailVerificationCreateWithoutUserInput,
-      EmailVerificationUncheckedCreateWithoutUserInput
-    >;
-  };
-
-  export type EmailVerificationUpdateWithWhereUniqueWithoutUserInput = {
-    where: EmailVerificationWhereUniqueInput;
-    data: XOR<
-      EmailVerificationUpdateWithoutUserInput,
-      EmailVerificationUncheckedUpdateWithoutUserInput
-    >;
-  };
-
-  export type EmailVerificationUpdateManyWithWhereWithoutUserInput = {
-    where: EmailVerificationScalarWhereInput;
-    data: XOR<
-      EmailVerificationUpdateManyMutationInput,
-      EmailVerificationUncheckedUpdateManyWithoutUserInput
-    >;
-  };
-
-  export type EmailVerificationScalarWhereInput = {
-    AND?:
-      | EmailVerificationScalarWhereInput
-      | EmailVerificationScalarWhereInput[];
-    OR?: EmailVerificationScalarWhereInput[];
-    NOT?:
-      | EmailVerificationScalarWhereInput
-      | EmailVerificationScalarWhereInput[];
-    id?: StringFilter<"EmailVerification"> | string;
-    code?: StringFilter<"EmailVerification"> | string;
-    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string;
-    contactId?: StringFilter<"EmailVerification"> | string;
-    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string;
-    userId?: StringFilter<"EmailVerification"> | string;
   };
 
   export type InteractionUpsertWithWhereUniqueWithoutUserInput = {
@@ -14700,107 +12886,458 @@ export namespace Prisma {
     NOT?: UserPreferenceScalarWhereInput | UserPreferenceScalarWhereInput[];
     id?: StringFilter<"UserPreference"> | string;
     userId?: StringFilter<"UserPreference"> | string;
-    preference?: StringFilter<"UserPreference"> | string;
-    preferenceValue?: StringFilter<"UserPreference"> | string;
+    language?: StringFilter<"UserPreference"> | string;
+    theme?: StringNullableFilter<"UserPreference"> | string | null;
+    createdAt?: DateTimeFilter<"UserPreference"> | Date | string;
     updatedAt?: DateTimeFilter<"UserPreference"> | Date | string;
   };
 
-  export type UserCreateWithoutAuthProvidersInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    EmailVerification?: EmailVerificationCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserUncheckedCreateWithoutAuthProvidersInput = {
-    id?: string;
-    name: string;
-    email: string;
-    imageUrl?: string | null;
-    password: string;
-    plan?: $Enums.Plan;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-    EmailVerification?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
-    Interaction?: InteractionUncheckedCreateNestedManyWithoutUserInput;
-    UserPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
-  };
-
-  export type UserCreateOrConnectWithoutAuthProvidersInput = {
-    where: UserWhereUniqueInput;
-    create: XOR<
-      UserCreateWithoutAuthProvidersInput,
-      UserUncheckedCreateWithoutAuthProvidersInput
-    >;
-  };
-
-  export type UserUpsertWithoutAuthProvidersInput = {
+  export type PaymentUpsertWithWhereUniqueWithoutUserInput = {
+    where: PaymentWhereUniqueInput;
     update: XOR<
-      UserUpdateWithoutAuthProvidersInput,
-      UserUncheckedUpdateWithoutAuthProvidersInput
+      PaymentUpdateWithoutUserInput,
+      PaymentUncheckedUpdateWithoutUserInput
     >;
     create: XOR<
-      UserCreateWithoutAuthProvidersInput,
-      UserUncheckedCreateWithoutAuthProvidersInput
+      PaymentCreateWithoutUserInput,
+      PaymentUncheckedCreateWithoutUserInput
     >;
-    where?: UserWhereInput;
   };
 
-  export type UserUpdateToOneWithWhereWithoutAuthProvidersInput = {
-    where?: UserWhereInput;
+  export type PaymentUpdateWithWhereUniqueWithoutUserInput = {
+    where: PaymentWhereUniqueInput;
     data: XOR<
-      UserUpdateWithoutAuthProvidersInput,
-      UserUncheckedUpdateWithoutAuthProvidersInput
+      PaymentUpdateWithoutUserInput,
+      PaymentUncheckedUpdateWithoutUserInput
     >;
   };
 
-  export type UserUpdateWithoutAuthProvidersInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    EmailVerification?: EmailVerificationUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUpdateManyWithoutUserNestedInput;
+  export type PaymentUpdateManyWithWhereWithoutUserInput = {
+    where: PaymentScalarWhereInput;
+    data: XOR<
+      PaymentUpdateManyMutationInput,
+      PaymentUncheckedUpdateManyWithoutUserInput
+    >;
   };
 
-  export type UserUncheckedUpdateWithoutAuthProvidersInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    name?: StringFieldUpdateOperationsInput | string;
-    email?: StringFieldUpdateOperationsInput | string;
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null;
-    password?: StringFieldUpdateOperationsInput | string;
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    EmailVerification?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
-    Interaction?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
-    UserPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
+  export type PaymentScalarWhereInput = {
+    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[];
+    OR?: PaymentScalarWhereInput[];
+    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[];
+    id?: StringFilter<"Payment"> | string;
+    userId?: StringFilter<"Payment"> | string;
+    externalId?: StringNullableFilter<"Payment"> | string | null;
+    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFilter<"Payment">
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: StringNullableFilter<"Payment"> | string | null;
+    paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
+    paymentProvider?: StringFilter<"Payment"> | string;
+    paymentUrl?: StringNullableFilter<"Payment"> | string | null;
+    transactionDetails?: JsonNullableFilter<"Payment">;
+    notificationSent?: BoolFilter<"Payment"> | boolean;
+    createdAt?: DateTimeFilter<"Payment"> | Date | string;
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string;
   };
 
-  export type AuthProviderAccountCreateManyUserInput = {
+  export type EmailVerificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput;
+    update: XOR<
+      EmailVerificationUpdateWithoutUserInput,
+      EmailVerificationUncheckedUpdateWithoutUserInput
+    >;
+    create: XOR<
+      EmailVerificationCreateWithoutUserInput,
+      EmailVerificationUncheckedCreateWithoutUserInput
+    >;
+  };
+
+  export type EmailVerificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput;
+    data: XOR<
+      EmailVerificationUpdateWithoutUserInput,
+      EmailVerificationUncheckedUpdateWithoutUserInput
+    >;
+  };
+
+  export type EmailVerificationUpdateManyWithWhereWithoutUserInput = {
+    where: EmailVerificationScalarWhereInput;
+    data: XOR<
+      EmailVerificationUpdateManyMutationInput,
+      EmailVerificationUncheckedUpdateManyWithoutUserInput
+    >;
+  };
+
+  export type EmailVerificationScalarWhereInput = {
+    AND?:
+      | EmailVerificationScalarWhereInput
+      | EmailVerificationScalarWhereInput[];
+    OR?: EmailVerificationScalarWhereInput[];
+    NOT?:
+      | EmailVerificationScalarWhereInput
+      | EmailVerificationScalarWhereInput[];
+    id?: StringFilter<"EmailVerification"> | string;
+    code?: StringFilter<"EmailVerification"> | string;
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string;
+    contactId?: StringFilter<"EmailVerification"> | string;
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string;
+    userId?: StringFilter<"EmailVerification"> | string;
+  };
+
+  export type UserCreateWithoutInteractionsInput = {
     id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
     provider: $Enums.Provider;
     providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    preferences?: UserPreferenceCreateNestedManyWithoutUserInput;
+    payments?: PaymentCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput;
   };
 
-  export type EmailVerificationCreateManyUserInput = {
+  export type UserUncheckedCreateWithoutInteractionsInput = {
     id?: string;
-    code: string;
-    expiresAt: Date | string;
-    contactId: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
     createdAt?: Date | string;
+    updatedAt?: Date | string;
+    preferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserCreateOrConnectWithoutInteractionsInput = {
+    where: UserWhereUniqueInput;
+    create: XOR<
+      UserCreateWithoutInteractionsInput,
+      UserUncheckedCreateWithoutInteractionsInput
+    >;
+  };
+
+  export type UserUpsertWithoutInteractionsInput = {
+    update: XOR<
+      UserUpdateWithoutInteractionsInput,
+      UserUncheckedUpdateWithoutInteractionsInput
+    >;
+    create: XOR<
+      UserCreateWithoutInteractionsInput,
+      UserUncheckedCreateWithoutInteractionsInput
+    >;
+    where?: UserWhereInput;
+  };
+
+  export type UserUpdateToOneWithWhereWithoutInteractionsInput = {
+    where?: UserWhereInput;
+    data: XOR<
+      UserUpdateWithoutInteractionsInput,
+      UserUncheckedUpdateWithoutInteractionsInput
+    >;
+  };
+
+  export type UserUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    preferences?: UserPreferenceUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserUncheckedUpdateWithoutInteractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    preferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserCreateWithoutPreferencesInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionCreateNestedManyWithoutUserInput;
+    payments?: PaymentCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserUncheckedCreateWithoutPreferencesInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserCreateOrConnectWithoutPreferencesInput = {
+    where: UserWhereUniqueInput;
+    create: XOR<
+      UserCreateWithoutPreferencesInput,
+      UserUncheckedCreateWithoutPreferencesInput
+    >;
+  };
+
+  export type UserUpsertWithoutPreferencesInput = {
+    update: XOR<
+      UserUpdateWithoutPreferencesInput,
+      UserUncheckedUpdateWithoutPreferencesInput
+    >;
+    create: XOR<
+      UserCreateWithoutPreferencesInput,
+      UserUncheckedCreateWithoutPreferencesInput
+    >;
+    where?: UserWhereInput;
+  };
+
+  export type UserUpdateToOneWithWhereWithoutPreferencesInput = {
+    where?: UserWhereInput;
+    data: XOR<
+      UserUpdateWithoutPreferencesInput,
+      UserUncheckedUpdateWithoutPreferencesInput
+    >;
+  };
+
+  export type UserUpdateWithoutPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserUncheckedUpdateWithoutPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserCreateWithoutPaymentsInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionCreateNestedManyWithoutUserInput;
+    preferences?: UserPreferenceCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserUncheckedCreateWithoutPaymentsInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
+    preferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserCreateOrConnectWithoutPaymentsInput = {
+    where: UserWhereUniqueInput;
+    create: XOR<
+      UserCreateWithoutPaymentsInput,
+      UserUncheckedCreateWithoutPaymentsInput
+    >;
+  };
+
+  export type UserUpsertWithoutPaymentsInput = {
+    update: XOR<
+      UserUpdateWithoutPaymentsInput,
+      UserUncheckedUpdateWithoutPaymentsInput
+    >;
+    create: XOR<
+      UserCreateWithoutPaymentsInput,
+      UserUncheckedCreateWithoutPaymentsInput
+    >;
+    where?: UserWhereInput;
+  };
+
+  export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: UserWhereInput;
+    data: XOR<
+      UserUpdateWithoutPaymentsInput,
+      UserUncheckedUpdateWithoutPaymentsInput
+    >;
+  };
+
+  export type UserUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUpdateManyWithoutUserNestedInput;
+    preferences?: UserPreferenceUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
+    preferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserCreateWithoutEmailVerificationsInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionCreateNestedManyWithoutUserInput;
+    preferences?: UserPreferenceCreateNestedManyWithoutUserInput;
+    payments?: PaymentCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserUncheckedCreateWithoutEmailVerificationsInput = {
+    id?: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    provider: $Enums.Provider;
+    providerId: string;
+    plan?: $Enums.Plan;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
+    preferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput;
+  };
+
+  export type UserCreateOrConnectWithoutEmailVerificationsInput = {
+    where: UserWhereUniqueInput;
+    create: XOR<
+      UserCreateWithoutEmailVerificationsInput,
+      UserUncheckedCreateWithoutEmailVerificationsInput
+    >;
+  };
+
+  export type UserUpsertWithoutEmailVerificationsInput = {
+    update: XOR<
+      UserUpdateWithoutEmailVerificationsInput,
+      UserUncheckedUpdateWithoutEmailVerificationsInput
+    >;
+    create: XOR<
+      UserCreateWithoutEmailVerificationsInput,
+      UserUncheckedCreateWithoutEmailVerificationsInput
+    >;
+    where?: UserWhereInput;
+  };
+
+  export type UserUpdateToOneWithWhereWithoutEmailVerificationsInput = {
+    where?: UserWhereInput;
+    data: XOR<
+      UserUpdateWithoutEmailVerificationsInput,
+      UserUncheckedUpdateWithoutEmailVerificationsInput
+    >;
+  };
+
+  export type UserUpdateWithoutEmailVerificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUpdateManyWithoutUserNestedInput;
+    preferences?: UserPreferenceUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUpdateManyWithoutUserNestedInput;
+  };
+
+  export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: NullableStringFieldUpdateOperationsInput | string | null;
+    email?: StringFieldUpdateOperationsInput | string;
+    image?: NullableStringFieldUpdateOperationsInput | string | null;
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
+    providerId?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
+    preferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput;
   };
 
   export type InteractionCreateManyUserInput = {
@@ -14813,51 +13350,33 @@ export namespace Prisma {
 
   export type UserPreferenceCreateManyUserInput = {
     id?: string;
-    preference: string;
-    preferenceValue: string;
-    updatedAt: Date | string;
+    language: string;
+    theme?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
   };
 
-  export type AuthProviderAccountUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+  export type PaymentCreateManyUserInput = {
+    id?: string;
+    externalId?: string | null;
+    status?: $Enums.PaymentStatus;
+    amount: Decimal | DecimalJsLike | number | string;
+    paymentMethod?: string | null;
+    paymentMethodId?: string | null;
+    paymentProvider?: string;
+    paymentUrl?: string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
   };
 
-  export type AuthProviderAccountUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
-  };
-
-  export type AuthProviderAccountUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
-  };
-
-  export type EmailVerificationUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    code?: StringFieldUpdateOperationsInput | string;
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    contactId?: StringFieldUpdateOperationsInput | string;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type EmailVerificationUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    code?: StringFieldUpdateOperationsInput | string;
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    contactId?: StringFieldUpdateOperationsInput | string;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-  };
-
-  export type EmailVerificationUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-    code?: StringFieldUpdateOperationsInput | string;
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
-    contactId?: StringFieldUpdateOperationsInput | string;
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  export type EmailVerificationCreateManyUserInput = {
+    id?: string;
+    code: string;
+    expiresAt: Date | string;
+    contactId: string;
+    createdAt?: Date | string;
   };
 
   export type InteractionUpdateWithoutUserInput = {
@@ -14886,23 +13405,110 @@ export namespace Prisma {
 
   export type UserPreferenceUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserPreferenceUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type UserPreferenceUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string;
-    preference?: StringFieldUpdateOperationsInput | string;
-    preferenceValue?: StringFieldUpdateOperationsInput | string;
+    language?: StringFieldUpdateOperationsInput | string;
+    theme?: NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type PaymentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type PaymentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type PaymentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null;
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus;
+    amount?:
+      | DecimalFieldUpdateOperationsInput
+      | Decimal
+      | DecimalJsLike
+      | number
+      | string;
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    paymentProvider?: StringFieldUpdateOperationsInput | string;
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
+    transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
+    notificationSent?: BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailVerificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    contactId?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailVerificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    contactId?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type EmailVerificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    contactId?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   /**
