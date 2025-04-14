@@ -1,5 +1,5 @@
-import prisma from "../../prisma/prisma";
-import { User } from "../types/user";
+import prisma from "../../../prisma/prisma";
+import { User } from "../../types/user";
 
 export class CreateUserRepository {
   async execute(createUserParams: User) {
