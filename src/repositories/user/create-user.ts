@@ -10,8 +10,8 @@ export class CreateUserRepository {
         email: createUserParams.email,
         image: createUserParams.image,
         password: createUserParams.password,
-        plan: createUserParams.plan,
-        provider: createUserParams.provider,
+        plan: createUserParams.plan || "FREE",
+        provider: createUserParams.provider || "LOCAL",
         providerId: createUserParams.providerId,
       },
     });

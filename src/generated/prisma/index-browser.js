@@ -210,6 +210,7 @@ exports.Prisma.JsonNullValueFilter = {
   AnyNull: Prisma.AnyNull
 };
 exports.Provider = exports.$Enums.Provider = {
+  LOCAL: 'LOCAL',
   GOOGLE: 'GOOGLE',
   FACEBOOK: 'FACEBOOK',
   MICROSOFT: 'MICROSOFT'

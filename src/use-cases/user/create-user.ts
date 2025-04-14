@@ -13,9 +13,11 @@ export class CreateUserUseCase {
 
     const hashedPassword = await bcrypt.hash(createUserParams.password, 10);
 
+    const { id, ...restParams } = createUserParams;
+
     const user = {
-      userId,
-      ...createUserParams,
+      id: userId,
+      ...restParams,
       password: hashedPassword,
     };
 
