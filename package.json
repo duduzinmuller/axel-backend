@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch ./src/index.ts",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Eduardo Muller",
@@ -13,6 +15,8 @@
   "devDependencies": {
     "@eslint/json": "^0.11.0",
     "eslint": "^9.24.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
     "prettier": "^3.5.3"
   }
 }
