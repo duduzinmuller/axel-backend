@@ -14,6 +14,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@eslint/json": "^0.11.0",
+    "@types/bcrypt": "^5.0.2",
     "eslint": "^9.24.0",
     "git-commit-msg-linter": "^5.0.8",
     "husky": "^9.1.7",
@@ -23,6 +24,8 @@
     "tsx": "^4.19.3"
   },
   "dependencies": {
-    "@prisma/client": "^6.6.0"
+    "@prisma/client": "^6.6.0",
+    "bcrypt": "^5.1.1",
+    "uuid": "^11.1.0"
   }
 }
