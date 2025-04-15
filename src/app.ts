@@ -1,5 +1,5 @@
 import express from "express";
-import { userRouter } from "./routes/user/create-user";
+import { userRouter } from "./routes/user/routes-user";
 
 const app = express();
 app.use(express.json());
