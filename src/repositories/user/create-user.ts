@@ -1,5 +1,6 @@
 import prisma from "../../../prisma/prisma";
 import { User } from "../../types/user";
+import { v4 as uuidv4 } from "uuid";
 
 export class CreateUserRepository {
   async execute(createUserParams: User) {
@@ -12,7 +13,9 @@ export class CreateUserRepository {
         password: createUserParams.password,
         plan: createUserParams.plan || "FREE",
         provider: createUserParams.provider || "LOCAL",
-        providerId: createUserParams.providerId,
+        providerId:
+          createUserParams.providerId ||
+          (createUserParams.provider === "LOCAL" ? uuidv4() : null),
       },
     });
 

@@ -7,7 +7,7 @@ export interface User {
   password: string;
   image?: string;
   provider: Provider;
-  providerId: string;
+  providerId?: string;
   plan: Plan;
   createdAt: Date;
   updatedAt: Date;
