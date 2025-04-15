@@ -1,3 +1,5 @@
+import { IdGeneratorAdapter } from "../../adapters/id-generator";
+import { PasswordHasherAdapter } from "../../adapters/password-hasher";
 import { CreateUserController } from "../../controller/user/create-user";
 import { GetUserByIdController } from "../../controller/user/get-user-by-id";
 import { CreateUserRepository } from "../../repositories/user/create-user";
@@ -11,9 +13,15 @@ export const makeCreateUserController = () => {
 
   const getUserByEmailRepository = new GetUserByEmailRepository();
 
+  const idGeneratorAdapter = new IdGeneratorAdapter();
+
+  const passwordHasherAdapter = new PasswordHasherAdapter();
+
   const createUserUseCase = new CreateUserUseCase(
     createUserRepository,
     getUserByEmailRepository,
+    idGeneratorAdapter,
+    passwordHasherAdapter,
   );
 
   const createUserController = new CreateUserController(createUserUseCase);
