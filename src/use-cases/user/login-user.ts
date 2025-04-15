@@ -7,6 +7,7 @@ export class LoginUserUseCase {
   getUserByEmailRepository: GetUserByEmailRepository;
   passwordComparatorAdapter: PasswordComparatorAdapter;
   tokensGeneratorAdapter: TokensGeneratorAdapter;
+
   constructor(
     getUserByEmailRepository: GetUserByEmailRepository,
     passwordComparatorAdapter: PasswordComparatorAdapter,
@@ -16,6 +17,7 @@ export class LoginUserUseCase {
     this.passwordComparatorAdapter = passwordComparatorAdapter;
     this.tokensGeneratorAdapter = tokensGeneratorAdapter;
   }
+
   async execute(email: string, password: string) {
     const user = await this.getUserByEmailRepository.execute(email);
 
@@ -23,7 +25,7 @@ export class LoginUserUseCase {
       throw new UserNotFoundError("Usuario não encontrado");
     }
 
-    const isPasswordValid = this.passwordComparatorAdapter.execute(
+    const isPasswordValid = await this.passwordComparatorAdapter.execute(
       password,
       user.password,
     );
