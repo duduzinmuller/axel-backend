@@ -36,3 +36,11 @@ export const CreateUserSchema = z.object({
       message: "O providerId é obrigatório",
     }),
 });
+
+export const updateUserSchema = CreateUserSchema.omit({
+  providerId: true,
+})
+  .partial()
+  .strict({
+    message: "Os campos não podem ser adicionados",
+  });
