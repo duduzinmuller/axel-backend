@@ -37,6 +37,7 @@ userRouter.patch("/me", auth, async (request: Request, response: Response) => {
 
   const { statusCode, body }: any = await controller.execute({
     params: { userId },
+    body: request.body,
   });
 
   response.status(statusCode).send(body);
