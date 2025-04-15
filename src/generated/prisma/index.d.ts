@@ -1728,7 +1728,7 @@ export namespace Prisma {
     password: string;
     image: string | null;
     provider: $Enums.Provider;
-    providerId: string;
+    providerId: string | null;
     plan: $Enums.Plan;
     createdAt: Date;
     updatedAt: Date;
@@ -1870,7 +1870,7 @@ export namespace Prisma {
         password: string;
         image: string | null;
         provider: $Enums.Provider;
-        providerId: string;
+        providerId: string | null;
         plan: $Enums.Plan;
         createdAt: Date;
         updatedAt: Date;
@@ -10108,7 +10108,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string;
     image?: StringNullableFilter<"User"> | string | null;
     provider?: EnumProviderFilter<"User"> | $Enums.Provider;
-    providerId?: StringFilter<"User"> | string;
+    providerId?: StringNullableFilter<"User"> | string | null;
     plan?: EnumPlanFilter<"User"> | $Enums.Plan;
     createdAt?: DateTimeFilter<"User"> | Date | string;
     updatedAt?: DateTimeFilter<"User"> | Date | string;
@@ -10125,7 +10125,7 @@ export namespace Prisma {
     password?: SortOrder;
     image?: SortOrderInput | SortOrder;
     provider?: SortOrder;
-    providerId?: SortOrder;
+    providerId?: SortOrderInput | SortOrder;
     plan?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -10146,7 +10146,7 @@ export namespace Prisma {
       password?: StringFilter<"User"> | string;
       image?: StringNullableFilter<"User"> | string | null;
       provider?: EnumProviderFilter<"User"> | $Enums.Provider;
-      providerId?: StringFilter<"User"> | string;
+      providerId?: StringNullableFilter<"User"> | string | null;
       plan?: EnumPlanFilter<"User"> | $Enums.Plan;
       createdAt?: DateTimeFilter<"User"> | Date | string;
       updatedAt?: DateTimeFilter<"User"> | Date | string;
@@ -10165,7 +10165,7 @@ export namespace Prisma {
     password?: SortOrder;
     image?: SortOrderInput | SortOrder;
     provider?: SortOrder;
-    providerId?: SortOrder;
+    providerId?: SortOrderInput | SortOrder;
     plan?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -10188,7 +10188,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string;
     image?: StringNullableWithAggregatesFilter<"User"> | string | null;
     provider?: EnumProviderWithAggregatesFilter<"User"> | $Enums.Provider;
-    providerId?: StringWithAggregatesFilter<"User"> | string;
+    providerId?: StringNullableWithAggregatesFilter<"User"> | string | null;
     plan?: EnumPlanWithAggregatesFilter<"User"> | $Enums.Plan;
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
@@ -10628,7 +10628,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -10645,7 +10645,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -10662,7 +10662,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -10679,7 +10679,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -10696,7 +10696,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -10709,7 +10709,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -10722,7 +10722,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13026,7 +13026,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13042,7 +13042,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13086,7 +13086,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13102,7 +13102,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13118,7 +13118,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13134,7 +13134,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13178,7 +13178,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13194,7 +13194,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13210,7 +13210,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13226,7 +13226,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13270,7 +13270,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13286,7 +13286,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13302,7 +13302,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13318,7 +13318,7 @@ export namespace Prisma {
     password: string;
     image?: string | null;
     provider?: $Enums.Provider;
-    providerId: string;
+    providerId?: string | null;
     plan?: $Enums.Plan;
     createdAt?: Date | string;
     updatedAt?: Date | string;
@@ -13362,7 +13362,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -13378,7 +13378,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string;
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
-    providerId?: StringFieldUpdateOperationsInput | string;
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;

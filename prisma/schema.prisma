@@ -41,7 +41,7 @@ model User {
   password       String
   image          String?
   provider       Provider         @default(LOCAL)
-  providerId     String
+  providerId     String?
   plan           Plan             @default(FREE)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
