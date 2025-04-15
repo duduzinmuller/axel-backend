@@ -13,7 +13,7 @@ export class UpdateUserController {
   }
   async execute(httpRequest: any) {
     try {
-      const userId = httpRequest.params.userId;
+      const userId = httpRequest.params?.userId;
 
       const isIdValid = checkIfIdIsValid(userId);
 

@@ -23,7 +23,7 @@ export const auth = (
       return;
     }
 
-    request.userId = decodedToken.userId;
+    (request as any).userId = decodedToken.userId;
 
     next();
   } catch (error) {

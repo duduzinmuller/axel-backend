@@ -11,7 +11,11 @@ export class DeleteUserController {
   }
   async execute(httpRequest: any) {
     try {
-      const userId = httpRequest.params.userId;
+      const userId = httpRequest.params?.userId;
+
+      if (!userId) {
+        return invalidIdResponse("O ID do usuário é obrigatório.");
+      }
 
       const idIsValid = checkIfIdIsValid(userId);
 

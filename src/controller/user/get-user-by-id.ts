@@ -9,7 +9,7 @@ export class GetUserByIdController {
   }
   async execute(httpRequest: any) {
     try {
-      const params = httpRequest.params.userId;
+      const params = httpRequest.params?.userId;
 
       const isIdValid = checkIfIdIsValid(params);
 

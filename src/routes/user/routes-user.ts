@@ -21,7 +21,11 @@ userRouter.post("/", async (request: Request, response: Response) => {
 userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const controller = makeGetUserByIdController();
 
-  const { statusCode, body }: any = await controller.execute(request);
+  const userId = (request as any).userId;
+
+  const { statusCode, body }: any = await controller.execute({
+    params: { userId },
+  });
 
   response.status(statusCode).send(body);
 });
@@ -29,7 +33,11 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
 userRouter.patch("/me", auth, async (request: Request, response: Response) => {
   const controller = makeUpdateUserController();
 
-  const { statusCode, body }: any = await controller.execute(request);
+  const userId = (request as any).userId;
+
+  const { statusCode, body }: any = await controller.execute({
+    params: { userId },
+  });
 
   response.status(statusCode).send(body);
 });
@@ -37,7 +45,11 @@ userRouter.patch("/me", auth, async (request: Request, response: Response) => {
 userRouter.delete("/me", auth, async (request: Request, response: Response) => {
   const controller = makeDeleteUserController();
 
-  const { statusCode, body }: any = await controller.execute(request);
+  const userId = (request as any).userId;
+
+  const { statusCode, body }: any = await controller.execute({
+    params: { userId },
+  });
 
   response.status(statusCode).send(body);
 });
