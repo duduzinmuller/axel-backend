@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express";
-import { CreateUserController } from "../../controller/user/create-user";
 import {
   makeCreateUserController,
   makeDeleteUserController,
   makeGetUserByIdController,
   makeUpdateUserController,
 } from "../../factories/controller/user";
+import { auth } from "../../middleware/auth";
 
 export const userRouter = Router();
 
@@ -17,7 +17,7 @@ userRouter.post("/", async (request: Request, response: Response) => {
   response.status(statusCode).send(body);
 });
 
-userRouter.get("/:userId", async (request: Request, response: Response) => {
+userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const controller = makeGetUserByIdController();
 
   const { statusCode, body }: any = await controller.execute(request);
@@ -25,7 +25,7 @@ userRouter.get("/:userId", async (request: Request, response: Response) => {
   response.status(statusCode).send(body);
 });
 
-userRouter.patch("/:userId", async (request: Request, response: Response) => {
+userRouter.patch("/me", auth, async (request: Request, response: Response) => {
   const controller = makeUpdateUserController();
 
   const { statusCode, body }: any = await controller.execute(request);
@@ -33,7 +33,7 @@ userRouter.patch("/:userId", async (request: Request, response: Response) => {
   response.status(statusCode).send(body);
 });
 
-userRouter.delete("/:userId", async (request: Request, response: Response) => {
+userRouter.delete("/me", auth, async (request: Request, response: Response) => {
   const controller = makeDeleteUserController();
 
   const { statusCode, body }: any = await controller.execute(request);
