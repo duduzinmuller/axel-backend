@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { CreateUserController } from "../../controller/user/create-user";
 import {
   makeCreateUserController,
+  makeDeleteUserController,
   makeGetUserByIdController,
   makeUpdateUserController,
 } from "../../factories/controller/user";
@@ -26,6 +27,14 @@ userRouter.get("/:userId", async (request: Request, response: Response) => {
 
 userRouter.patch("/:userId", async (request: Request, response: Response) => {
   const controller = makeUpdateUserController();
+
+  const { statusCode, body }: any = await controller.execute(request);
+
+  response.status(statusCode).send(body);
+});
+
+userRouter.delete("/:userId", async (request: Request, response: Response) => {
+  const controller = makeDeleteUserController();
 
   const { statusCode, body }: any = await controller.execute(request);
 
