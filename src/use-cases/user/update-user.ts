@@ -1,0 +1,44 @@
+import { PasswordHasherAdapter } from "../../adapters/password-hasher";
+import { EmailAlreadyInUseError } from "../../errors/user";
+import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-user";
+import { UpdateUserRepository } from "../../repositories/user/update-user";
+import { User } from "../../types/user";
+
+export class UpdateUserUseCase {
+  getUserByEmailRepository: GetUserByEmailRepository;
+  updateUserRepository: UpdateUserRepository;
+  passwordHasherAdapter: PasswordHasherAdapter;
+  constructor(
+    getUserByEmailRepository: GetUserByEmailRepository,
+    updateUserRepository: UpdateUserRepository,
+    passwordHasherAdapter: PasswordHasherAdapter,
+  ) {
+    this.getUserByEmailRepository = getUserByEmailRepository;
+    this.updateUserRepository = updateUserRepository;
+    this.passwordHasherAdapter = passwordHasherAdapter;
+  }
+  async execute(userId: string, updateUserParams: User) {
+    if (updateUserParams.email) {
+      const userWithProviderEmail = await this.getUserByEmailRepository.execute(
+        updateUserParams.email,
+      );
+
+      if (userWithProviderEmail && userWithProviderEmail.id !== userId) {
+        throw new EmailAlreadyInUseError(updateUserParams.email);
+      }
+    }
+
+    const user = { ...updateUserParams };
+
+    if (updateUserParams.password) {
+      const hashedPassword = await this.passwordHasherAdapter.execute(
+        updateUserParams.password,
+      );
+      user.password = hashedPassword;
+    }
+
+    const result = await this.updateUserRepository.execute(userId, user);
+
+    return result;
+  }
+}
