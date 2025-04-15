@@ -2,13 +2,28 @@ import { CreateUserRepository } from "../../repositories/user/create-user";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../../types/user";
+import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-user";
+import { EmailAlreadyInUseError } from "../../errors/user";
 
 export class CreateUserUseCase {
   createUserRepository: CreateUserRepository;
-  constructor(createUserRepository: CreateUserRepository) {
+  getUserByEmailRepository: GetUserByEmailRepository;
+  constructor(
+    createUserRepository: CreateUserRepository,
+    getUserByEmailRepository: GetUserByEmailRepository,
+  ) {
     this.createUserRepository = createUserRepository;
+    this.getUserByEmailRepository = getUserByEmailRepository;
   }
   async execute(createUserParams: User) {
+    const withProviderEmail = await this.getUserByEmailRepository.execute(
+      createUserParams.email,
+    );
+
+    if (withProviderEmail) {
+      throw new EmailAlreadyInUseError(createUserParams.email);
+    }
+
     const userId = uuidv4();
 
     const hashedPassword = await bcrypt.hash(createUserParams.password, 10);
