@@ -2,10 +2,12 @@ import { IdGeneratorAdapter } from "../../adapters/id-generator";
 import { PasswordComparatorAdapter } from "../../adapters/password-comparator";
 import { PasswordHasherAdapter } from "../../adapters/password-hasher";
 import { TokensGeneratorAdapter } from "../../adapters/token-generator";
+import { TokensVerifierAdapter } from "../../adapters/token-verifier";
 import { CreateUserController } from "../../controller/user/create-user";
 import { DeleteUserController } from "../../controller/user/delete-user";
 import { GetUserByIdController } from "../../controller/user/get-user-by-id";
 import { LoginUserController } from "../../controller/user/login-user";
+import { RefreshTokenController } from "../../controller/user/refresh-token";
 import { UpdateUserController } from "../../controller/user/update-user";
 import { CreateUserRepository } from "../../repositories/user/create-user";
 import { DeleteUserRepository } from "../../repositories/user/delete-user";
@@ -16,6 +18,7 @@ import { CreateUserUseCase } from "../../use-cases/user/create-user";
 import { DeleteUserUseCase } from "../../use-cases/user/delete-user";
 import { GetUserByIdUseCase } from "../../use-cases/user/get-user-by-id";
 import { LoginUserUseCase } from "../../use-cases/user/login-user";
+import { RefreshTokenUseCase } from "../../use-cases/user/refresh-token";
 import { UpdateUserUseCase } from "../../use-cases/user/update-user";
 
 export const makeCreateUserController = () => {
@@ -96,4 +99,21 @@ export const makeDeleteUserController = () => {
   const deleteUserController = new DeleteUserController(deleteUserUseCase);
 
   return deleteUserController;
+};
+
+export const makeRefreshTokenController = () => {
+  const tokensVerifierAdapter = new TokensVerifierAdapter();
+
+  const tokensGeneratorAdapter = new TokensGeneratorAdapter();
+
+  const refreshTokenUseCase = new RefreshTokenUseCase(
+    tokensGeneratorAdapter,
+    tokensVerifierAdapter,
+  );
+
+  const refreshTokenController = new RefreshTokenController(
+    refreshTokenUseCase,
+  );
+
+  return refreshTokenController;
 };

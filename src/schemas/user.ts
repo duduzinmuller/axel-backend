@@ -59,3 +59,9 @@ export const loginSchema = z.object({
     message: "A senha deve ter no mínimo 6 caracteres",
   }),
 });
+
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string().trim().min(1, {
+    message: "O token de refresh é obrigatório",
+  }),
+});
