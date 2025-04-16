@@ -27,23 +27,11 @@ export const CreateUserSchema = z.object({
     .min(6, {
       message: "A senha deve ter no mínimo 6 caracteres",
     }),
-  providerId: z
-    .string({
-      required_error: "O providerId é obrigatório",
-    })
-    .trim()
-    .min(1, {
-      message: "O providerId é obrigatório",
-    }),
 });
 
-export const updateUserSchema = CreateUserSchema.omit({
-  providerId: true,
-})
-  .partial()
-  .strict({
-    message: "Os campos não podem ser adicionados",
-  });
+export const updateUserSchema = CreateUserSchema.omit({}).partial().strict({
+  message: "Os campos não podem ser adicionados",
+});
 
 export const loginSchema = z.object({
   email: z
