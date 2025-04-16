@@ -10139,6 +10139,7 @@ export namespace Prisma {
     {
       id?: string;
       email?: string;
+      provider_providerId?: UserProviderProviderIdCompoundUniqueInput;
       AND?: UserWhereInput | UserWhereInput[];
       OR?: UserWhereInput[];
       NOT?: UserWhereInput | UserWhereInput[];
@@ -10155,7 +10156,7 @@ export namespace Prisma {
       payments?: PaymentListRelationFilter;
       emailVerifications?: EmailVerificationListRelationFilter;
     },
-    "id" | "email"
+    "id" | "email" | "provider_providerId"
   >;
 
   export type UserOrderByWithAggregationInput = {
@@ -11220,6 +11221,11 @@ export namespace Prisma {
 
   export type EmailVerificationOrderByRelationAggregateInput = {
     _count?: SortOrder;
+  };
+
+  export type UserProviderProviderIdCompoundUniqueInput = {
+    provider: $Enums.Provider;
+    providerId: string;
   };
 
   export type UserCountOrderByAggregateInput = {
