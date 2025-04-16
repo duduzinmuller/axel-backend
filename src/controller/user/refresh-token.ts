@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { UnauthorizedError } from "../../errors/user";
 import { refreshTokenSchema } from "../../schemas/user";
 import { RefreshTokenUseCase } from "../../use-cases/user/refresh-token";
@@ -10,7 +11,7 @@ export class RefreshTokenController {
   constructor(refreshTokenUseCase: RefreshTokenUseCase) {
     this.refreshTokenUseCase = refreshTokenUseCase;
   }
-  async execute(httpRequest: any) {
+  async execute(httpRequest: Request) {
     try {
       const params = httpRequest.body;
 

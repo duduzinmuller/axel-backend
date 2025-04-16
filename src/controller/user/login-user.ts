@@ -5,6 +5,7 @@ import { userNotFoundResponse } from "../helpers/user";
 import { InvalidPasswordError, UserNotFoundError } from "../../errors/user";
 import { loginSchema } from "../../schemas/user";
 import { User } from "../../types/user";
+import { Request } from "express";
 
 export class LoginUserController {
   loginUserUseCase: LoginUserUseCase;
@@ -12,7 +13,7 @@ export class LoginUserController {
     this.loginUserUseCase = loginUserUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: Request) {
     try {
       const params = httpRequest.body;
 

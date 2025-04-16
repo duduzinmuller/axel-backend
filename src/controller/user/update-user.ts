@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { EmailAlreadyInUseError, UserNotFoundError } from "../../errors/user";
 import { updateUserSchema } from "../../schemas/user";
 import { UpdateUserUseCase } from "../../use-cases/user/update-user";
@@ -11,7 +12,7 @@ export class UpdateUserController {
   constructor(updateUserUseCase: UpdateUserUseCase) {
     this.updateUserUseCase = updateUserUseCase;
   }
-  async execute(httpRequest: any) {
+  async execute(httpRequest: Request) {
     try {
       const userId = httpRequest.params?.userId;
 

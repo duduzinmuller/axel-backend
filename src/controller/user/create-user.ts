@@ -3,6 +3,7 @@ import { ZodError } from "zod";
 import { CreateUserUseCase } from "../../use-cases/user/create-user";
 import { badRequest, created, serverError } from "../helpers/http";
 import { EmailAlreadyInUseError } from "../../errors/user";
+import { Request } from "express";
 
 export class CreateUserController {
   createUserUseCase: CreateUserUseCase;
@@ -10,7 +11,7 @@ export class CreateUserController {
     this.createUserUseCase = createUserUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: Request) {
     try {
       const params = httpRequest.body;
 

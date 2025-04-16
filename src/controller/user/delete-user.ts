@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { UserNotFoundError } from "../../errors/user";
 import { DeleteUserUseCase } from "../../use-cases/user/delete-user";
 import { ok, serverError } from "../helpers/http";
@@ -9,7 +10,7 @@ export class DeleteUserController {
   constructor(deleteUserUseCase: DeleteUserUseCase) {
     this.deleteUserUseCase = deleteUserUseCase;
   }
-  async execute(httpRequest: any) {
+  async execute(httpRequest: Request) {
     try {
       const userId = httpRequest.params?.userId;
 
