@@ -1,4 +1,4 @@
-import { Plan, Provider } from "../generated/prisma";
+import { Plan, Provider, Role } from "../generated/prisma";
 
 export interface User {
   id: string;
@@ -6,6 +6,7 @@ export interface User {
   email: string;
   password: string;
   image?: string;
+  role?: Role;
   provider: Provider;
   providerId?: string;
   plan: Plan;

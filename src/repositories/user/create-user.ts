@@ -12,6 +12,7 @@ export class CreateUserRepository {
         image: createUserParams.image,
         password: createUserParams.password,
         plan: createUserParams.plan || "FREE",
+        role: createUserParams.role || "USER",
         provider: createUserParams.provider || "LOCAL",
         providerId:
           createUserParams.providerId ||
