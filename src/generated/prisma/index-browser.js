@@ -182,7 +182,8 @@ exports.Prisma.EmailNotificationScalarFieldEnum = {
   status: 'status',
   sentAt: 'sentAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  plan: 'plan'
 };
 
 exports.Prisma.EmailVerificationScalarFieldEnum = {

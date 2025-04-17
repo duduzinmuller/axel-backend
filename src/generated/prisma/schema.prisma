@@ -117,6 +117,7 @@ model EmailNotification {
   sentAt    DateTime?
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+  plan      Plan
 }
 
 model EmailVerification {

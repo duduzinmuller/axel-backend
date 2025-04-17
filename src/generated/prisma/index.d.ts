@@ -8532,6 +8532,7 @@ export namespace Prisma {
     sentAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    plan: $Enums.Plan | null;
   };
 
   export type EmailNotificationMaxAggregateOutputType = {
@@ -8543,6 +8544,7 @@ export namespace Prisma {
     sentAt: Date | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    plan: $Enums.Plan | null;
   };
 
   export type EmailNotificationCountAggregateOutputType = {
@@ -8554,6 +8556,7 @@ export namespace Prisma {
     sentAt: number;
     createdAt: number;
     updatedAt: number;
+    plan: number;
     _all: number;
   };
 
@@ -8566,6 +8569,7 @@ export namespace Prisma {
     sentAt?: true;
     createdAt?: true;
     updatedAt?: true;
+    plan?: true;
   };
 
   export type EmailNotificationMaxAggregateInputType = {
@@ -8577,6 +8581,7 @@ export namespace Prisma {
     sentAt?: true;
     createdAt?: true;
     updatedAt?: true;
+    plan?: true;
   };
 
   export type EmailNotificationCountAggregateInputType = {
@@ -8588,6 +8593,7 @@ export namespace Prisma {
     sentAt?: true;
     createdAt?: true;
     updatedAt?: true;
+    plan?: true;
     _all?: true;
   };
 
@@ -8681,6 +8687,7 @@ export namespace Prisma {
     sentAt: Date | null;
     createdAt: Date;
     updatedAt: Date;
+    plan: $Enums.Plan;
     _count: EmailNotificationCountAggregateOutputType | null;
     _min: EmailNotificationMinAggregateOutputType | null;
     _max: EmailNotificationMaxAggregateOutputType | null;
@@ -8713,6 +8720,7 @@ export namespace Prisma {
       sentAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      plan?: boolean;
     },
     ExtArgs["result"]["emailNotification"]
   >;
@@ -8729,6 +8737,7 @@ export namespace Prisma {
       sentAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      plan?: boolean;
     },
     ExtArgs["result"]["emailNotification"]
   >;
@@ -8745,6 +8754,7 @@ export namespace Prisma {
       sentAt?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      plan?: boolean;
     },
     ExtArgs["result"]["emailNotification"]
   >;
@@ -8758,6 +8768,7 @@ export namespace Prisma {
     sentAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    plan?: boolean;
   };
 
   export type EmailNotificationOmit<
@@ -8770,7 +8781,8 @@ export namespace Prisma {
     | "status"
     | "sentAt"
     | "createdAt"
-    | "updatedAt",
+    | "updatedAt"
+    | "plan",
     ExtArgs["result"]["emailNotification"]
   >;
 
@@ -8789,6 +8801,7 @@ export namespace Prisma {
         sentAt: Date | null;
         createdAt: Date;
         updatedAt: Date;
+        plan: $Enums.Plan;
       },
       ExtArgs["result"]["emailNotification"]
     >;
@@ -9390,6 +9403,7 @@ export namespace Prisma {
     readonly sentAt: FieldRef<"EmailNotification", "DateTime">;
     readonly createdAt: FieldRef<"EmailNotification", "DateTime">;
     readonly updatedAt: FieldRef<"EmailNotification", "DateTime">;
+    readonly plan: FieldRef<"EmailNotification", "Plan">;
   }
 
   // Custom InputTypes
@@ -11259,6 +11273,7 @@ export namespace Prisma {
     sentAt: "sentAt";
     createdAt: "createdAt";
     updatedAt: "updatedAt";
+    plan: "plan";
   };
 
   export type EmailNotificationScalarFieldEnum =
@@ -11928,6 +11943,7 @@ export namespace Prisma {
     sentAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null;
     createdAt?: DateTimeFilter<"EmailNotification"> | Date | string;
     updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string;
+    plan?: EnumPlanFilter<"EmailNotification"> | $Enums.Plan;
   };
 
   export type EmailNotificationOrderByWithRelationInput = {
@@ -11939,6 +11955,7 @@ export namespace Prisma {
     sentAt?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    plan?: SortOrder;
   };
 
   export type EmailNotificationWhereUniqueInput = Prisma.AtLeast<
@@ -11958,6 +11975,7 @@ export namespace Prisma {
         | null;
       createdAt?: DateTimeFilter<"EmailNotification"> | Date | string;
       updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string;
+      plan?: EnumPlanFilter<"EmailNotification"> | $Enums.Plan;
     },
     "id"
   >;
@@ -11971,6 +11989,7 @@ export namespace Prisma {
     sentAt?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    plan?: SortOrder;
     _count?: EmailNotificationCountOrderByAggregateInput;
     _max?: EmailNotificationMaxOrderByAggregateInput;
     _min?: EmailNotificationMinOrderByAggregateInput;
@@ -12004,6 +12023,7 @@ export namespace Prisma {
       | DateTimeWithAggregatesFilter<"EmailNotification">
       | Date
       | string;
+    plan?: EnumPlanWithAggregatesFilter<"EmailNotification"> | $Enums.Plan;
   };
 
   export type EmailVerificationWhereInput = {
@@ -12520,6 +12540,7 @@ export namespace Prisma {
     sentAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    plan: $Enums.Plan;
   };
 
   export type EmailNotificationUncheckedCreateInput = {
@@ -12531,6 +12552,7 @@ export namespace Prisma {
     sentAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    plan: $Enums.Plan;
   };
 
   export type EmailNotificationUpdateInput = {
@@ -12542,6 +12564,7 @@ export namespace Prisma {
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
   };
 
   export type EmailNotificationUncheckedUpdateInput = {
@@ -12553,6 +12576,7 @@ export namespace Prisma {
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
   };
 
   export type EmailNotificationCreateManyInput = {
@@ -12564,6 +12588,7 @@ export namespace Prisma {
     sentAt?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    plan: $Enums.Plan;
   };
 
   export type EmailNotificationUpdateManyMutationInput = {
@@ -12575,6 +12600,7 @@ export namespace Prisma {
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
   };
 
   export type EmailNotificationUncheckedUpdateManyInput = {
@@ -12586,6 +12612,7 @@ export namespace Prisma {
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
   };
 
   export type EmailVerificationCreateInput = {
@@ -13284,6 +13311,7 @@ export namespace Prisma {
     sentAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    plan?: SortOrder;
   };
 
   export type EmailNotificationMaxOrderByAggregateInput = {
@@ -13295,6 +13323,7 @@ export namespace Prisma {
     sentAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    plan?: SortOrder;
   };
 
   export type EmailNotificationMinOrderByAggregateInput = {
@@ -13306,6 +13335,7 @@ export namespace Prisma {
     sentAt?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    plan?: SortOrder;
   };
 
   export type EnumEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
