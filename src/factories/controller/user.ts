@@ -5,6 +5,7 @@ import { TokensGeneratorAdapter } from "../../adapters/token-generator";
 import { TokensVerifierAdapter } from "../../adapters/token-verifier";
 import { CreateUserController } from "../../controller/user/create-user";
 import { DeleteUserController } from "../../controller/user/delete-user";
+import { GetOrCreateUserByProviderController } from "../../controller/user/get-or-create-user-by-provider";
 import { GetUserByIdController } from "../../controller/user/get-user-by-id";
 import { LoginUserController } from "../../controller/user/login-user";
 import { RefreshTokenController } from "../../controller/user/refresh-token";
@@ -13,9 +14,11 @@ import { CreateUserRepository } from "../../repositories/user/create-user";
 import { DeleteUserRepository } from "../../repositories/user/delete-user";
 import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-user";
 import { GetUserByIdRepository } from "../../repositories/user/get-by-id-user";
+import { GetOrCreateUserByProviderRepository } from "../../repositories/user/get-or-create-user-by-provider";
 import { UpdateUserRepository } from "../../repositories/user/update-user";
 import { CreateUserUseCase } from "../../use-cases/user/create-user";
 import { DeleteUserUseCase } from "../../use-cases/user/delete-user";
+import { GetOrCreateUserByProviderUseCase } from "../../use-cases/user/get-or-create-user-by-provider";
 import { GetUserByIdUseCase } from "../../use-cases/user/get-user-by-id";
 import { LoginUserUseCase } from "../../use-cases/user/login-user";
 import { RefreshTokenUseCase } from "../../use-cases/user/refresh-token";
@@ -116,4 +119,21 @@ export const makeRefreshTokenController = () => {
   );
 
   return refreshTokenController;
+};
+
+export const makeGetOrCreateUserByProviderController = () => {
+  const getOrCreateUserByProviderRepository =
+    new GetOrCreateUserByProviderRepository();
+
+  const tokensGeneratorAdapter = new TokensGeneratorAdapter();
+
+  const getOrCreateUserByProviderUseCase = new GetOrCreateUserByProviderUseCase(
+    getOrCreateUserByProviderRepository,
+    tokensGeneratorAdapter,
+  );
+
+  const getOrCreateUserByProviderController =
+    new GetOrCreateUserByProviderController(getOrCreateUserByProviderUseCase);
+
+  return getOrCreateUserByProviderController;
 };

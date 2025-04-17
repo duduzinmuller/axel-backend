@@ -1,14 +1,13 @@
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";
 import { GetUserByIdUseCase } from "../../use-cases/user/get-user-by-id";
 import { notFound, ok, serverError } from "../helpers/http";
-import { Request } from "express";
 
 export class GetUserByIdController {
   getUserByIdUseCase: GetUserByIdUseCase;
   constructor(getUserByIdUseCase: GetUserByIdUseCase) {
     this.getUserByIdUseCase = getUserByIdUseCase;
   }
-  async execute(httpRequest: Request) {
+  async execute(httpRequest: any) {
     try {
       const params = httpRequest.params?.userId;
 
@@ -19,7 +18,7 @@ export class GetUserByIdController {
       }
 
       const user = await this.getUserByIdUseCase.execute(
-        httpRequest.params.userId,
+        httpRequest.params?.userId,
       );
 
       if (user === null || user === undefined) {

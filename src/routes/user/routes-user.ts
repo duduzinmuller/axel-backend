@@ -2,12 +2,14 @@ import { Request, Response, Router } from "express";
 import {
   makeCreateUserController,
   makeDeleteUserController,
+  makeGetOrCreateUserByProviderController,
   makeGetUserByIdController,
   makeLoginUserController,
   makeRefreshTokenController,
   makeUpdateUserController,
 } from "../../factories/controller/user";
 import { auth } from "../../middleware/auth";
+import { use } from "passport";
 
 export const userRouter = Router();
 
@@ -22,7 +24,7 @@ userRouter.post("/", async (request: Request, response: Response) => {
 userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const controller = makeGetUserByIdController();
 
-  const userId = (request as any).userId;
+  const userId = request.userId;
 
   const { statusCode, body }: any = await controller.execute({
     params: { userId },
@@ -34,7 +36,7 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
 userRouter.patch("/me", auth, async (request: Request, response: Response) => {
   const controller = makeUpdateUserController();
 
-  const userId = (request as any).userId;
+  const userId = request.userId;
 
   const { statusCode, body }: any = await controller.execute({
     params: { userId },
@@ -47,7 +49,7 @@ userRouter.patch("/me", auth, async (request: Request, response: Response) => {
 userRouter.delete("/me", auth, async (request: Request, response: Response) => {
   const controller = makeDeleteUserController();
 
-  const userId = (request as any).userId;
+  const userId = request.userId;
 
   const { statusCode, body }: any = await controller.execute({
     params: { userId },
@@ -74,3 +76,11 @@ userRouter.post(
     response.status(statusCode).send(body);
   },
 );
+
+userRouter.post("/provider", async (request: Request, response: Response) => {
+  const controller = makeGetOrCreateUserByProviderController();
+
+  const { statusCode, body }: any = await controller.execute(request);
+
+  response.status(statusCode).send(body);
+});

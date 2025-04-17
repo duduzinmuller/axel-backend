@@ -1,4 +1,3 @@
-import { Request } from "express";
 import { EmailAlreadyInUseError, UserNotFoundError } from "../../errors/user";
 import { updateUserSchema } from "../../schemas/user";
 import { UpdateUserUseCase } from "../../use-cases/user/update-user";
@@ -6,13 +5,12 @@ import { badRequest, ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";
 import { ZodError } from "zod";
-
 export class UpdateUserController {
   updateUserUseCase: UpdateUserUseCase;
   constructor(updateUserUseCase: UpdateUserUseCase) {
     this.updateUserUseCase = updateUserUseCase;
   }
-  async execute(httpRequest: Request) {
+  async execute(httpRequest: any) {
     try {
       const userId = httpRequest.params?.userId;
 
