@@ -3,19 +3,4 @@ description:
 globs: 
 alwaysApply: true
 ---
-## 🧠 Commit Messages Rule
-
-- Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for **all commit messages**.
-- Write commit messages in **English** to keep the project consistent and accessible to everyone.
-
-### 🔧 Format
-
-### ✅ Common Types
-
-- `feat`: a new feature
-- `fix`: a bug fix
-- `docs`: documentation-only changes
-- `style`: changes that do not affect meaning (white-space, formatting, etc.)
-- `refactor`: a code change that neither fixes a bug nor adds a feature
-- `test`: adding or correcting tests
-- `chore`: maintenance tasks (e.g., dependency updates)
+ - Use Conventional Commits para escrever todas as mensagens de commit.
