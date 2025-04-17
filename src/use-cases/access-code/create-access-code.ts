@@ -1,4 +1,4 @@
-import { CreateAccessCodeRepository } from "../../repositories/access-code/access-code";
+import { CreateAccessCodeRepository } from "../../repositories/access-code/create-access-code";
 import { AccessCode } from "../../types/user";
 import { generateRandomCode } from "../../utils/access-code-random";
 
