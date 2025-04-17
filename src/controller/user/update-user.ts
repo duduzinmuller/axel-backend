@@ -1,5 +1,5 @@
 import { EmailAlreadyInUseError, UserNotFoundError } from "../../errors/user";
-import { updateUserSchema } from "../../schemas/user";
+import { updateUserSchema } from "../../schemas/user/user";
 import { UpdateUserUseCase } from "../../use-cases/user/update-user";
 import { badRequest, ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";

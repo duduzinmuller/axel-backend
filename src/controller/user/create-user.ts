@@ -1,4 +1,4 @@
-import { CreateUserSchema } from "../../schemas/user";
+import { CreateUserSchema } from "../../schemas/user/user";
 import { ZodError } from "zod";
 import { CreateUserUseCase } from "../../use-cases/user/create-user";
 import { badRequest, created, serverError } from "../helpers/http";

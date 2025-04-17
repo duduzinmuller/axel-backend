@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { UnauthorizedError } from "../../errors/user";
-import { refreshTokenSchema } from "../../schemas/user";
+import { refreshTokenSchema } from "../../schemas/user/user";
 import { RefreshTokenUseCase } from "../../use-cases/user/refresh-token";
 import { badRequest, ok, serverError, unauthorized } from "../helpers/http";
 import { ZodError } from "zod";

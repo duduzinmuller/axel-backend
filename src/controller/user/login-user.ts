@@ -3,7 +3,7 @@ import { LoginUserUseCase } from "../../use-cases/user/login-user";
 import { badRequest, ok, serverError, unauthorized } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
 import { InvalidPasswordError, UserNotFoundError } from "../../errors/user";
-import { loginSchema } from "../../schemas/user";
+import { loginSchema } from "../../schemas/user/user";
 import { User } from "../../types/user";
 import { Request } from "express";
 
