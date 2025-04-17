@@ -1,3 +1,4 @@
+import "dotenv/config";
 import nodemailer from "nodemailer";
 
 export const sendVerificationEmail = async (
@@ -8,12 +9,12 @@ export const sendVerificationEmail = async (
     service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
   const mailOptions = {
-    from: `"Brender - Assistente Virtual" <${process.env.EMAIL_USER}>`,
+    from: `"Brender - Assistente Virtual" <process.env.EMAIL_USER}>`,
     to: email,
     subject: "Seu Código de Verificação - Brender",
     html: `
