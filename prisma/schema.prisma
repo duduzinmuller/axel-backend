@@ -8,6 +8,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model AccessCode {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  plan      Plan
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 enum Plan {
   FREE
   MONTHLY

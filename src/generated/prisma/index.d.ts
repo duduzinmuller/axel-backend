@@ -12,6 +12,11 @@ import $Result = runtime.Types.Result;
 export type PrismaPromise<T> = $Public.PrismaPromise<T>;
 
 /**
+ * Model AccessCode
+ *
+ */
+export type AccessCode = $Result.DefaultSelection<Prisma.$AccessCodePayload>;
+/**
  * Model User
  *
  */
@@ -118,8 +123,8 @@ export const Role: typeof $Enums.Role;
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more AccessCodes
+ * const accessCodes = await prisma.accessCode.findMany()
  * ```
  *
  *
@@ -143,8 +148,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more AccessCodes
+   * const accessCodes = await prisma.accessCode.findMany()
    * ```
    *
    *
@@ -276,6 +281,16 @@ export class PrismaClient<
       }
     >
   >;
+
+  /**
+   * `prisma.accessCode`: Exposes CRUD operations for the **AccessCode** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more AccessCodes
+   * const accessCodes = await prisma.accessCode.findMany()
+   * ```
+   */
+  get accessCode(): Prisma.AccessCodeDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -800,6 +815,7 @@ export namespace Prisma {
     : FieldRef<Model, FieldType>;
 
   export const ModelName: {
+    AccessCode: "AccessCode";
     User: "User";
     Interaction: "Interaction";
     UserPreference: "UserPreference";
@@ -834,6 +850,7 @@ export namespace Prisma {
     };
     meta: {
       modelProps:
+        | "accessCode"
         | "user"
         | "interaction"
         | "userPreference"
@@ -843,6 +860,82 @@ export namespace Prisma {
       txIsolationLevel: Prisma.TransactionIsolationLevel;
     };
     model: {
+      AccessCode: {
+        payload: Prisma.$AccessCodePayload<ExtArgs>;
+        fields: Prisma.AccessCodeFieldRefs;
+        operations: {
+          findUnique: {
+            args: Prisma.AccessCodeFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload> | null;
+          };
+          findUniqueOrThrow: {
+            args: Prisma.AccessCodeFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>;
+          };
+          findFirst: {
+            args: Prisma.AccessCodeFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload> | null;
+          };
+          findFirstOrThrow: {
+            args: Prisma.AccessCodeFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>;
+          };
+          findMany: {
+            args: Prisma.AccessCodeFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>[];
+          };
+          create: {
+            args: Prisma.AccessCodeCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>;
+          };
+          createMany: {
+            args: Prisma.AccessCodeCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          createManyAndReturn: {
+            args: Prisma.AccessCodeCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>[];
+          };
+          delete: {
+            args: Prisma.AccessCodeDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>;
+          };
+          update: {
+            args: Prisma.AccessCodeUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>;
+          };
+          deleteMany: {
+            args: Prisma.AccessCodeDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateMany: {
+            args: Prisma.AccessCodeUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
+          updateManyAndReturn: {
+            args: Prisma.AccessCodeUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>[];
+          };
+          upsert: {
+            args: Prisma.AccessCodeUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$AccessCodePayload>;
+          };
+          aggregate: {
+            args: Prisma.AccessCodeAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateAccessCode>;
+          };
+          groupBy: {
+            args: Prisma.AccessCodeGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<AccessCodeGroupByOutputType>[];
+          };
+          count: {
+            args: Prisma.AccessCodeCountArgs<ExtArgs>;
+            result:
+              | $Utils.Optional<AccessCodeCountAggregateOutputType>
+              | number;
+          };
+        };
+      };
       User: {
         payload: Prisma.$UserPayload<ExtArgs>;
         fields: Prisma.UserFieldRefs;
@@ -1383,6 +1476,7 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig;
   }
   export type GlobalOmitConfig = {
+    accessCode?: AccessCodeOmit;
     user?: UserOmit;
     interaction?: InteractionOmit;
     userPreference?: UserPreferenceOmit;
@@ -1565,6 +1659,1247 @@ export namespace Prisma {
   /**
    * Models
    */
+
+  /**
+   * Model AccessCode
+   */
+
+  export type AggregateAccessCode = {
+    _count: AccessCodeCountAggregateOutputType | null;
+    _min: AccessCodeMinAggregateOutputType | null;
+    _max: AccessCodeMaxAggregateOutputType | null;
+  };
+
+  export type AccessCodeMinAggregateOutputType = {
+    id: string | null;
+    code: string | null;
+    plan: $Enums.Plan | null;
+    used: boolean | null;
+    expiresAt: Date | null;
+    createdAt: Date | null;
+  };
+
+  export type AccessCodeMaxAggregateOutputType = {
+    id: string | null;
+    code: string | null;
+    plan: $Enums.Plan | null;
+    used: boolean | null;
+    expiresAt: Date | null;
+    createdAt: Date | null;
+  };
+
+  export type AccessCodeCountAggregateOutputType = {
+    id: number;
+    code: number;
+    plan: number;
+    used: number;
+    expiresAt: number;
+    createdAt: number;
+    _all: number;
+  };
+
+  export type AccessCodeMinAggregateInputType = {
+    id?: true;
+    code?: true;
+    plan?: true;
+    used?: true;
+    expiresAt?: true;
+    createdAt?: true;
+  };
+
+  export type AccessCodeMaxAggregateInputType = {
+    id?: true;
+    code?: true;
+    plan?: true;
+    used?: true;
+    expiresAt?: true;
+    createdAt?: true;
+  };
+
+  export type AccessCodeCountAggregateInputType = {
+    id?: true;
+    code?: true;
+    plan?: true;
+    used?: true;
+    expiresAt?: true;
+    createdAt?: true;
+    _all?: true;
+  };
+
+  export type AccessCodeAggregateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which AccessCode to aggregate.
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of AccessCodes to fetch.
+     */
+    orderBy?:
+      | AccessCodeOrderByWithRelationInput
+      | AccessCodeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: AccessCodeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` AccessCodes from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` AccessCodes.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned AccessCodes
+     **/
+    _count?: true | AccessCodeCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: AccessCodeMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: AccessCodeMaxAggregateInputType;
+  };
+
+  export type GetAccessCodeAggregateType<T extends AccessCodeAggregateArgs> = {
+    [P in keyof T & keyof AggregateAccessCode]: P extends "_count" | "count"
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccessCode[P]>
+      : GetScalarType<T[P], AggregateAccessCode[P]>;
+  };
+
+  export type AccessCodeGroupByArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    where?: AccessCodeWhereInput;
+    orderBy?:
+      | AccessCodeOrderByWithAggregationInput
+      | AccessCodeOrderByWithAggregationInput[];
+    by: AccessCodeScalarFieldEnum[] | AccessCodeScalarFieldEnum;
+    having?: AccessCodeScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: AccessCodeCountAggregateInputType | true;
+    _min?: AccessCodeMinAggregateInputType;
+    _max?: AccessCodeMaxAggregateInputType;
+  };
+
+  export type AccessCodeGroupByOutputType = {
+    id: string;
+    code: string;
+    plan: $Enums.Plan;
+    used: boolean;
+    expiresAt: Date;
+    createdAt: Date;
+    _count: AccessCodeCountAggregateOutputType | null;
+    _min: AccessCodeMinAggregateOutputType | null;
+    _max: AccessCodeMaxAggregateOutputType | null;
+  };
+
+  type GetAccessCodeGroupByPayload<T extends AccessCodeGroupByArgs> =
+    Prisma.PrismaPromise<
+      Array<
+        PickEnumerable<AccessCodeGroupByOutputType, T["by"]> & {
+          [P in keyof T & keyof AccessCodeGroupByOutputType]: P extends "_count"
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccessCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], AccessCodeGroupByOutputType[P]>;
+        }
+      >
+    >;
+
+  export type AccessCodeSelect<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      code?: boolean;
+      plan?: boolean;
+      used?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+    },
+    ExtArgs["result"]["accessCode"]
+  >;
+
+  export type AccessCodeSelectCreateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      code?: boolean;
+      plan?: boolean;
+      used?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+    },
+    ExtArgs["result"]["accessCode"]
+  >;
+
+  export type AccessCodeSelectUpdateManyAndReturn<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      code?: boolean;
+      plan?: boolean;
+      used?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+    },
+    ExtArgs["result"]["accessCode"]
+  >;
+
+  export type AccessCodeSelectScalar = {
+    id?: boolean;
+    code?: boolean;
+    plan?: boolean;
+    used?: boolean;
+    expiresAt?: boolean;
+    createdAt?: boolean;
+  };
+
+  export type AccessCodeOmit<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = $Extensions.GetOmit<
+    "id" | "code" | "plan" | "used" | "expiresAt" | "createdAt",
+    ExtArgs["result"]["accessCode"]
+  >;
+
+  export type $AccessCodePayload<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    name: "AccessCode";
+    objects: {};
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        code: string;
+        plan: $Enums.Plan;
+        used: boolean;
+        expiresAt: Date;
+        createdAt: Date;
+      },
+      ExtArgs["result"]["accessCode"]
+    >;
+    composites: {};
+  };
+
+  type AccessCodeGetPayload<
+    S extends boolean | null | undefined | AccessCodeDefaultArgs,
+  > = $Result.GetResult<Prisma.$AccessCodePayload, S>;
+
+  type AccessCodeCountArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = Omit<
+    AccessCodeFindManyArgs,
+    "select" | "include" | "distinct" | "omit"
+  > & {
+    select?: AccessCodeCountAggregateInputType | true;
+  };
+
+  export interface AccessCodeDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>["model"]["AccessCode"];
+      meta: { name: "AccessCode" };
+    };
+    /**
+     * Find zero or one AccessCode that matches the filter.
+     * @param {AccessCodeFindUniqueArgs} args - Arguments to find a AccessCode
+     * @example
+     * // Get one AccessCode
+     * const accessCode = await prisma.accessCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AccessCodeFindUniqueArgs>(
+      args: SelectSubset<T, AccessCodeFindUniqueArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "findUnique",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find one AccessCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AccessCodeFindUniqueOrThrowArgs} args - Arguments to find a AccessCode
+     * @example
+     * // Get one AccessCode
+     * const accessCode = await prisma.accessCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AccessCodeFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, AccessCodeFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "findUniqueOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first AccessCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeFindFirstArgs} args - Arguments to find a AccessCode
+     * @example
+     * // Get one AccessCode
+     * const accessCode = await prisma.accessCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AccessCodeFindFirstArgs>(
+      args?: SelectSubset<T, AccessCodeFindFirstArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "findFirst",
+        GlobalOmitOptions
+      > | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find the first AccessCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeFindFirstOrThrowArgs} args - Arguments to find a AccessCode
+     * @example
+     * // Get one AccessCode
+     * const accessCode = await prisma.accessCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AccessCodeFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AccessCodeFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "findFirstOrThrow",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Find zero or more AccessCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AccessCodes
+     * const accessCodes = await prisma.accessCode.findMany()
+     *
+     * // Get first 10 AccessCodes
+     * const accessCodes = await prisma.accessCode.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const accessCodeWithIdOnly = await prisma.accessCode.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends AccessCodeFindManyArgs>(
+      args?: SelectSubset<T, AccessCodeFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create a AccessCode.
+     * @param {AccessCodeCreateArgs} args - Arguments to create a AccessCode.
+     * @example
+     * // Create one AccessCode
+     * const AccessCode = await prisma.accessCode.create({
+     *   data: {
+     *     // ... data to create a AccessCode
+     *   }
+     * })
+     *
+     */
+    create<T extends AccessCodeCreateArgs>(
+      args: SelectSubset<T, AccessCodeCreateArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "create",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Create many AccessCodes.
+     * @param {AccessCodeCreateManyArgs} args - Arguments to create many AccessCodes.
+     * @example
+     * // Create many AccessCodes
+     * const accessCode = await prisma.accessCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends AccessCodeCreateManyArgs>(
+      args?: SelectSubset<T, AccessCodeCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Create many AccessCodes and returns the data saved in the database.
+     * @param {AccessCodeCreateManyAndReturnArgs} args - Arguments to create many AccessCodes.
+     * @example
+     * // Create many AccessCodes
+     * const accessCode = await prisma.accessCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many AccessCodes and only return the `id`
+     * const accessCodeWithIdOnly = await prisma.accessCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends AccessCodeCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, AccessCodeCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "createManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Delete a AccessCode.
+     * @param {AccessCodeDeleteArgs} args - Arguments to delete one AccessCode.
+     * @example
+     * // Delete one AccessCode
+     * const AccessCode = await prisma.accessCode.delete({
+     *   where: {
+     *     // ... filter to delete one AccessCode
+     *   }
+     * })
+     *
+     */
+    delete<T extends AccessCodeDeleteArgs>(
+      args: SelectSubset<T, AccessCodeDeleteArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "delete",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Update one AccessCode.
+     * @param {AccessCodeUpdateArgs} args - Arguments to update one AccessCode.
+     * @example
+     * // Update one AccessCode
+     * const accessCode = await prisma.accessCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends AccessCodeUpdateArgs>(
+      args: SelectSubset<T, AccessCodeUpdateArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "update",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Delete zero or more AccessCodes.
+     * @param {AccessCodeDeleteManyArgs} args - Arguments to filter AccessCodes to delete.
+     * @example
+     * // Delete a few AccessCodes
+     * const { count } = await prisma.accessCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends AccessCodeDeleteManyArgs>(
+      args?: SelectSubset<T, AccessCodeDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more AccessCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AccessCodes
+     * const accessCode = await prisma.accessCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends AccessCodeUpdateManyArgs>(
+      args: SelectSubset<T, AccessCodeUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
+
+    /**
+     * Update zero or more AccessCodes and returns the data updated in the database.
+     * @param {AccessCodeUpdateManyAndReturnArgs} args - Arguments to update many AccessCodes.
+     * @example
+     * // Update many AccessCodes
+     * const accessCode = await prisma.accessCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more AccessCodes and only return the `id`
+     * const accessCodeWithIdOnly = await prisma.accessCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends AccessCodeUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, AccessCodeUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "updateManyAndReturn",
+        GlobalOmitOptions
+      >
+    >;
+
+    /**
+     * Create or update one AccessCode.
+     * @param {AccessCodeUpsertArgs} args - Arguments to update or create a AccessCode.
+     * @example
+     * // Update or create a AccessCode
+     * const accessCode = await prisma.accessCode.upsert({
+     *   create: {
+     *     // ... data to create a AccessCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AccessCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AccessCodeUpsertArgs>(
+      args: SelectSubset<T, AccessCodeUpsertArgs<ExtArgs>>,
+    ): Prisma__AccessCodeClient<
+      $Result.GetResult<
+        Prisma.$AccessCodePayload<ExtArgs>,
+        T,
+        "upsert",
+        GlobalOmitOptions
+      >,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
+
+    /**
+     * Count the number of AccessCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeCountArgs} args - Arguments to filter AccessCodes to count.
+     * @example
+     * // Count the number of AccessCodes
+     * const count = await prisma.accessCode.count({
+     *   where: {
+     *     // ... the filter for the AccessCodes we want to count
+     *   }
+     * })
+     **/
+    count<T extends AccessCodeCountArgs>(
+      args?: Subset<T, AccessCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<"select", any>
+        ? T["select"] extends true
+          ? number
+          : GetScalarType<T["select"], AccessCodeCountAggregateOutputType>
+        : number
+    >;
+
+    /**
+     * Allows you to perform aggregations operations on a AccessCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends AccessCodeAggregateArgs>(
+      args: Subset<T, AccessCodeAggregateArgs>,
+    ): Prisma.PrismaPromise<GetAccessCodeAggregateType<T>>;
+
+    /**
+     * Group by AccessCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends AccessCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<"skip", Keys<T>>,
+        Extends<"take", Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccessCodeGroupByArgs["orderBy"] }
+        : { orderBy?: AccessCodeGroupByArgs["orderBy"] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T["orderBy"]>>
+      >,
+      ByFields extends MaybeTupleToUnion<T["by"]>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T["having"]>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T["by"] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
+                ? never
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [
+                      Error,
+                      "Field ",
+                      P,
+                      ` in "having" needs to be provided in "by"`,
+                    ];
+            }[HavingFields]
+          : "take" extends Keys<T>
+            ? "orderBy" extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : "skip" extends Keys<T>
+              ? "orderBy" extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, AccessCodeGroupByArgs, OrderByArg> &
+        InputErrors,
+    ): {} extends InputErrors
+      ? GetAccessCodeGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the AccessCode model
+     */
+    readonly fields: AccessCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AccessCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AccessCodeClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null,
+    ): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+  /**
+   * Fields of the AccessCode model
+   */
+  interface AccessCodeFieldRefs {
+    readonly id: FieldRef<"AccessCode", "String">;
+    readonly code: FieldRef<"AccessCode", "String">;
+    readonly plan: FieldRef<"AccessCode", "Plan">;
+    readonly used: FieldRef<"AccessCode", "Boolean">;
+    readonly expiresAt: FieldRef<"AccessCode", "DateTime">;
+    readonly createdAt: FieldRef<"AccessCode", "DateTime">;
+  }
+
+  // Custom InputTypes
+  /**
+   * AccessCode findUnique
+   */
+  export type AccessCodeFindUniqueArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * Filter, which AccessCode to fetch.
+     */
+    where: AccessCodeWhereUniqueInput;
+  };
+
+  /**
+   * AccessCode findUniqueOrThrow
+   */
+  export type AccessCodeFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * Filter, which AccessCode to fetch.
+     */
+    where: AccessCodeWhereUniqueInput;
+  };
+
+  /**
+   * AccessCode findFirst
+   */
+  export type AccessCodeFindFirstArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * Filter, which AccessCode to fetch.
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of AccessCodes to fetch.
+     */
+    orderBy?:
+      | AccessCodeOrderByWithRelationInput
+      | AccessCodeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for AccessCodes.
+     */
+    cursor?: AccessCodeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` AccessCodes from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` AccessCodes.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of AccessCodes.
+     */
+    distinct?: AccessCodeScalarFieldEnum | AccessCodeScalarFieldEnum[];
+  };
+
+  /**
+   * AccessCode findFirstOrThrow
+   */
+  export type AccessCodeFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * Filter, which AccessCode to fetch.
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of AccessCodes to fetch.
+     */
+    orderBy?:
+      | AccessCodeOrderByWithRelationInput
+      | AccessCodeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for AccessCodes.
+     */
+    cursor?: AccessCodeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` AccessCodes from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` AccessCodes.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of AccessCodes.
+     */
+    distinct?: AccessCodeScalarFieldEnum | AccessCodeScalarFieldEnum[];
+  };
+
+  /**
+   * AccessCode findMany
+   */
+  export type AccessCodeFindManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * Filter, which AccessCodes to fetch.
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of AccessCodes to fetch.
+     */
+    orderBy?:
+      | AccessCodeOrderByWithRelationInput
+      | AccessCodeOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing AccessCodes.
+     */
+    cursor?: AccessCodeWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` AccessCodes from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` AccessCodes.
+     */
+    skip?: number;
+    distinct?: AccessCodeScalarFieldEnum | AccessCodeScalarFieldEnum[];
+  };
+
+  /**
+   * AccessCode create
+   */
+  export type AccessCodeCreateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * The data needed to create a AccessCode.
+     */
+    data: XOR<AccessCodeCreateInput, AccessCodeUncheckedCreateInput>;
+  };
+
+  /**
+   * AccessCode createMany
+   */
+  export type AccessCodeCreateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to create many AccessCodes.
+     */
+    data: AccessCodeCreateManyInput | AccessCodeCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * AccessCode createManyAndReturn
+   */
+  export type AccessCodeCreateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * The data used to create many AccessCodes.
+     */
+    data: AccessCodeCreateManyInput | AccessCodeCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
+
+  /**
+   * AccessCode update
+   */
+  export type AccessCodeUpdateArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * The data needed to update a AccessCode.
+     */
+    data: XOR<AccessCodeUpdateInput, AccessCodeUncheckedUpdateInput>;
+    /**
+     * Choose, which AccessCode to update.
+     */
+    where: AccessCodeWhereUniqueInput;
+  };
+
+  /**
+   * AccessCode updateMany
+   */
+  export type AccessCodeUpdateManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * The data used to update AccessCodes.
+     */
+    data: XOR<
+      AccessCodeUpdateManyMutationInput,
+      AccessCodeUncheckedUpdateManyInput
+    >;
+    /**
+     * Filter which AccessCodes to update
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * Limit how many AccessCodes to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * AccessCode updateManyAndReturn
+   */
+  export type AccessCodeUpdateManyAndReturnArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * The data used to update AccessCodes.
+     */
+    data: XOR<
+      AccessCodeUpdateManyMutationInput,
+      AccessCodeUncheckedUpdateManyInput
+    >;
+    /**
+     * Filter which AccessCodes to update
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * Limit how many AccessCodes to update.
+     */
+    limit?: number;
+  };
+
+  /**
+   * AccessCode upsert
+   */
+  export type AccessCodeUpsertArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * The filter to search for the AccessCode to update in case it exists.
+     */
+    where: AccessCodeWhereUniqueInput;
+    /**
+     * In case the AccessCode found by the `where` argument doesn't exist, create a new AccessCode with this data.
+     */
+    create: XOR<AccessCodeCreateInput, AccessCodeUncheckedCreateInput>;
+    /**
+     * In case the AccessCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AccessCodeUpdateInput, AccessCodeUncheckedUpdateInput>;
+  };
+
+  /**
+   * AccessCode delete
+   */
+  export type AccessCodeDeleteArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+    /**
+     * Filter which AccessCode to delete.
+     */
+    where: AccessCodeWhereUniqueInput;
+  };
+
+  /**
+   * AccessCode deleteMany
+   */
+  export type AccessCodeDeleteManyArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Filter which AccessCodes to delete
+     */
+    where?: AccessCodeWhereInput;
+    /**
+     * Limit how many AccessCodes to delete.
+     */
+    limit?: number;
+  };
+
+  /**
+   * AccessCode without action
+   */
+  export type AccessCodeDefaultArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+  > = {
+    /**
+     * Select specific fields to fetch from the AccessCode
+     */
+    select?: AccessCodeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the AccessCode
+     */
+    omit?: AccessCodeOmit<ExtArgs> | null;
+  };
 
   /**
    * Model User
@@ -9843,6 +11178,18 @@ export namespace Prisma {
   export type TransactionIsolationLevel =
     (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
+  export const AccessCodeScalarFieldEnum: {
+    id: "id";
+    code: "code";
+    plan: "plan";
+    used: "used";
+    expiresAt: "expiresAt";
+    createdAt: "createdAt";
+  };
+
+  export type AccessCodeScalarFieldEnum =
+    (typeof AccessCodeScalarFieldEnum)[keyof typeof AccessCodeScalarFieldEnum];
+
   export const UserScalarFieldEnum: {
     id: "id";
     name: "name";
@@ -9988,22 +11335,6 @@ export namespace Prisma {
   >;
 
   /**
-   * Reference to a field of type 'Provider'
-   */
-  export type EnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Provider"
-  >;
-
-  /**
-   * Reference to a field of type 'Provider[]'
-   */
-  export type ListEnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Provider[]"
-  >;
-
-  /**
    * Reference to a field of type 'Plan'
    */
   export type EnumPlanFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -10020,19 +11351,11 @@ export namespace Prisma {
   >;
 
   /**
-   * Reference to a field of type 'Role'
+   * Reference to a field of type 'Boolean'
    */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<
     $PrismaModel,
-    "Role"
-  >;
-
-  /**
-   * Reference to a field of type 'Role[]'
-   */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Role[]"
+    "Boolean"
   >;
 
   /**
@@ -10049,6 +11372,38 @@ export namespace Prisma {
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
     $PrismaModel,
     "DateTime[]"
+  >;
+
+  /**
+   * Reference to a field of type 'Provider'
+   */
+  export type EnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Provider"
+  >;
+
+  /**
+   * Reference to a field of type 'Provider[]'
+   */
+  export type ListEnumProviderFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Provider[]"
+  >;
+
+  /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Role"
+  >;
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Role[]"
   >;
 
   /**
@@ -10098,14 +11453,6 @@ export namespace Prisma {
   >;
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<
-    $PrismaModel,
-    "Boolean"
-  >;
-
-  /**
    * Reference to a field of type 'EmailStatus'
    */
   export type EnumEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -10138,6 +11485,70 @@ export namespace Prisma {
   /**
    * Deep Input Types
    */
+
+  export type AccessCodeWhereInput = {
+    AND?: AccessCodeWhereInput | AccessCodeWhereInput[];
+    OR?: AccessCodeWhereInput[];
+    NOT?: AccessCodeWhereInput | AccessCodeWhereInput[];
+    id?: StringFilter<"AccessCode"> | string;
+    code?: StringFilter<"AccessCode"> | string;
+    plan?: EnumPlanFilter<"AccessCode"> | $Enums.Plan;
+    used?: BoolFilter<"AccessCode"> | boolean;
+    expiresAt?: DateTimeFilter<"AccessCode"> | Date | string;
+    createdAt?: DateTimeFilter<"AccessCode"> | Date | string;
+  };
+
+  export type AccessCodeOrderByWithRelationInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    plan?: SortOrder;
+    used?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type AccessCodeWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      code?: string;
+      AND?: AccessCodeWhereInput | AccessCodeWhereInput[];
+      OR?: AccessCodeWhereInput[];
+      NOT?: AccessCodeWhereInput | AccessCodeWhereInput[];
+      plan?: EnumPlanFilter<"AccessCode"> | $Enums.Plan;
+      used?: BoolFilter<"AccessCode"> | boolean;
+      expiresAt?: DateTimeFilter<"AccessCode"> | Date | string;
+      createdAt?: DateTimeFilter<"AccessCode"> | Date | string;
+    },
+    "id" | "code"
+  >;
+
+  export type AccessCodeOrderByWithAggregationInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    plan?: SortOrder;
+    used?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+    _count?: AccessCodeCountOrderByAggregateInput;
+    _max?: AccessCodeMaxOrderByAggregateInput;
+    _min?: AccessCodeMinOrderByAggregateInput;
+  };
+
+  export type AccessCodeScalarWhereWithAggregatesInput = {
+    AND?:
+      | AccessCodeScalarWhereWithAggregatesInput
+      | AccessCodeScalarWhereWithAggregatesInput[];
+    OR?: AccessCodeScalarWhereWithAggregatesInput[];
+    NOT?:
+      | AccessCodeScalarWhereWithAggregatesInput
+      | AccessCodeScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<"AccessCode"> | string;
+    code?: StringWithAggregatesFilter<"AccessCode"> | string;
+    plan?: EnumPlanWithAggregatesFilter<"AccessCode"> | $Enums.Plan;
+    used?: BoolWithAggregatesFilter<"AccessCode"> | boolean;
+    expiresAt?: DateTimeWithAggregatesFilter<"AccessCode"> | Date | string;
+    createdAt?: DateTimeWithAggregatesFilter<"AccessCode"> | Date | string;
+  };
 
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[];
@@ -10668,6 +12079,69 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"EmailVerification"> | string;
   };
 
+  export type AccessCodeCreateInput = {
+    id?: string;
+    code: string;
+    plan: $Enums.Plan;
+    used?: boolean;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
+
+  export type AccessCodeUncheckedCreateInput = {
+    id?: string;
+    code: string;
+    plan: $Enums.Plan;
+    used?: boolean;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
+
+  export type AccessCodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    used?: BoolFieldUpdateOperationsInput | boolean;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type AccessCodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    used?: BoolFieldUpdateOperationsInput | boolean;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type AccessCodeCreateManyInput = {
+    id?: string;
+    code: string;
+    plan: $Enums.Plan;
+    used?: boolean;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
+
+  export type AccessCodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    used?: BoolFieldUpdateOperationsInput | boolean;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
+  export type AccessCodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string;
+    code?: StringFieldUpdateOperationsInput | string;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    used?: BoolFieldUpdateOperationsInput | boolean;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
+
   export type UserCreateInput = {
     id?: string;
     name: string;
@@ -11191,6 +12665,106 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string;
   };
 
+  export type EnumPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
+  };
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
+    not?: NestedBoolFilter<$PrismaModel> | boolean;
+  };
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string;
+  };
+
+  export type AccessCodeCountOrderByAggregateInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    plan?: SortOrder;
+    used?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type AccessCodeMaxOrderByAggregateInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    plan?: SortOrder;
+    used?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type AccessCodeMinOrderByAggregateInput = {
+    id?: SortOrder;
+    code?: SortOrder;
+    plan?: SortOrder;
+    used?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedStringFilter<$PrismaModel>;
+    _max?: NestedStringFilter<$PrismaModel>;
+  };
+
+  export type EnumPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumPlanFilter<$PrismaModel>;
+    _max?: NestedEnumPlanFilter<$PrismaModel>;
+  };
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedBoolFilter<$PrismaModel>;
+    _max?: NestedBoolFilter<$PrismaModel>;
+  };
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedDateTimeFilter<$PrismaModel>;
+    _max?: NestedDateTimeFilter<$PrismaModel>;
+  };
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null;
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
@@ -11213,29 +12787,11 @@ export namespace Prisma {
     not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
   };
 
-  export type EnumPlanFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
-  };
-
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
-  };
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string;
   };
 
   export type InteractionListRelationFilter = {
@@ -11330,24 +12886,6 @@ export namespace Prisma {
     updatedAt?: SortOrder;
   };
 
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    mode?: QueryMode;
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedStringFilter<$PrismaModel>;
-    _max?: NestedStringFilter<$PrismaModel>;
-  };
-
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null;
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
@@ -11381,16 +12919,6 @@ export namespace Prisma {
     _max?: NestedEnumProviderFilter<$PrismaModel>;
   };
 
-  export type EnumPlanWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumPlanFilter<$PrismaModel>;
-    _max?: NestedEnumPlanFilter<$PrismaModel>;
-  };
-
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
@@ -11399,20 +12927,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>;
     _min?: NestedEnumRoleFilter<$PrismaModel>;
     _max?: NestedEnumRoleFilter<$PrismaModel>;
-  };
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedDateTimeFilter<$PrismaModel>;
-    _max?: NestedDateTimeFilter<$PrismaModel>;
   };
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -11613,11 +13127,6 @@ export namespace Prisma {
       | string;
   };
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
-    not?: NestedBoolFilter<$PrismaModel> | boolean;
-  };
-
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder;
     userId?: SortOrder;
@@ -11746,14 +13255,6 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>;
   };
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedBoolFilter<$PrismaModel>;
-    _max?: NestedBoolFilter<$PrismaModel>;
-  };
-
   export type EnumEmailStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>;
     in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>;
@@ -11864,6 +13365,22 @@ export namespace Prisma {
     contactId?: SortOrder;
     createdAt?: SortOrder;
     userId?: SortOrder;
+  };
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string;
+  };
+
+  export type EnumPlanFieldUpdateOperationsInput = {
+    set?: $Enums.Plan;
+  };
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean;
+  };
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string;
   };
 
   export type InteractionCreateNestedManyWithoutUserInput = {
@@ -11990,10 +13507,6 @@ export namespace Prisma {
       | EmailVerificationWhereUniqueInput[];
   };
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string;
-  };
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null;
   };
@@ -12002,16 +13515,8 @@ export namespace Prisma {
     set?: $Enums.Provider;
   };
 
-  export type EnumPlanFieldUpdateOperationsInput = {
-    set?: $Enums.Plan;
-  };
-
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role;
-  };
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string;
   };
 
   export type InteractionUpdateManyWithoutUserNestedInput = {
@@ -12339,10 +13844,6 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string;
   };
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean;
-  };
-
   export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
     create?: XOR<
       UserCreateWithoutPaymentsInput,
@@ -12408,27 +13909,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string;
   };
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null;
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
-    lt?: string | StringFieldRefInput<$PrismaModel>;
-    lte?: string | StringFieldRefInput<$PrismaModel>;
-    gt?: string | StringFieldRefInput<$PrismaModel>;
-    gte?: string | StringFieldRefInput<$PrismaModel>;
-    contains?: string | StringFieldRefInput<$PrismaModel>;
-    startsWith?: string | StringFieldRefInput<$PrismaModel>;
-    endsWith?: string | StringFieldRefInput<$PrismaModel>;
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
-  };
-
-  export type NestedEnumProviderFilter<$PrismaModel = never> = {
-    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
-    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
-    not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
-  };
-
   export type NestedEnumPlanFilter<$PrismaModel = never> = {
     equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
     in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
@@ -12436,11 +13916,9 @@ export namespace Prisma {
     not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
   };
 
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
+    not?: NestedBoolFilter<$PrismaModel> | boolean;
   };
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -12480,6 +13958,66 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>;
     gte?: number | IntFieldRefInput<$PrismaModel>;
     not?: NestedIntFilter<$PrismaModel> | number;
+  };
+
+  export type NestedEnumPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
+    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
+    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumPlanFilter<$PrismaModel>;
+    _max?: NestedEnumPlanFilter<$PrismaModel>;
+  };
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedBoolFilter<$PrismaModel>;
+    _max?: NestedBoolFilter<$PrismaModel>;
+  };
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedDateTimeFilter<$PrismaModel>;
+    _max?: NestedDateTimeFilter<$PrismaModel>;
+  };
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
+
+  export type NestedEnumProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Provider | EnumProviderFieldRefInput<$PrismaModel>;
+    in?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Provider[] | ListEnumProviderFieldRefInput<$PrismaModel>;
+    not?: NestedEnumProviderFilter<$PrismaModel> | $Enums.Provider;
+  };
+
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
   };
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12525,16 +14063,6 @@ export namespace Prisma {
     _max?: NestedEnumProviderFilter<$PrismaModel>;
   };
 
-  export type NestedEnumPlanWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Plan | EnumPlanFieldRefInput<$PrismaModel>;
-    in?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Plan[] | ListEnumPlanFieldRefInput<$PrismaModel>;
-    not?: NestedEnumPlanWithAggregatesFilter<$PrismaModel> | $Enums.Plan;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumPlanFilter<$PrismaModel>;
-    _max?: NestedEnumPlanFilter<$PrismaModel>;
-  };
-
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
@@ -12543,20 +14071,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>;
     _min?: NestedEnumRoleFilter<$PrismaModel>;
     _max?: NestedEnumRoleFilter<$PrismaModel>;
-  };
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedDateTimeFilter<$PrismaModel>;
-    _max?: NestedDateTimeFilter<$PrismaModel>;
   };
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -12660,11 +14174,6 @@ export namespace Prisma {
       | string;
   };
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
-    not?: NestedBoolFilter<$PrismaModel> | boolean;
-  };
-
   export type NestedEnumPaymentStatusWithAggregatesFilter<
     $PrismaModel = never,
   > = {
@@ -12739,14 +14248,6 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>;
     _min?: NestedDecimalFilter<$PrismaModel>;
     _max?: NestedDecimalFilter<$PrismaModel>;
-  };
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>;
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean;
-    _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedBoolFilter<$PrismaModel>;
-    _max?: NestedBoolFilter<$PrismaModel>;
   };
 
   export type NestedEnumEmailStatusFilter<$PrismaModel = never> = {

@@ -117,6 +117,15 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AccessCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  plan: 'plan',
+  used: 'used',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -210,16 +219,16 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-exports.Provider = exports.$Enums.Provider = {
-  LOCAL: 'LOCAL',
-  GOOGLE: 'GOOGLE',
-  FACEBOOK: 'FACEBOOK'
-};
-
 exports.Plan = exports.$Enums.Plan = {
   FREE: 'FREE',
   MONTHLY: 'MONTHLY',
   ANNUAL: 'ANNUAL'
+};
+
+exports.Provider = exports.$Enums.Provider = {
+  LOCAL: 'LOCAL',
+  GOOGLE: 'GOOGLE',
+  FACEBOOK: 'FACEBOOK'
 };
 
 exports.Role = exports.$Enums.Role = {
@@ -241,6 +250,7 @@ exports.EmailStatus = exports.$Enums.EmailStatus = {
 };
 
 exports.Prisma.ModelName = {
+  AccessCode: 'AccessCode',
   User: 'User',
   Interaction: 'Interaction',
   UserPreference: 'UserPreference',
