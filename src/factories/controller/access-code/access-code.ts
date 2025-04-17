@@ -1,6 +1,10 @@
 import { CreateAccessCodeController } from "../../../controller/access-code/create-access-code";
+import { ValidateAccessCodeController } from "../../../controller/access-code/validate-access-code";
+import { CodeAsUsedRepository } from "../../../repositories/access-code/code-as-used";
 import { CreateAccessCodeRepository } from "../../../repositories/access-code/create-access-code";
+import { ValidateAccessCodeRepository } from "../../../repositories/access-code/validate-access-code";
 import { CreateAccessCodeUseCase } from "../../../use-cases/access-code/create-access-code";
+import { ValidateAccessCodeUseCase } from "../../../use-cases/access-code/validate-access-code";
 
 export const makeCreateAccessController = () => {
   const createAccessCodeRepository = new CreateAccessCodeRepository();
@@ -14,4 +18,19 @@ export const makeCreateAccessController = () => {
   );
 
   return createAccessCodeController;
+};
+
+export const makeValidateAccessCodeController = () => {
+  const validateAccessCodeRepository = new ValidateAccessCodeRepository();
+  const codeAsUsedRepository = new CodeAsUsedRepository();
+  const validateAccessCodeUseCase = new ValidateAccessCodeUseCase(
+    validateAccessCodeRepository,
+    codeAsUsedRepository,
+  );
+
+  const validateAccessCodeController = new ValidateAccessCodeController(
+    validateAccessCodeUseCase,
+  );
+
+  return validateAccessCodeController;
 };

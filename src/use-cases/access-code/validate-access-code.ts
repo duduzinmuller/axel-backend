@@ -1,13 +1,20 @@
-import { ValidateAccessCodeRepository } from "../../controller/access-code/validate-access-code";
+import { ValidateAccessCodeRepository } from "../../repositories/access-code/validate-access-code";
 import {
   AccessCodeExpiredError,
   AccessCodeNotFoundError,
+  AccessCodeAlreadyUsedError,
 } from "../../errors/access-code";
+import { CodeAsUsedRepository } from "../../repositories/access-code/code-as-used";
 
 export class ValidateAccessCodeUseCase {
   validateAccessCodeRepository: ValidateAccessCodeRepository;
-  constructor(validateAccessCodeRepository: ValidateAccessCodeRepository) {
+  codeAsUsedRepository: CodeAsUsedRepository;
+  constructor(
+    validateAccessCodeRepository: ValidateAccessCodeRepository,
+    codeAsUsedRepository: CodeAsUsedRepository,
+  ) {
     this.validateAccessCodeRepository = validateAccessCodeRepository;
+    this.codeAsUsedRepository = codeAsUsedRepository;
   }
   async execute(code: string) {
     const accessCode = await this.validateAccessCodeRepository.execute(code);
@@ -20,6 +27,12 @@ export class ValidateAccessCodeUseCase {
       throw new AccessCodeExpiredError();
     }
 
-    return accessCode;
+    if (accessCode.used) {
+      throw new AccessCodeAlreadyUsedError();
+    }
+
+    const result = await this.codeAsUsedRepository.execute(code);
+
+    return result;
   }
 }
