@@ -49,6 +49,8 @@ export interface Payment {
   paymentUrl?: string;
   transactionDetails?: any;
   notificationSent: boolean;
+  email: string;
+  plan: Plan;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -70,6 +72,24 @@ export interface AccessCode {
   used: boolean;
   expiresAt: Date;
   createdAt: Date;
+}
+
+export interface EmailNotification {
+  id: string;
+  recipient: string;
+  subject: string;
+  content: string;
+  status: EmailStatus;
+  sentAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  plan: Plan;
+}
+
+export enum EmailStatus {
+  PENDING = "PENDING",
+  SENT = "SENT",
+  FAILED = "FAILED",
 }
 
 type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "CANCELED";
