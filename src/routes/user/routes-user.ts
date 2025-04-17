@@ -7,9 +7,8 @@ import {
   makeLoginUserController,
   makeRefreshTokenController,
   makeUpdateUserController,
-} from "../../factories/controller/user";
+} from "../../factories/controller/user/user";
 import { auth } from "../../middleware/auth";
-import { use } from "passport";
 
 export const userRouter = Router();
 
