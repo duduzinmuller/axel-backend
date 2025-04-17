@@ -54,6 +54,7 @@ export interface Payment {
 
 export interface EmailVerification {
   id: string;
+  email: string;
   code: string;
   expiresAt: Date;
   contactId: string;
