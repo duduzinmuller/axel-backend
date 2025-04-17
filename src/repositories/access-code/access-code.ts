@@ -1,7 +1,7 @@
 import prisma from "../../../prisma/prisma";
 import { AccessCode } from "../../types/user";
 
-export class AccessCodeRepository {
+export class CreateAccessCodeRepository {
   async execute(accessCodeParams: AccessCode) {
     const accessCode = await prisma.accessCode.create({
       data: {
