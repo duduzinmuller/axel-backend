@@ -63,4 +63,13 @@ export interface EmailVerification {
   userId: string;
 }
 
+export interface AccessCode {
+  id: string;
+  code: string;
+  plan: Plan;
+  used: boolean;
+  expiresAt: Date;
+  createdAt: Date;
+}
+
 type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "CANCELED";
