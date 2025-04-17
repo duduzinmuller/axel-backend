@@ -20,7 +20,7 @@ export class CreateAccessCodeController {
       return ok(accessCode);
     } catch (error) {
       if (error instanceof ZodError) {
-        return badRequest(error.message);
+        return badRequest(error.errors[0].message);
       }
       console.error(error);
       return serverError();
