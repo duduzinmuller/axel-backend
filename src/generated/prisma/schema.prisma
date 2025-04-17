@@ -31,7 +31,11 @@ enum Provider {
   LOCAL
   GOOGLE
   FACEBOOK
-  MICROSOFT
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model User {
@@ -43,10 +47,10 @@ model User {
   provider   Provider @default(LOCAL)
   providerId String?
   plan       Plan     @default(FREE)
+  role       Role     @default(USER)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  // Relations
   interactions       Interaction[]
   preferences        UserPreference[]
   payments           Payment[]

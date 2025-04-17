@@ -79,10 +79,16 @@ export namespace $Enums {
     LOCAL: "LOCAL";
     GOOGLE: "GOOGLE";
     FACEBOOK: "FACEBOOK";
-    MICROSOFT: "MICROSOFT";
   };
 
   export type Provider = (typeof Provider)[keyof typeof Provider];
+
+  export const Role: {
+    USER: "USER";
+    ADMIN: "ADMIN";
+  };
+
+  export type Role = (typeof Role)[keyof typeof Role];
 }
 
 export type Plan = $Enums.Plan;
@@ -100,6 +106,10 @@ export const EmailStatus: typeof $Enums.EmailStatus;
 export type Provider = $Enums.Provider;
 
 export const Provider: typeof $Enums.Provider;
+
+export type Role = $Enums.Role;
+
+export const Role: typeof $Enums.Role;
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1575,6 +1585,7 @@ export namespace Prisma {
     provider: $Enums.Provider | null;
     providerId: string | null;
     plan: $Enums.Plan | null;
+    role: $Enums.Role | null;
     createdAt: Date | null;
     updatedAt: Date | null;
   };
@@ -1588,6 +1599,7 @@ export namespace Prisma {
     provider: $Enums.Provider | null;
     providerId: string | null;
     plan: $Enums.Plan | null;
+    role: $Enums.Role | null;
     createdAt: Date | null;
     updatedAt: Date | null;
   };
@@ -1601,6 +1613,7 @@ export namespace Prisma {
     provider: number;
     providerId: number;
     plan: number;
+    role: number;
     createdAt: number;
     updatedAt: number;
     _all: number;
@@ -1615,6 +1628,7 @@ export namespace Prisma {
     provider?: true;
     providerId?: true;
     plan?: true;
+    role?: true;
     createdAt?: true;
     updatedAt?: true;
   };
@@ -1628,6 +1642,7 @@ export namespace Prisma {
     provider?: true;
     providerId?: true;
     plan?: true;
+    role?: true;
     createdAt?: true;
     updatedAt?: true;
   };
@@ -1641,6 +1656,7 @@ export namespace Prisma {
     provider?: true;
     providerId?: true;
     plan?: true;
+    role?: true;
     createdAt?: true;
     updatedAt?: true;
     _all?: true;
@@ -1730,6 +1746,7 @@ export namespace Prisma {
     provider: $Enums.Provider;
     providerId: string | null;
     plan: $Enums.Plan;
+    role: $Enums.Role;
     createdAt: Date;
     updatedAt: Date;
     _count: UserCountAggregateOutputType | null;
@@ -1761,6 +1778,7 @@ export namespace Prisma {
       provider?: boolean;
       providerId?: boolean;
       plan?: boolean;
+      role?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
       interactions?: boolean | User$interactionsArgs<ExtArgs>;
@@ -1784,6 +1802,7 @@ export namespace Prisma {
       provider?: boolean;
       providerId?: boolean;
       plan?: boolean;
+      role?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
     },
@@ -1802,6 +1821,7 @@ export namespace Prisma {
       provider?: boolean;
       providerId?: boolean;
       plan?: boolean;
+      role?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
     },
@@ -1817,6 +1837,7 @@ export namespace Prisma {
     provider?: boolean;
     providerId?: boolean;
     plan?: boolean;
+    role?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
   };
@@ -1832,6 +1853,7 @@ export namespace Prisma {
     | "provider"
     | "providerId"
     | "plan"
+    | "role"
     | "createdAt"
     | "updatedAt",
     ExtArgs["result"]["user"]
@@ -1872,6 +1894,7 @@ export namespace Prisma {
         provider: $Enums.Provider;
         providerId: string | null;
         plan: $Enums.Plan;
+        role: $Enums.Role;
         createdAt: Date;
         updatedAt: Date;
       },
@@ -2511,6 +2534,7 @@ export namespace Prisma {
     readonly provider: FieldRef<"User", "Provider">;
     readonly providerId: FieldRef<"User", "String">;
     readonly plan: FieldRef<"User", "Plan">;
+    readonly role: FieldRef<"User", "Role">;
     readonly createdAt: FieldRef<"User", "DateTime">;
     readonly updatedAt: FieldRef<"User", "DateTime">;
   }
@@ -9828,6 +9852,7 @@ export namespace Prisma {
     provider: "provider";
     providerId: "providerId";
     plan: "plan";
+    role: "role";
     createdAt: "createdAt";
     updatedAt: "updatedAt";
   };
@@ -9995,6 +10020,22 @@ export namespace Prisma {
   >;
 
   /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Role"
+  >;
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "Role[]"
+  >;
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -10110,6 +10151,7 @@ export namespace Prisma {
     provider?: EnumProviderFilter<"User"> | $Enums.Provider;
     providerId?: StringNullableFilter<"User"> | string | null;
     plan?: EnumPlanFilter<"User"> | $Enums.Plan;
+    role?: EnumRoleFilter<"User"> | $Enums.Role;
     createdAt?: DateTimeFilter<"User"> | Date | string;
     updatedAt?: DateTimeFilter<"User"> | Date | string;
     interactions?: InteractionListRelationFilter;
@@ -10127,6 +10169,7 @@ export namespace Prisma {
     provider?: SortOrder;
     providerId?: SortOrderInput | SortOrder;
     plan?: SortOrder;
+    role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     interactions?: InteractionOrderByRelationAggregateInput;
@@ -10149,6 +10192,7 @@ export namespace Prisma {
       provider?: EnumProviderFilter<"User"> | $Enums.Provider;
       providerId?: StringNullableFilter<"User"> | string | null;
       plan?: EnumPlanFilter<"User"> | $Enums.Plan;
+      role?: EnumRoleFilter<"User"> | $Enums.Role;
       createdAt?: DateTimeFilter<"User"> | Date | string;
       updatedAt?: DateTimeFilter<"User"> | Date | string;
       interactions?: InteractionListRelationFilter;
@@ -10168,6 +10212,7 @@ export namespace Prisma {
     provider?: SortOrder;
     providerId?: SortOrderInput | SortOrder;
     plan?: SortOrder;
+    role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     _count?: UserCountOrderByAggregateInput;
@@ -10191,6 +10236,7 @@ export namespace Prisma {
     provider?: EnumProviderWithAggregatesFilter<"User"> | $Enums.Provider;
     providerId?: StringNullableWithAggregatesFilter<"User"> | string | null;
     plan?: EnumPlanWithAggregatesFilter<"User"> | $Enums.Plan;
+    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role;
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string;
   };
@@ -10631,6 +10677,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionCreateNestedManyWithoutUserInput;
@@ -10648,6 +10695,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
@@ -10665,6 +10713,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUpdateManyWithoutUserNestedInput;
@@ -10682,6 +10731,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
@@ -10699,6 +10749,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
   };
@@ -10712,6 +10763,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -10725,6 +10777,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
@@ -11167,6 +11220,13 @@ export namespace Prisma {
     not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
   };
 
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+  };
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
@@ -11237,6 +11297,7 @@ export namespace Prisma {
     provider?: SortOrder;
     providerId?: SortOrder;
     plan?: SortOrder;
+    role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
@@ -11250,6 +11311,7 @@ export namespace Prisma {
     provider?: SortOrder;
     providerId?: SortOrder;
     plan?: SortOrder;
+    role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
@@ -11263,6 +11325,7 @@ export namespace Prisma {
     provider?: SortOrder;
     providerId?: SortOrder;
     plan?: SortOrder;
+    role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
   };
@@ -11326,6 +11389,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>;
     _min?: NestedEnumPlanFilter<$PrismaModel>;
     _max?: NestedEnumPlanFilter<$PrismaModel>;
+  };
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumRoleFilter<$PrismaModel>;
+    _max?: NestedEnumRoleFilter<$PrismaModel>;
   };
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11933,6 +12006,10 @@ export namespace Prisma {
     set?: $Enums.Plan;
   };
 
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role;
+  };
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string;
   };
@@ -12359,6 +12436,13 @@ export namespace Prisma {
     not?: NestedEnumPlanFilter<$PrismaModel> | $Enums.Plan;
   };
 
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+  };
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
@@ -12449,6 +12533,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>;
     _min?: NestedEnumPlanFilter<$PrismaModel>;
     _max?: NestedEnumPlanFilter<$PrismaModel>;
+  };
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumRoleFilter<$PrismaModel>;
+    _max?: NestedEnumRoleFilter<$PrismaModel>;
   };
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13034,6 +13128,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     preferences?: UserPreferenceCreateNestedManyWithoutUserInput;
@@ -13050,6 +13145,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     preferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput;
@@ -13094,6 +13190,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     preferences?: UserPreferenceUpdateManyWithoutUserNestedInput;
@@ -13110,6 +13207,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     preferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput;
@@ -13126,6 +13224,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionCreateNestedManyWithoutUserInput;
@@ -13142,6 +13241,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
@@ -13186,6 +13286,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUpdateManyWithoutUserNestedInput;
@@ -13202,6 +13303,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
@@ -13218,6 +13320,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionCreateNestedManyWithoutUserInput;
@@ -13234,6 +13337,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
@@ -13278,6 +13382,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUpdateManyWithoutUserNestedInput;
@@ -13294,6 +13399,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;
@@ -13310,6 +13416,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionCreateNestedManyWithoutUserInput;
@@ -13326,6 +13433,7 @@ export namespace Prisma {
     provider?: $Enums.Provider;
     providerId?: string | null;
     plan?: $Enums.Plan;
+    role?: $Enums.Role;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     interactions?: InteractionUncheckedCreateNestedManyWithoutUserInput;
@@ -13370,6 +13478,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUpdateManyWithoutUserNestedInput;
@@ -13386,6 +13495,7 @@ export namespace Prisma {
     provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider;
     providerId?: NullableStringFieldUpdateOperationsInput | string | null;
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     interactions?: InteractionUncheckedUpdateManyWithoutUserNestedInput;

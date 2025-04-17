@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   provider: 'provider',
   providerId: 'providerId',
   plan: 'plan',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -212,14 +213,18 @@ exports.Prisma.JsonNullValueFilter = {
 exports.Provider = exports.$Enums.Provider = {
   LOCAL: 'LOCAL',
   GOOGLE: 'GOOGLE',
-  FACEBOOK: 'FACEBOOK',
-  MICROSOFT: 'MICROSOFT'
+  FACEBOOK: 'FACEBOOK'
 };
 
 exports.Plan = exports.$Enums.Plan = {
   FREE: 'FREE',
   MONTHLY: 'MONTHLY',
   ANNUAL: 'ANNUAL'
+};
+
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
