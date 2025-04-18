@@ -164,14 +164,17 @@ exports.Prisma.PaymentScalarFieldEnum = {
   externalId: 'externalId',
   status: 'status',
   amount: 'amount',
+  currency: 'currency',
   paymentMethod: 'paymentMethod',
   paymentMethodId: 'paymentMethodId',
+  plan: 'plan',
   paymentProvider: 'paymentProvider',
   paymentUrl: 'paymentUrl',
   transactionDetails: 'transactionDetails',
   notificationSent: 'notificationSent',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  recipient: 'recipient'
 };
 
 exports.Prisma.EmailNotificationScalarFieldEnum = {

@@ -94,14 +94,17 @@ model Payment {
   externalId         String?       
   status             PaymentStatus @default(PENDING)
   amount             Decimal       @db.Decimal(10, 2)
+  currency           String
   paymentMethod      String?
-  paymentMethodId    String?       
+  paymentMethodId    String?
+  plan               Plan       
   paymentProvider    String        @default("STRIPE")
   paymentUrl         String?       
   transactionDetails Json?         
   notificationSent   Boolean       @default(false) 
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
+  recipient          String?
 
   user               User          @relation(fields: [userId], references: [id])
 

@@ -7093,13 +7093,16 @@ export namespace Prisma {
     externalId: string | null;
     status: $Enums.PaymentStatus | null;
     amount: Decimal | null;
+    currency: string | null;
     paymentMethod: string | null;
     paymentMethodId: string | null;
+    plan: $Enums.Plan | null;
     paymentProvider: string | null;
     paymentUrl: string | null;
     notificationSent: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    recipient: string | null;
   };
 
   export type PaymentMaxAggregateOutputType = {
@@ -7108,13 +7111,16 @@ export namespace Prisma {
     externalId: string | null;
     status: $Enums.PaymentStatus | null;
     amount: Decimal | null;
+    currency: string | null;
     paymentMethod: string | null;
     paymentMethodId: string | null;
+    plan: $Enums.Plan | null;
     paymentProvider: string | null;
     paymentUrl: string | null;
     notificationSent: boolean | null;
     createdAt: Date | null;
     updatedAt: Date | null;
+    recipient: string | null;
   };
 
   export type PaymentCountAggregateOutputType = {
@@ -7123,14 +7129,17 @@ export namespace Prisma {
     externalId: number;
     status: number;
     amount: number;
+    currency: number;
     paymentMethod: number;
     paymentMethodId: number;
+    plan: number;
     paymentProvider: number;
     paymentUrl: number;
     transactionDetails: number;
     notificationSent: number;
     createdAt: number;
     updatedAt: number;
+    recipient: number;
     _all: number;
   };
 
@@ -7148,13 +7157,16 @@ export namespace Prisma {
     externalId?: true;
     status?: true;
     amount?: true;
+    currency?: true;
     paymentMethod?: true;
     paymentMethodId?: true;
+    plan?: true;
     paymentProvider?: true;
     paymentUrl?: true;
     notificationSent?: true;
     createdAt?: true;
     updatedAt?: true;
+    recipient?: true;
   };
 
   export type PaymentMaxAggregateInputType = {
@@ -7163,13 +7175,16 @@ export namespace Prisma {
     externalId?: true;
     status?: true;
     amount?: true;
+    currency?: true;
     paymentMethod?: true;
     paymentMethodId?: true;
+    plan?: true;
     paymentProvider?: true;
     paymentUrl?: true;
     notificationSent?: true;
     createdAt?: true;
     updatedAt?: true;
+    recipient?: true;
   };
 
   export type PaymentCountAggregateInputType = {
@@ -7178,14 +7193,17 @@ export namespace Prisma {
     externalId?: true;
     status?: true;
     amount?: true;
+    currency?: true;
     paymentMethod?: true;
     paymentMethodId?: true;
+    plan?: true;
     paymentProvider?: true;
     paymentUrl?: true;
     transactionDetails?: true;
     notificationSent?: true;
     createdAt?: true;
     updatedAt?: true;
+    recipient?: true;
     _all?: true;
   };
 
@@ -7286,14 +7304,17 @@ export namespace Prisma {
     externalId: string | null;
     status: $Enums.PaymentStatus;
     amount: Decimal;
+    currency: string;
     paymentMethod: string | null;
     paymentMethodId: string | null;
+    plan: $Enums.Plan;
     paymentProvider: string;
     paymentUrl: string | null;
     transactionDetails: JsonValue | null;
     notificationSent: boolean;
     createdAt: Date;
     updatedAt: Date;
+    recipient: string | null;
     _count: PaymentCountAggregateOutputType | null;
     _avg: PaymentAvgAggregateOutputType | null;
     _sum: PaymentSumAggregateOutputType | null;
@@ -7323,14 +7344,17 @@ export namespace Prisma {
       externalId?: boolean;
       status?: boolean;
       amount?: boolean;
+      currency?: boolean;
       paymentMethod?: boolean;
       paymentMethodId?: boolean;
+      plan?: boolean;
       paymentProvider?: boolean;
       paymentUrl?: boolean;
       transactionDetails?: boolean;
       notificationSent?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      recipient?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
     },
     ExtArgs["result"]["payment"]
@@ -7345,14 +7369,17 @@ export namespace Prisma {
       externalId?: boolean;
       status?: boolean;
       amount?: boolean;
+      currency?: boolean;
       paymentMethod?: boolean;
       paymentMethodId?: boolean;
+      plan?: boolean;
       paymentProvider?: boolean;
       paymentUrl?: boolean;
       transactionDetails?: boolean;
       notificationSent?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      recipient?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
     },
     ExtArgs["result"]["payment"]
@@ -7367,14 +7394,17 @@ export namespace Prisma {
       externalId?: boolean;
       status?: boolean;
       amount?: boolean;
+      currency?: boolean;
       paymentMethod?: boolean;
       paymentMethodId?: boolean;
+      plan?: boolean;
       paymentProvider?: boolean;
       paymentUrl?: boolean;
       transactionDetails?: boolean;
       notificationSent?: boolean;
       createdAt?: boolean;
       updatedAt?: boolean;
+      recipient?: boolean;
       user?: boolean | UserDefaultArgs<ExtArgs>;
     },
     ExtArgs["result"]["payment"]
@@ -7386,14 +7416,17 @@ export namespace Prisma {
     externalId?: boolean;
     status?: boolean;
     amount?: boolean;
+    currency?: boolean;
     paymentMethod?: boolean;
     paymentMethodId?: boolean;
+    plan?: boolean;
     paymentProvider?: boolean;
     paymentUrl?: boolean;
     transactionDetails?: boolean;
     notificationSent?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    recipient?: boolean;
   };
 
   export type PaymentOmit<
@@ -7404,14 +7437,17 @@ export namespace Prisma {
     | "externalId"
     | "status"
     | "amount"
+    | "currency"
     | "paymentMethod"
     | "paymentMethodId"
+    | "plan"
     | "paymentProvider"
     | "paymentUrl"
     | "transactionDetails"
     | "notificationSent"
     | "createdAt"
-    | "updatedAt",
+    | "updatedAt"
+    | "recipient",
     ExtArgs["result"]["payment"]
   >;
   export type PaymentInclude<
@@ -7444,14 +7480,17 @@ export namespace Prisma {
         externalId: string | null;
         status: $Enums.PaymentStatus;
         amount: Prisma.Decimal;
+        currency: string;
         paymentMethod: string | null;
         paymentMethodId: string | null;
+        plan: $Enums.Plan;
         paymentProvider: string;
         paymentUrl: string | null;
         transactionDetails: Prisma.JsonValue | null;
         notificationSent: boolean;
         createdAt: Date;
         updatedAt: Date;
+        recipient: string | null;
       },
       ExtArgs["result"]["payment"]
     >;
@@ -8057,14 +8096,17 @@ export namespace Prisma {
     readonly externalId: FieldRef<"Payment", "String">;
     readonly status: FieldRef<"Payment", "PaymentStatus">;
     readonly amount: FieldRef<"Payment", "Decimal">;
+    readonly currency: FieldRef<"Payment", "String">;
     readonly paymentMethod: FieldRef<"Payment", "String">;
     readonly paymentMethodId: FieldRef<"Payment", "String">;
+    readonly plan: FieldRef<"Payment", "Plan">;
     readonly paymentProvider: FieldRef<"Payment", "String">;
     readonly paymentUrl: FieldRef<"Payment", "String">;
     readonly transactionDetails: FieldRef<"Payment", "Json">;
     readonly notificationSent: FieldRef<"Payment", "Boolean">;
     readonly createdAt: FieldRef<"Payment", "DateTime">;
     readonly updatedAt: FieldRef<"Payment", "DateTime">;
+    readonly recipient: FieldRef<"Payment", "String">;
   }
 
   // Custom InputTypes
@@ -11251,14 +11293,17 @@ export namespace Prisma {
     externalId: "externalId";
     status: "status";
     amount: "amount";
+    currency: "currency";
     paymentMethod: "paymentMethod";
     paymentMethodId: "paymentMethodId";
+    plan: "plan";
     paymentProvider: "paymentProvider";
     paymentUrl: "paymentUrl";
     transactionDetails: "transactionDetails";
     notificationSent: "notificationSent";
     createdAt: "createdAt";
     updatedAt: "updatedAt";
+    recipient: "recipient";
   };
 
   export type PaymentScalarFieldEnum =
@@ -11818,14 +11863,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFilter<"Payment"> | string;
     paymentMethod?: StringNullableFilter<"Payment"> | string | null;
     paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
+    plan?: EnumPlanFilter<"Payment"> | $Enums.Plan;
     paymentProvider?: StringFilter<"Payment"> | string;
     paymentUrl?: StringNullableFilter<"Payment"> | string | null;
     transactionDetails?: JsonNullableFilter<"Payment">;
     notificationSent?: BoolFilter<"Payment"> | boolean;
     createdAt?: DateTimeFilter<"Payment"> | Date | string;
     updatedAt?: DateTimeFilter<"Payment"> | Date | string;
+    recipient?: StringNullableFilter<"Payment"> | string | null;
     user?: XOR<UserScalarRelationFilter, UserWhereInput>;
   };
 
@@ -11835,14 +11883,17 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
+    currency?: SortOrder;
     paymentMethod?: SortOrderInput | SortOrder;
     paymentMethodId?: SortOrderInput | SortOrder;
+    plan?: SortOrder;
     paymentProvider?: SortOrder;
     paymentUrl?: SortOrderInput | SortOrder;
     transactionDetails?: SortOrderInput | SortOrder;
     notificationSent?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    recipient?: SortOrderInput | SortOrder;
     user?: UserOrderByWithRelationInput;
   };
 
@@ -11861,14 +11912,17 @@ export namespace Prisma {
         | DecimalJsLike
         | number
         | string;
+      currency?: StringFilter<"Payment"> | string;
       paymentMethod?: StringNullableFilter<"Payment"> | string | null;
       paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
+      plan?: EnumPlanFilter<"Payment"> | $Enums.Plan;
       paymentProvider?: StringFilter<"Payment"> | string;
       paymentUrl?: StringNullableFilter<"Payment"> | string | null;
       transactionDetails?: JsonNullableFilter<"Payment">;
       notificationSent?: BoolFilter<"Payment"> | boolean;
       createdAt?: DateTimeFilter<"Payment"> | Date | string;
       updatedAt?: DateTimeFilter<"Payment"> | Date | string;
+      recipient?: StringNullableFilter<"Payment"> | string | null;
       user?: XOR<UserScalarRelationFilter, UserWhereInput>;
     },
     "id"
@@ -11880,14 +11934,17 @@ export namespace Prisma {
     externalId?: SortOrderInput | SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
+    currency?: SortOrder;
     paymentMethod?: SortOrderInput | SortOrder;
     paymentMethodId?: SortOrderInput | SortOrder;
+    plan?: SortOrder;
     paymentProvider?: SortOrder;
     paymentUrl?: SortOrderInput | SortOrder;
     transactionDetails?: SortOrderInput | SortOrder;
     notificationSent?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    recipient?: SortOrderInput | SortOrder;
     _count?: PaymentCountOrderByAggregateInput;
     _avg?: PaymentAvgOrderByAggregateInput;
     _max?: PaymentMaxOrderByAggregateInput;
@@ -11915,6 +11972,7 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringWithAggregatesFilter<"Payment"> | string;
     paymentMethod?:
       | StringNullableWithAggregatesFilter<"Payment">
       | string
@@ -11923,12 +11981,14 @@ export namespace Prisma {
       | StringNullableWithAggregatesFilter<"Payment">
       | string
       | null;
+    plan?: EnumPlanWithAggregatesFilter<"Payment"> | $Enums.Plan;
     paymentProvider?: StringWithAggregatesFilter<"Payment"> | string;
     paymentUrl?: StringNullableWithAggregatesFilter<"Payment"> | string | null;
     transactionDetails?: JsonNullableWithAggregatesFilter<"Payment">;
     notificationSent?: BoolWithAggregatesFilter<"Payment"> | boolean;
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string;
+    recipient?: StringNullableWithAggregatesFilter<"Payment"> | string | null;
   };
 
   export type EmailNotificationWhereInput = {
@@ -12405,14 +12465,17 @@ export namespace Prisma {
     externalId?: string | null;
     status?: $Enums.PaymentStatus;
     amount: Decimal | DecimalJsLike | number | string;
+    currency: string;
     paymentMethod?: string | null;
     paymentMethodId?: string | null;
+    plan: $Enums.Plan;
     paymentProvider?: string;
     paymentUrl?: string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    recipient?: string | null;
     user: UserCreateNestedOneWithoutPaymentsInput;
   };
 
@@ -12422,14 +12485,17 @@ export namespace Prisma {
     externalId?: string | null;
     status?: $Enums.PaymentStatus;
     amount: Decimal | DecimalJsLike | number | string;
+    currency: string;
     paymentMethod?: string | null;
     paymentMethodId?: string | null;
+    plan: $Enums.Plan;
     paymentProvider?: string;
     paymentUrl?: string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    recipient?: string | null;
   };
 
   export type PaymentUpdateInput = {
@@ -12442,14 +12508,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
     user?: UserUpdateOneRequiredWithoutPaymentsNestedInput;
   };
 
@@ -12464,14 +12533,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type PaymentCreateManyInput = {
@@ -12480,14 +12552,17 @@ export namespace Prisma {
     externalId?: string | null;
     status?: $Enums.PaymentStatus;
     amount: Decimal | DecimalJsLike | number | string;
+    currency: string;
     paymentMethod?: string | null;
     paymentMethodId?: string | null;
+    plan: $Enums.Plan;
     paymentProvider?: string;
     paymentUrl?: string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    recipient?: string | null;
   };
 
   export type PaymentUpdateManyMutationInput = {
@@ -12500,14 +12575,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type PaymentUncheckedUpdateManyInput = {
@@ -12521,14 +12599,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type EmailNotificationCreateInput = {
@@ -13160,14 +13241,17 @@ export namespace Prisma {
     externalId?: SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
+    currency?: SortOrder;
     paymentMethod?: SortOrder;
     paymentMethodId?: SortOrder;
+    plan?: SortOrder;
     paymentProvider?: SortOrder;
     paymentUrl?: SortOrder;
     transactionDetails?: SortOrder;
     notificationSent?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    recipient?: SortOrder;
   };
 
   export type PaymentAvgOrderByAggregateInput = {
@@ -13180,13 +13264,16 @@ export namespace Prisma {
     externalId?: SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
+    currency?: SortOrder;
     paymentMethod?: SortOrder;
     paymentMethodId?: SortOrder;
+    plan?: SortOrder;
     paymentProvider?: SortOrder;
     paymentUrl?: SortOrder;
     notificationSent?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    recipient?: SortOrder;
   };
 
   export type PaymentMinOrderByAggregateInput = {
@@ -13195,13 +13282,16 @@ export namespace Prisma {
     externalId?: SortOrder;
     status?: SortOrder;
     amount?: SortOrder;
+    currency?: SortOrder;
     paymentMethod?: SortOrder;
     paymentMethodId?: SortOrder;
+    plan?: SortOrder;
     paymentProvider?: SortOrder;
     paymentUrl?: SortOrder;
     notificationSent?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
+    recipient?: SortOrder;
   };
 
   export type PaymentSumOrderByAggregateInput = {
@@ -14405,14 +14495,17 @@ export namespace Prisma {
     externalId?: string | null;
     status?: $Enums.PaymentStatus;
     amount: Decimal | DecimalJsLike | number | string;
+    currency: string;
     paymentMethod?: string | null;
     paymentMethodId?: string | null;
+    plan: $Enums.Plan;
     paymentProvider?: string;
     paymentUrl?: string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    recipient?: string | null;
   };
 
   export type PaymentUncheckedCreateWithoutUserInput = {
@@ -14420,14 +14513,17 @@ export namespace Prisma {
     externalId?: string | null;
     status?: $Enums.PaymentStatus;
     amount: Decimal | DecimalJsLike | number | string;
+    currency: string;
     paymentMethod?: string | null;
     paymentMethodId?: string | null;
+    plan: $Enums.Plan;
     paymentProvider?: string;
     paymentUrl?: string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    recipient?: string | null;
   };
 
   export type PaymentCreateOrConnectWithoutUserInput = {
@@ -14596,14 +14692,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFilter<"Payment"> | string;
     paymentMethod?: StringNullableFilter<"Payment"> | string | null;
     paymentMethodId?: StringNullableFilter<"Payment"> | string | null;
+    plan?: EnumPlanFilter<"Payment"> | $Enums.Plan;
     paymentProvider?: StringFilter<"Payment"> | string;
     paymentUrl?: StringNullableFilter<"Payment"> | string | null;
     transactionDetails?: JsonNullableFilter<"Payment">;
     notificationSent?: BoolFilter<"Payment"> | boolean;
     createdAt?: DateTimeFilter<"Payment"> | Date | string;
     updatedAt?: DateTimeFilter<"Payment"> | Date | string;
+    recipient?: StringNullableFilter<"Payment"> | string | null;
   };
 
   export type EmailVerificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -15055,14 +15154,17 @@ export namespace Prisma {
     externalId?: string | null;
     status?: $Enums.PaymentStatus;
     amount: Decimal | DecimalJsLike | number | string;
+    currency: string;
     paymentMethod?: string | null;
     paymentMethodId?: string | null;
+    plan: $Enums.Plan;
     paymentProvider?: string;
     paymentUrl?: string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    recipient?: string | null;
   };
 
   export type EmailVerificationCreateManyUserInput = {
@@ -15131,14 +15233,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type PaymentUncheckedUpdateWithoutUserInput = {
@@ -15151,14 +15256,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type PaymentUncheckedUpdateManyWithoutUserInput = {
@@ -15171,14 +15279,17 @@ export namespace Prisma {
       | DecimalJsLike
       | number
       | string;
+    currency?: StringFieldUpdateOperationsInput | string;
     paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null;
     paymentMethodId?: NullableStringFieldUpdateOperationsInput | string | null;
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan;
     paymentProvider?: StringFieldUpdateOperationsInput | string;
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null;
     transactionDetails?: NullableJsonNullValueInput | InputJsonValue;
     notificationSent?: BoolFieldUpdateOperationsInput | boolean;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    recipient?: NullableStringFieldUpdateOperationsInput | string | null;
   };
 
   export type EmailVerificationUpdateWithoutUserInput = {
