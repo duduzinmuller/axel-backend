@@ -19,7 +19,7 @@ export class CreatePaymentUseCase {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: createPaymentParams.amount,
       currency: "brl",
-      payment_method_types: ["card", "boleto", "pix"],
+      payment_method_types: ["card", "boleto"],
       metadata: {
         userId: createPaymentParams.userId,
         plan: createPaymentParams.plan,

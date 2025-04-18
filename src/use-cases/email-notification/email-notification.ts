@@ -11,18 +11,33 @@ export class EmailNotificationUseCase {
 
   async execute(createEmailNotificationParams: EmailNotification) {
     const htmlContent = `
-            <html>
-                <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-                    <h1 style="color: #333;">Confirmação de Pagamento</h1>
-                    <p>Obrigado por seu pagamento. Você adquiriu o plano: <strong>${createEmailNotificationParams.plan}</strong>.</p>
-                    <p>Se você tiver alguma dúvida, entre em contato conosco.</p>
-                    <footer style="margin-top: 20px; color: #777;">
-                        <p>Atenciosamente,</p>
-                        <p>Sua Empresa</p>
-                    </footer>
-                </body>
-            </html>
-        `;
+    <html>
+      <body style="margin: 0; padding: 0; background-color: #121212; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff;">
+        <div style="max-width: 600px; margin: auto; padding: 40px 30px; background-color: #1e1e1e; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+          <header style="text-align: center; margin-bottom: 40px;">
+            <h1 style="margin: 0; color: #00d8ff;">Brender</h1>
+            <p style="font-size: 14px; color: #cccccc;">Tecnologia para transformar sua experiência</p>
+          </header>
+  
+          <section>
+            <h2 style="color: #ffffff;">Confirmação de Pagamento</h2>
+            <p style="font-size: 16px; line-height: 1.6;">
+              Olá! Obrigado por seu pagamento. Você adquiriu o plano:
+              <strong style="color: #00d8ff;">${createEmailNotificationParams.plan}</strong>.
+            </p>
+            <p style="font-size: 16px; line-height: 1.6;">
+              Caso tenha alguma dúvida ou precise de suporte, sinta-se à vontade para entrar em contato conosco.
+            </p>
+          </section>
+  
+          <footer style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; text-align: center; color: #888;">
+            <p style="margin: 0;">Atenciosamente,</p>
+            <p style="margin: 5px 0 0 0;">Equipe Brender</p>
+          </footer>
+        </div>
+      </body>
+    </html>
+  `;
 
     console.log(
       "Parâmetros de Notificação de E-mail:",
