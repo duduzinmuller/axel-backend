@@ -24,6 +24,12 @@ export class EmailNotificationUseCase {
             </html>
         `;
 
+    console.log(
+      "Parâmetros de Notificação de E-mail:",
+      createEmailNotificationParams,
+    );
+    console.log("Destinatário:", createEmailNotificationParams.recipient);
+
     const emailNotification = await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: createEmailNotificationParams.recipient,

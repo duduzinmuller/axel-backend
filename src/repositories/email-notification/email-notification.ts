@@ -5,8 +5,11 @@ export class EmailNotificationRepository {
   async execute(createEmailNotificationParams: EmailNotification) {
     const emailNotification = await prisma.emailNotification.create({
       data: {
-        ...createEmailNotificationParams,
+        recipient: createEmailNotificationParams.recipient,
+        subject: createEmailNotificationParams.subject,
+        content: createEmailNotificationParams.content,
         status: EmailStatus.PENDING,
+        plan: createEmailNotificationParams.plan,
       },
     });
 

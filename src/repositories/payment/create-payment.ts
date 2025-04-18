@@ -6,6 +6,7 @@ export class CreatePaymentRepository {
     const payment = await prisma.payment.create({
       data: {
         ...createPaymentParams,
+        currency: createPaymentParams.currency,
         status: "PENDING",
       },
     });

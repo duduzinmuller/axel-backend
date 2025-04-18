@@ -42,6 +42,7 @@ export interface Payment {
   userId: string;
   externalId?: string;
   status: PaymentStatus;
+  currency: string;
   amount: number;
   paymentMethod?: string;
   paymentMethodId?: string;
@@ -50,6 +51,7 @@ export interface Payment {
   transactionDetails?: any;
   notificationSent: boolean;
   email: string;
+  recipient: string;
   plan: Plan;
   createdAt: Date;
   updatedAt: Date;
