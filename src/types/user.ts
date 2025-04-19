@@ -92,6 +92,7 @@ export enum EmailStatus {
   PENDING = "PENDING",
   SENT = "SENT",
   FAILED = "FAILED",
+  CANCELED = "CANCELED",
 }
 
-type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "CANCELED";
+export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "CANCELED";
