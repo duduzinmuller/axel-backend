@@ -6,6 +6,7 @@ import { paymentRouter } from "./routes/payment/routes-payment";
 import { googleGenerateRouter } from "./routes/google-generate/routes-google-generate";
 import { scriptRouter } from "./routes/scripts/script";
 import { interactionRouter } from "./routes/interaction/routes-interaction";
+import { tvRouter } from "./routes/tv/routes-tv";
 const app = express();
 app.use(express.json());
 
@@ -16,4 +17,5 @@ app.use("/api/payment", paymentRouter);
 app.use("/api/google", googleGenerateRouter);
 app.use("/api/scripts", scriptRouter);
 app.use("/api/my", interactionRouter);
+app.use("/api/tv", tvRouter);
 export { app };
