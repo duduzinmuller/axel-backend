@@ -10,7 +10,7 @@ export const callbackController = async (req: Request, res: Response) => {
   const { code } = req.query;
   try {
     await handleCallback(code as string);
-    res.send("Autenticado com sucesso!");
+    res.status(200).send("Autenticado com sucesso!");
   } catch (err) {
     res.status(400).send("Erro na autenticação");
   }
