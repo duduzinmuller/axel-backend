@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import {
   makeCreatePaymentController,
   makeStripeWebhookController,
+  makeUpdatePaymentController,
 } from "../../factories/controller/payment/payment";
 import { auth } from "../../middleware/auth";
 
@@ -27,3 +28,15 @@ paymentRouter.post("/webhook", async (request: Request, response: Response) => {
 
   response.status(statusCode).json(body);
 });
+
+paymentRouter.patch(
+  "/update-payment",
+  auth,
+  async (request: Request, response: Response) => {
+    const updatePaymentController = makeUpdatePaymentController();
+
+    const { statusCode, body } = await updatePaymentController.execute(request);
+
+    response.status(statusCode).json(body);
+  },
+);

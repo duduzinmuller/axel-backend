@@ -3,6 +3,7 @@ import {
   makeCreateAccessController,
   makeValidateAccessCodeController,
 } from "../../factories/controller/access-code/access-code";
+import { auth } from "../../middleware/auth";
 
 export const accessCodeRouter = Router();
 
@@ -16,6 +17,7 @@ accessCodeRouter.post("/access-code", async (req: Request, res: Response) => {
 
 accessCodeRouter.post(
   "/validate-access-code",
+  auth,
   async (req: Request, res: Response) => {
     const validateAccessCodeController = makeValidateAccessCodeController();
 

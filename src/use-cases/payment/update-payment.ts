@@ -3,6 +3,7 @@ import { EmailNotificationUseCase } from "../email-notification/email-notificati
 import { stripe } from "../../config/stripe";
 import { EmailStatus, Payment } from "../../types/user";
 import { PaymentError } from "../../errors/payment";
+import { renderEmailTemplate } from "../../utils/emailTemplateRenderer";
 
 export class UpdatePaymentUseCase {
   updateParamsRepository: UpdatePaymentRepository;
@@ -33,6 +34,10 @@ export class UpdatePaymentUseCase {
         status: "COMPLETED",
       });
 
+      const htmlContent = await renderEmailTemplate("payment-success", {
+        plan: updatedPayment.plan,
+      });
+
       await this.emailNotificationUseCase.execute({
         id: updatedPayment.id,
         createdAt: new Date(),
@@ -40,7 +45,7 @@ export class UpdatePaymentUseCase {
         plan: updatedPayment.plan,
         recipient: updatedPayment.recipient || "default@example.com",
         subject: "Pagamento Aprovado",
-        content: `Seu pagamento foi aprovado com sucesso! Você adquiriu o plano: ${updatedPayment.plan}.`,
+        content: htmlContent,
         status: EmailStatus.SENT,
       });
     }
@@ -51,6 +56,10 @@ export class UpdatePaymentUseCase {
         status: "FAILED",
       });
 
+      const htmlContent = await renderEmailTemplate("payment-failed", {
+        plan: updatedPayment.plan,
+      });
+
       await this.emailNotificationUseCase.execute({
         id: updatedPayment.id,
         createdAt: new Date(),
@@ -58,7 +67,7 @@ export class UpdatePaymentUseCase {
         plan: updatedPayment.plan,
         recipient: updatedPayment.recipient || "default@example.com",
         subject: "Falha no Pagamento",
-        content: `O pagamento não foi aprovado. Tente novamente ou entre em contato com o suporte.`,
+        content: htmlContent,
         status: EmailStatus.SENT,
       });
     }
@@ -69,6 +78,10 @@ export class UpdatePaymentUseCase {
         status: "CANCELED",
       });
 
+      const htmlContent = await renderEmailTemplate("payment-canceled", {
+        plan: updatedPayment.plan,
+      });
+
       await this.emailNotificationUseCase.execute({
         id: updatedPayment.id,
         createdAt: new Date(),
@@ -76,7 +89,7 @@ export class UpdatePaymentUseCase {
         plan: updatedPayment.plan,
         recipient: updatedPayment.recipient || "default@example.com",
         subject: "Pagamento Cancelado",
-        content: `Seu pagamento foi cancelado. Caso precise de mais informações, entre em contato.`,
+        content: htmlContent,
         status: EmailStatus.SENT,
       });
     }
@@ -87,6 +100,10 @@ export class UpdatePaymentUseCase {
         status: "PENDING",
       });
 
+      const htmlContent = await renderEmailTemplate("payment-pending", {
+        plan: updatedPayment.plan,
+      });
+
       await this.emailNotificationUseCase.execute({
         id: updatedPayment.id,
         createdAt: new Date(),
@@ -94,7 +111,7 @@ export class UpdatePaymentUseCase {
         plan: updatedPayment.plan,
         recipient: updatedPayment.recipient || "default@example.com",
         subject: "Pagamento Pendente",
-        content: `Seu pagamento está pendente. Por favor, aguarde a confirmação.`,
+        content: htmlContent,
         status: EmailStatus.SENT,
       });
     }
