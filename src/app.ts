@@ -7,6 +7,8 @@ import { googleGenerateRouter } from "./routes/google-generate/routes-google-gen
 import { scriptRouter } from "./routes/scripts/script";
 import { interactionRouter } from "./routes/interaction/routes-interaction";
 import { tvRouter } from "./routes/tv/routes-tv";
+import { musicRouter } from "./routes/spotify/routes-spotify";
+
 const app = express();
 app.use(express.json());
 
@@ -18,4 +20,5 @@ app.use("/api/google", googleGenerateRouter);
 app.use("/api/scripts", scriptRouter);
 app.use("/api/my", interactionRouter);
 app.use("/api/tv", tvRouter);
+app.use("/api/music", musicRouter);
 export { app };
