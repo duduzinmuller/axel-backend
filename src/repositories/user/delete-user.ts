@@ -1,6 +1,6 @@
 import prisma from "../../../prisma/prisma";
 import { UserNotFoundError } from "../../errors/user";
-import { PrismaClientKnownRequestError } from "../../generated/prisma/runtime/library";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export class DeleteUserRepository {
   async execute(userId: string) {
