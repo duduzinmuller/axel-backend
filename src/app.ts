@@ -9,6 +9,7 @@ import { interactionRouter } from "./routes/interaction/routes-interaction";
 import { tvRouter } from "./routes/tv/routes-tv";
 import { musicRouter } from "./routes/spotify/routes-spotify";
 import { weatherRouter } from "./routes/weather/weather";
+import { socialRouter } from "./routes/social/routes-social";
 
 const app = express();
 app.use(express.json());
@@ -23,4 +24,5 @@ app.use("/api/my", interactionRouter);
 app.use("/api/tv", tvRouter);
 app.use("/api/music", musicRouter);
 app.use("/api/weather", weatherRouter);
+app.use("/api/social", socialRouter);
 export { app };
