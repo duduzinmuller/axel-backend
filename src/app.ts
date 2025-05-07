@@ -10,9 +10,18 @@ import { tvRouter } from "./routes/tv/routes-tv";
 import { musicRouter } from "./routes/spotify/routes-spotify";
 import { weatherRouter } from "./routes/weather/weather";
 import { socialRouter } from "./routes/social/routes-social";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  }),
+);
 
 app.use("/api/users", userRouter);
 app.use("/api", createVerificationRouter);

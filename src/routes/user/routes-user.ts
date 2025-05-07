@@ -12,7 +12,7 @@ import { auth } from "../../middleware/auth";
 
 export const userRouter = Router();
 
-userRouter.post("/", async (request: Request, response: Response) => {
+userRouter.post("/register", async (request: Request, response: Response) => {
   const controller = makeCreateUserController();
 
   const { statusCode, body }: any = await controller.execute(request);
