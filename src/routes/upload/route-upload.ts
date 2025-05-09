@@ -2,17 +2,18 @@ import express, { Request, Response } from "express";
 import { upload } from "../../utils/upload";
 import { UploadImageController } from "../../controller/upload/upload-image";
 
-const router = express.Router();
+const uploadRouter = express.Router();
 
 interface UploadRequest extends Request {
   file?: Express.Multer.File;
   body: { userId: string };
 }
 
-router.post(
+uploadRouter.post(
   "/image",
   upload.single("image"),
   async (request: UploadRequest, response: Response) => {
+    console.log(request.file);
     const controller = new UploadImageController();
 
     const { statusCode, body }: any = await controller.execute(request);
@@ -21,4 +22,4 @@ router.post(
   },
 );
 
-export default router;
+export default uploadRouter;

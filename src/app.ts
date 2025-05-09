@@ -12,6 +12,7 @@ import { weatherRouter } from "./routes/weather/weather";
 import { socialRouter } from "./routes/social/routes-social";
 import cors from "cors";
 import path from "path";
+import uploadRouter from "./routes/upload/route-upload";
 
 const app = express();
 app.use(express.json());
@@ -35,5 +36,6 @@ app.use("/api/tv", tvRouter);
 app.use("/api/music", musicRouter);
 app.use("/api/weather", weatherRouter);
 app.use("/api/social", socialRouter);
-app.use("/api/upload", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/upload", uploadRouter);
 export { app };
