@@ -1,3 +1,3 @@
 export const imageUrl = (): string => {
-  return "https://imgur.com/5Q9j39l";
+  return "https://i.imgur.com/5Q9j39l.png";
 };
