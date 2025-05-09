@@ -29,9 +29,18 @@ export const CreateUserSchema = z.object({
     }),
 });
 
-export const updateUserSchema = CreateUserSchema.omit({}).partial().strict({
-  message: "Os campos não podem ser adicionados",
-});
+export const updateUserSchema = CreateUserSchema.extend({
+  image: z
+    .string()
+    .url({
+      message: "A URL da imagem é inválida",
+    })
+    .optional(),
+})
+  .partial()
+  .strict({
+    message: "Os campos não podem ser adicionados",
+  });
 
 export const loginSchema = z.object({
   email: z
