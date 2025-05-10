@@ -58,6 +58,7 @@ model User {
   role           Role             @default(USER)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  isVerified  Boolean  @default(false)
 
   interactions   Interaction[]
   preferences    UserPreference[]
@@ -126,8 +127,17 @@ model EmailVerification {
   id         String   @id @default(uuid())
   code       String   @db.VarChar(6)  
   expiresAt  DateTime
-  contactId  String
   createdAt  DateTime @default(now())
   userId     String
   user       User     @relation(fields: [userId], references: [id])
+}
+
+model EmailVerificationRequest {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  code       String   @db.VarChar(6) 
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
 }
