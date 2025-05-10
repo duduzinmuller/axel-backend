@@ -8,7 +8,6 @@ export class CreateVerificationRepository {
         userId: emailVerificationParams.userId,
         code: emailVerificationParams.code,
         expiresAt: emailVerificationParams.expiresAt,
-        contactId: emailVerificationParams.contactId,
       },
     });
 

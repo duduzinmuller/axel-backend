@@ -17,7 +17,17 @@ export class CreateUserRepository {
         providerId:
           createUserParams.providerId ||
           (createUserParams.provider === "LOCAL" ? uuidv4() : null),
+        isVerified: false,
       },
+    });
+
+    return user;
+  }
+
+  async verifyUserEmail(userId: string) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { isVerified: true },
     });
 
     return user;

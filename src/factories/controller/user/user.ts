@@ -10,12 +10,14 @@ import { GetUserByIdController } from "../../../controller/user/get-user-by-id";
 import { LoginUserController } from "../../../controller/user/login-user";
 import { RefreshTokenController } from "../../../controller/user/refresh-token";
 import { UpdateUserController } from "../../../controller/user/update-user";
+import { CreateVerificationRepository } from "../../../repositories/email-verification/email-verification";
 import { CreateUserRepository } from "../../../repositories/user/create-user";
 import { DeleteUserRepository } from "../../../repositories/user/delete-user";
 import { GetUserByEmailRepository } from "../../../repositories/user/get-by-email-user";
 import { GetUserByIdRepository } from "../../../repositories/user/get-by-id-user";
 import { GetOrCreateUserByProviderRepository } from "../../../repositories/user/get-or-create-user-by-provider";
 import { UpdateUserRepository } from "../../../repositories/user/update-user";
+import { CreateVerificationUseCase } from "../../../use-cases/email-verification/email-verification";
 import { CreateUserUseCase } from "../../../use-cases/user/create-user";
 import { DeleteUserUseCase } from "../../../use-cases/user/delete-user";
 import { GetOrCreateUserByProviderUseCase } from "../../../use-cases/user/get-or-create-user-by-provider";
@@ -43,7 +45,16 @@ export const makeCreateUserController = () => {
     tokensGeneratorAdapter,
   );
 
-  const createUserController = new CreateUserController(createUserUseCase);
+  const createVerificatioRepository = new CreateVerificationRepository();
+
+  const createVerificationUseCase = new CreateVerificationUseCase(
+    createVerificatioRepository,
+  );
+
+  const createUserController = new CreateUserController(
+    createUserUseCase,
+    createVerificationUseCase,
+  );
 
   return createUserController;
 };

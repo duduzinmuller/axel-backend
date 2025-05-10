@@ -5,6 +5,7 @@ export class ValidateVerificationCodeRepository {
   async execute(emailVerificationParams: EmailVerification) {
     const emailVerification = await prisma.emailVerification.findFirst({
       where: {
+        userId: emailVerificationParams.userId,
         code: emailVerificationParams.code,
       },
     });

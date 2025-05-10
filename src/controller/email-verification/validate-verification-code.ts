@@ -3,32 +3,34 @@ import {
   EmailVerificationExpiredError,
   EmailVerificationInvalidError,
 } from "../../errors/email-verification";
+import { CreateUserRepository } from "../../repositories/user/create-user";
 import { ValidateVerificationCodeUseCase } from "../../use-cases/email-verification/validate-verification-code";
 import { badRequest, ok, serverError } from "../helpers/http";
 
 export class ValidateVerificationCodeController {
   validateVerificationCodeUseCase: ValidateVerificationCodeUseCase;
+  createUserRepository: CreateUserRepository;
 
   constructor(
     validateVerificationCodeUseCase: ValidateVerificationCodeUseCase,
+    createUserRepository: CreateUserRepository,
   ) {
     this.validateVerificationCodeUseCase = validateVerificationCodeUseCase;
+    this.createUserRepository = createUserRepository;
   }
 
   async execute(httpRequest: any) {
     try {
       const params = httpRequest.body;
-      const userId = httpRequest.params?.userId;
 
       if (!params) {
         return badRequest("Missing required field: code");
       }
 
       const emailVerification =
-        await this.validateVerificationCodeUseCase.execute({
-          ...params,
-          userId,
-        });
+        await this.validateVerificationCodeUseCase.execute(params);
+
+      await this.createUserRepository.verifyUserEmail(emailVerification.userId);
 
       return ok(emailVerification);
     } catch (error) {

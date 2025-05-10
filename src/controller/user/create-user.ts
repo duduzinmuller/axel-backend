@@ -4,11 +4,17 @@ import { CreateUserUseCase } from "../../use-cases/user/create-user";
 import { badRequest, created, serverError } from "../helpers/http";
 import { EmailAlreadyInUseError } from "../../errors/user";
 import { Request } from "express";
+import { CreateVerificationUseCase } from "../../use-cases/email-verification/email-verification";
 
 export class CreateUserController {
   createUserUseCase: CreateUserUseCase;
-  constructor(createUserUseCase: CreateUserUseCase) {
+  createVerificationUseCase: CreateVerificationUseCase;
+  constructor(
+    createUserUseCase: CreateUserUseCase,
+    createVerificationUseCase: CreateVerificationUseCase,
+  ) {
     this.createUserUseCase = createUserUseCase;
+    this.createVerificationUseCase = createVerificationUseCase;
   }
 
   async execute(httpRequest: Request) {
@@ -18,6 +24,8 @@ export class CreateUserController {
       await CreateUserSchema.parseAsync(params);
 
       const result = await this.createUserUseCase.execute(params);
+
+      await this.createVerificationUseCase.execute(result.email);
 
       return created(result);
     } catch (error) {
