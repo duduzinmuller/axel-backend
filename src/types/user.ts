@@ -1,4 +1,4 @@
-import { Plan, Provider, Role } from "../generated/prisma";
+import { Plan, Provider, Role } from "@prisma/client";
 
 export interface User {
   id: string;
@@ -12,6 +12,7 @@ export interface User {
   plan: Plan;
   createdAt: Date;
   updatedAt: Date;
+  isVerified: Boolean;
 
   interactions?: Interaction[];
   preferences?: UserPreference[];
@@ -62,7 +63,6 @@ export interface EmailVerification {
   email: string;
   code: string;
   expiresAt: Date;
-  contactId: string;
   createdAt: Date;
   userId: string;
 }
