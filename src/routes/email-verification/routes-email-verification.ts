@@ -3,13 +3,11 @@ import {
   makeValidateVerificationCodeController,
   makeVerificationController,
 } from "../../factories/controller/email-verification/email-verification";
-import { auth } from "../../middleware/auth";
 
 export const createVerificationRouter = Router();
 
 createVerificationRouter.post(
   "/verification-code",
-  auth,
   async (request: Request, response: Response) => {
     const controller = makeVerificationController();
 
@@ -21,7 +19,6 @@ createVerificationRouter.post(
 
 createVerificationRouter.post(
   "/validate-code",
-  auth,
   async (request: Request, response: Response) => {
     const controller = makeValidateVerificationCodeController();
 
