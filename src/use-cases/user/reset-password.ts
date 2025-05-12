@@ -9,6 +9,7 @@ import {
 interface ResetPasswordParams {
   token: string;
   newPassword: string;
+  password: string;
 }
 
 export class ResetPasswordUseCase {
@@ -40,12 +41,8 @@ export class ResetPasswordUseCase {
       throw new ResetPasswordTokenExpiredError();
     }
 
-    const saltRoads = 10;
-
-    const hashedPassword = await this.passwordHasherAdapter.execute(
-      newPassword,
-      saltRoads,
-    );
+    const hashedPassword =
+      await this.passwordHasherAdapter.execute(newPassword);
 
     const updatedUser = await this.updateUserPasswordRepository.execute({
       id: user.id,
