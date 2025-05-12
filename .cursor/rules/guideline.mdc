@@ -1,6 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: true
----
- - Use Conventional Commits para escrever todas as mensagens de commit.
