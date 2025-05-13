@@ -1,6 +1,6 @@
 import { GetOrCreateUserByProviderRepository } from "../../repositories/user/get-or-create-user-by-provider";
 import { TokensGeneratorAdapter } from "../../adapters/token-generator";
-import { Provider } from "../../generated/prisma";
+import { Provider } from "@prisma/client";
 
 export class GetOrCreateUserByProviderUseCase {
   getOrCreateUserByProviderRepository: GetOrCreateUserByProviderRepository;
