@@ -26,6 +26,14 @@ import { LoginUserUseCase } from "../../../use-cases/user/login-user";
 import { RefreshTokenUseCase } from "../../../use-cases/user/refresh-token";
 import { UpdateUserUseCase } from "../../../use-cases/user/update-user";
 
+import { ResetPasswordUseCase } from "../../../use-cases/user/reset-password";
+import { GetUserByResetTokenRepository } from "../../../repositories/user/get-by-reset-token-user";
+import { UpdateUserPasswordRepository } from "../../../repositories/user/update-password-user";
+import { ResetPasswordController } from "../../../controller/user/reset-password";
+import { GenerateResetTokenUseCase } from "../../../use-cases/user/generate-reset-token";
+import { SendResetPasswordEmailService } from "../../../services/send-reset-password-email";
+import { RequestResetPasswordController } from "../../../controller/user/request-reset-password-controller";
+
 export const makeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
 
@@ -147,4 +155,29 @@ export const makeGetOrCreateUserByProviderController = () => {
     new GetOrCreateUserByProviderController(getOrCreateUserByProviderUseCase);
 
   return getOrCreateUserByProviderController;
+};
+
+export const makeResetPasswordController = () => {
+  const getUserByResetTokenRepository = new GetUserByResetTokenRepository();
+  const updateUserPasswordRepository = new UpdateUserPasswordRepository();
+  const passwordHasherAdapter = new PasswordHasherAdapter();
+  const resetPasswordUseCase = new ResetPasswordUseCase(
+    getUserByResetTokenRepository,
+    updateUserPasswordRepository,
+    passwordHasherAdapter,
+  );
+  const controller = new ResetPasswordController(resetPasswordUseCase);
+
+  return controller;
+};
+
+export const makeRequestResetPasswordController = () => {
+  const generateResetTokenUseCase = new GenerateResetTokenUseCase();
+  const sendResetPasswordEmailService = new SendResetPasswordEmailService();
+  const controller = new RequestResetPasswordController(
+    generateResetTokenUseCase,
+    sendResetPasswordEmailService,
+  );
+
+  return controller;
 };

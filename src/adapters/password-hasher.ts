@@ -1,7 +1,12 @@
 import bcrypt from "bcrypt";
 
 export class PasswordHasherAdapter {
-  execute(password: string) {
-    return bcrypt.hash(password, 10);
+  async execute(password: string): Promise<string> {
+    if (!password) {
+      throw new Error("Password is required to hash");
+    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
   }
 }

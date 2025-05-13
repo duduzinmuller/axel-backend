@@ -6,6 +6,8 @@ import {
   makeGetUserByIdController,
   makeLoginUserController,
   makeRefreshTokenController,
+  makeRequestResetPasswordController,
+  makeResetPasswordController,
   makeUpdateUserController,
 } from "../../factories/controller/user/user";
 import { auth } from "../../middleware/auth";
@@ -78,6 +80,25 @@ userRouter.post(
 
 userRouter.post("/provider", async (request: Request, response: Response) => {
   const controller = makeGetOrCreateUserByProviderController();
+
+  const { statusCode, body }: any = await controller.execute(request);
+
+  response.status(statusCode).send(body);
+});
+
+userRouter.post(
+  "/reset-password",
+  async (request: Request, response: Response) => {
+    const controller = makeResetPasswordController();
+
+    const { statusCode, body }: any = await controller.execute(request);
+
+    response.status(statusCode).send(body);
+  },
+);
+
+userRouter.post("/request-reset-password", async (request, response) => {
+  const controller = makeRequestResetPasswordController();
 
   const { statusCode, body }: any = await controller.execute(request);
 
