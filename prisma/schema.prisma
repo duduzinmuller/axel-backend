@@ -35,12 +35,6 @@ enum EmailStatus {
   FAILED
 }
 
-enum Provider {
-  LOCAL
-  GOOGLE
-  FACEBOOK
-}
-
 enum Role {
   USER
   ADMIN
@@ -52,7 +46,7 @@ model User {
   email          String           @unique
   password       String
   image          String?
-  provider       Provider         @default(LOCAL)
+  provider       String?       @db.VarChar(50)
   providerId     String?
   plan           Plan             @default(FREE)
   role           Role             @default(USER)

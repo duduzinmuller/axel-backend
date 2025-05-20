@@ -2,7 +2,6 @@ import { Request, Response, Router } from "express";
 import {
   makeCreateUserController,
   makeDeleteUserController,
-  makeGetOrCreateUserByProviderController,
   makeGetUserByIdController,
   makeLoginUserController,
   makeRefreshTokenController,
@@ -77,14 +76,6 @@ userRouter.post(
     response.status(statusCode).send(body);
   },
 );
-
-userRouter.post("/provider", async (request: Request, response: Response) => {
-  const controller = makeGetOrCreateUserByProviderController();
-
-  const { statusCode, body }: any = await controller.execute(request);
-
-  response.status(statusCode).send(body);
-});
 
 userRouter.post(
   "/reset-password",
