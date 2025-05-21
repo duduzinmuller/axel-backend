@@ -38,6 +38,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
     "@prisma/client": "^6.6.0",
+    "@supabase/supabase-js": "^2.49.7",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

@@ -1,4 +1,4 @@
-import { Plan, Provider, Role } from "@prisma/client";
+import { Plan, Role } from "@prisma/client";
 
 export interface User {
   id: string;
@@ -7,7 +7,7 @@ export interface User {
   password: string;
   image?: string;
   role?: Role;
-  provider: Provider;
+  provider?: string;
   providerId?: string;
   plan: Plan;
   createdAt: Date;

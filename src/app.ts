@@ -13,13 +13,14 @@ import { socialRouter } from "./routes/social/routes-social";
 import cors from "cors";
 import path from "path";
 import uploadRouter from "./routes/upload/route-upload";
+import authRouter from "./routes/auth";
 
 const app = express();
 app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: `${process.env.FRONT_END_APP_API}`,
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
   }),
@@ -38,4 +39,5 @@ app.use("/api/weather", weatherRouter);
 app.use("/api/social", socialRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/upload", uploadRouter);
+app.use("/api/auth", authRouter);
 export { app };
