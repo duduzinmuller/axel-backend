@@ -71,10 +71,8 @@ authRouter.get(
       const savedUser = await prisma.user.upsert({
         where: { email: user.email },
         update: {
-          name,
           provider,
           providerId: user.id,
-          image: avatarUrl,
         },
         create: {
           id: user.id,
