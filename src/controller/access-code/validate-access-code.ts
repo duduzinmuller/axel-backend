@@ -14,6 +14,12 @@ export class ValidateAccessCodeController {
 
   async execute(httpRequest: any) {
     try {
+      const userId = httpRequest.params?.userId;
+
+      if (!userId) {
+        return badRequest("Usuário não autenticado");
+      }
+
       const params = httpRequest.body;
 
       if (!params.code) {
@@ -21,6 +27,7 @@ export class ValidateAccessCodeController {
       }
 
       const accessCode = await this.validateAccessCodeUseCase.execute(
+        userId,
         params.code,
       );
 

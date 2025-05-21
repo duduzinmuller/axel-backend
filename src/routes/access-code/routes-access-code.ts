@@ -21,8 +21,12 @@ accessCodeRouter.post(
   async (req: Request, res: Response) => {
     const validateAccessCodeController = makeValidateAccessCodeController();
 
-    const { statusCode, body } =
-      await validateAccessCodeController.execute(req);
+    const userId = req.userId;
+
+    const { statusCode, body } = await validateAccessCodeController.execute({
+      params: { userId },
+      body: req.body,
+    });
 
     res.status(statusCode).json(body);
   },
