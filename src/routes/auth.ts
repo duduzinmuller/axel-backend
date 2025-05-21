@@ -64,6 +64,9 @@ authRouter.get(
     try {
       const provider = user.app_metadata?.provider || "unknown";
       const [name = ""] = (user.user_metadata.full_name || "").split(" ");
+      const avatarUrl =
+        user.user_metadata.avatar_url || user.user_metadata.picture || "";
+
       const password = generateRandomPassword();
       const savedUser = await prisma.user.upsert({
         where: { email: user.email },
@@ -71,6 +74,7 @@ authRouter.get(
           name,
           provider,
           providerId: user.id,
+          image: avatarUrl,
         },
         create: {
           id: user.id,
@@ -79,6 +83,7 @@ authRouter.get(
           password: password,
           provider,
           providerId: user.id,
+          image: avatarUrl,
         },
       });
 
@@ -91,7 +96,10 @@ authRouter.get(
 
       return res.status(200).json({
         message: "Usuário autenticado com sucesso",
-        user,
+        user: {
+          ...user,
+          avatarUrl,
+        },
         tokens: {
           accessToken,
           refreshToken,
