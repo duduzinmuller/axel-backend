@@ -39,6 +39,8 @@ export interface UserPreference {
 }
 
 export interface Payment {
+  name: any;
+  cpf: any;
   id: string;
   userId: string;
   externalId?: string;

@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import prisma from "../../prisma/prisma";
 
-export const auth = (
+export const auth = async (
   request: Request,
   response: Response,
   next: NextFunction,
-): void => {
+): Promise<void> => {
   try {
     const accessToken = request.headers?.authorization?.split("Bearer ")[1];
     if (!accessToken) {
@@ -23,6 +24,16 @@ export const auth = (
       return;
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: decodedToken.userId },
+    });
+
+    if (!user) {
+      response.status(401).send({ message: "Unauthorized" });
+      return;
+    }
+
+    request.user = user;
     request.userId = decodedToken.userId;
 
     next();
