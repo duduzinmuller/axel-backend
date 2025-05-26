@@ -3,9 +3,11 @@ import { Payment } from "../../types/user";
 
 export class CreatePaymentRepository {
   async execute(createPaymentParams: Payment) {
+    const { name, ...data } = createPaymentParams;
+
     const payment = await prisma.payment.create({
       data: {
-        ...createPaymentParams,
+        ...data,
         currency: createPaymentParams.currency,
         status: "PENDING",
       },

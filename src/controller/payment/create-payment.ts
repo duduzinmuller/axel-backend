@@ -11,6 +11,11 @@ export class CreatePaymentController {
   async execute(httpRequest: any) {
     try {
       const params = httpRequest.body;
+      const user = httpRequest.user;
+
+      params.userId = user?.id;
+      params.name = user?.name;
+      params.recipient = user?.email;
 
       const payment = await this.createPaymentUseCase.execute(params);
 

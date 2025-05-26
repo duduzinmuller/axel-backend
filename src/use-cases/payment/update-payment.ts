@@ -1,6 +1,6 @@
 import { UpdatePaymentRepository } from "../../repositories/payment/update-payment";
 import { EmailNotificationUseCase } from "../email-notification/email-notification";
-import { stripe } from "../../config/stripe";
+import { stripe } from "../../config/mercadopago";
 import { EmailStatus, Payment } from "../../types/user";
 import { PaymentError } from "../../errors/payment";
 import { renderEmailTemplate } from "../../utils/emailTemplateRenderer";

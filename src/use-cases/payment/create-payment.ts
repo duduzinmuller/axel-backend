@@ -1,7 +1,11 @@
 import { CreatePaymentRepository } from "../../repositories/payment/create-payment";
 import { EmailNotificationUseCase } from "../email-notification/email-notification";
-import { stripe } from "../../config/stripe";
 import { EmailStatus, Payment } from "../../types/user";
+import {
+  mercadopago,
+  Payment as MercadoPagoPayment,
+} from "../../config/mercadopago";
+import { isValidCpf, removeCpfPunctuation } from "../../utils/cpf";
 
 export class CreatePaymentUseCase {
   createPaymentRepository: CreatePaymentRepository;
@@ -16,19 +20,42 @@ export class CreatePaymentUseCase {
   }
 
   async execute(createPaymentParams: Payment) {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: createPaymentParams.amount,
-      currency: "brl",
-      payment_method_types: ["card", "boleto"],
-      metadata: {
-        userId: createPaymentParams.userId,
-        plan: createPaymentParams.plan,
+    if (!createPaymentParams.cpf) {
+      throw new Error("CPF não informado.");
+    }
+    const cpfSemPontuacao = removeCpfPunctuation(createPaymentParams.cpf);
+    if (!isValidCpf(cpfSemPontuacao)) {
+      throw new Error("CPF inválido.");
+    }
+
+    const [firstName, ...rest] = createPaymentParams.name.split(" ");
+    const lastName = rest.join(" ");
+
+    const mpPayment = new MercadoPagoPayment(mercadopago);
+
+    const paymentResponse = await mpPayment.create({
+      body: {
+        transaction_amount: createPaymentParams.amount,
+        payment_method_id: createPaymentParams.paymentMethod,
+        payer: {
+          email: createPaymentParams.recipient,
+          first_name: firstName,
+          last_name: lastName,
+          identification: {
+            type: "CPF",
+            number: cpfSemPontuacao,
+          },
+        },
+        description: `Plano: ${createPaymentParams.plan}`,
+        metadata: {
+          userId: createPaymentParams.userId,
+          plan: createPaymentParams.plan,
+        },
       },
     });
 
     const payment = await this.createPaymentRepository.execute({
       ...createPaymentParams,
-      externalId: paymentIntent.id,
       status: "PENDING",
     });
 
@@ -40,6 +67,6 @@ export class CreatePaymentUseCase {
       status: EmailStatus.PENDING,
     });
 
-    return { payment, emailNotification };
+    return { payment, emailNotification, mercadoPago: paymentResponse };
   }
 }
