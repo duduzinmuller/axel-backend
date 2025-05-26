@@ -94,7 +94,7 @@ model Payment {
   paymentMethod      String?
   paymentMethodId    String?
   plan               Plan       
-  paymentProvider    String        @default("STRIPE")
+  paymentProvider    String        @default("MERCADOPAGO")
   paymentUrl         String?       
   transactionDetails Json?         
   notificationSent   Boolean       @default(false) 
