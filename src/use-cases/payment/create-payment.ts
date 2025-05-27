@@ -28,30 +28,72 @@ export class CreatePaymentUseCase {
       throw new Error("CPF inválido.");
     }
 
+    if (!createPaymentParams.name) {
+      throw new Error("Nome não informado.");
+    }
     const [firstName, ...rest] = createPaymentParams.name.split(" ");
-    const lastName = rest.join(" ");
+    const lastName = rest.join(" ") || "-";
+
+    const payer: any = {
+      email: createPaymentParams.recipient,
+      first_name: firstName,
+      last_name: lastName,
+      identification: {
+        type: "CPF",
+        number: cpfSemPontuacao,
+      },
+    };
+
+    if (createPaymentParams.paymentMethod === "bolbradesco") {
+      payer.address = {
+        zip_code: createPaymentParams.zip_code,
+        street_name: createPaymentParams.street_name,
+        street_number: createPaymentParams.street_number,
+        neighborhood: createPaymentParams.neighborhood,
+        city: createPaymentParams.city,
+        federal_unit: createPaymentParams.federal_unit,
+      };
+      const requiredAddress = [
+        "zip_code",
+        "street_name",
+        "street_number",
+        "neighborhood",
+        "city",
+        "federal_unit",
+      ];
+      for (const field of requiredAddress) {
+        if (!(createPaymentParams as any)[field]) {
+          throw new Error(`Campo de endereço obrigatório: ${field}`);
+        }
+      }
+    }
+
+    const paymentBody: any = {
+      transaction_amount: createPaymentParams.amount,
+      payment_method_id: createPaymentParams.paymentMethod,
+      payer,
+      description: `Plano: ${createPaymentParams.plan}`,
+      metadata: {
+        userId: createPaymentParams.userId,
+        plan: createPaymentParams.plan,
+      },
+    };
+
+    if (
+      createPaymentParams.paymentMethod === "visa" ||
+      createPaymentParams.paymentMethod === "master" ||
+      createPaymentParams.paymentMethod === "amex"
+    ) {
+      if (!createPaymentParams.token) {
+        throw new Error("Token do cartão não informado.");
+      }
+      paymentBody.token = createPaymentParams.token;
+    }
 
     const mpPayment = new MercadoPagoPayment(mercadopago);
 
     const paymentResponse = await mpPayment.create({
-      body: {
-        transaction_amount: createPaymentParams.amount,
-        payment_method_id: createPaymentParams.paymentMethod,
-        payer: {
-          email: createPaymentParams.recipient,
-          first_name: firstName,
-          last_name: lastName,
-          identification: {
-            type: "CPF",
-            number: cpfSemPontuacao,
-          },
-        },
-        description: `Plano: ${createPaymentParams.plan}`,
-        metadata: {
-          userId: createPaymentParams.userId,
-          plan: createPaymentParams.plan,
-        },
-      },
+      body: paymentBody,
     });
 
     const payment = await this.createPaymentRepository.execute({
