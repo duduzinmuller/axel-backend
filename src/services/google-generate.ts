@@ -6,7 +6,7 @@ export class GoogleGenerateService {
       const genAi = new GoogleGenerativeAI(
         process.env.GOOGLE_GENERATE_API_KEY!,
       );
-      const model = genAi.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const model = genAi.getGenerativeModel({ model: "gemini-1.5-flash" });
 
       const result = await model.generateContent(question);
 
