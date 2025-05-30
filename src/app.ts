@@ -15,6 +15,7 @@ import path from "path";
 import uploadRouter from "./routes/upload/route-upload";
 import authRouter from "./routes/auth";
 import routerWhisper from "./routes/routes-whister";
+import voicesRouter from "./routes/voices";
 
 const app = express();
 app.use(express.json());
@@ -42,4 +43,5 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/upload", uploadRouter);
 app.use("/api/auth", authRouter);
 app.use("/api", routerWhisper);
+app.use("/api", voicesRouter);
 export { app };
