@@ -1,11 +1,10 @@
 import { exec } from "child_process";
 import express, { Response, Request } from "express";
-import { auth } from "../../middleware/auth";
 import os from "os";
 
 export const scriptRouter = express();
 
-scriptRouter.post("/shutdown", auth, (request: Request, response: Response) => {
+scriptRouter.post("/shutdown", (request: Request, response: Response) => {
   let shutdownCommand = "";
 
   if (
@@ -49,7 +48,7 @@ scriptRouter.post("/shutdown", auth, (request: Request, response: Response) => {
   });
 });
 
-scriptRouter.post("/restart", auth, (request: Request, response: Response) => {
+scriptRouter.post("/restart", (request: Request, response: Response) => {
   let restartCommand = "";
 
   if (
@@ -86,7 +85,7 @@ scriptRouter.post("/restart", auth, (request: Request, response: Response) => {
   });
 });
 
-scriptRouter.post("/lock", auth, (request: Request, response: Response) => {
+scriptRouter.post("/lock", (request: Request, response: Response) => {
   let lockCommand = "";
 
   if (
