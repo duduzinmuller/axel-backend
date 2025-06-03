@@ -1,51 +1,68 @@
+import { Client } from "node-ssdp";
 import axios from "axios";
+import { tvConfig } from "../config/tv-config";
 
-export class TvService {
-  private tvIp: string;
-  private apiKey: string;
+type TVDevice = {
+  ip: string;
+  name: any;
+  model?: any;
+  location?: string;
+};
 
-  constructor(tvIp: string, apiKey: string) {
-    this.tvIp = tvIp;
-    this.apiKey = apiKey;
-  }
+export const TVService = {
+  async discoverTVs(): Promise<TVDevice[]> {
+    return new Promise((resolve) => {
+      const client = new Client();
+      const devices: TVDevice[] = [];
 
-  async turnOn() {
+      client.on("response", (headers, statusCode, rinfo) => {
+        devices.push({
+          ip: rinfo.address,
+          name: headers.SERVER || "Unknown TV",
+          model: headers["MODEL-NAME"] || undefined,
+          location: headers.LOCATION,
+        });
+      });
+
+      client.search(tvConfig.ssdpSearchTarget);
+
+      setTimeout(() => {
+        client.stop();
+        resolve(devices);
+      }, tvConfig.timeoutMs);
+    });
+  },
+
+  async sendCommand(
+    ip: string,
+    command: "powerOn" | "powerOff" | "volumeUp" | "volumeDown",
+  ): Promise<boolean> {
     try {
-      const response = await axios.post(
-        `http://${this.tvIp}/api/power/on`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`,
-          },
-        },
-      );
-      return response.data;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(`Erro ao ligar a TV: ${error.message}`);
-      }
-      throw new Error("Erro ao ligar a TV: Erro desconhecido");
-    }
-  }
+      const url = `http://${ip}:${tvConfig.tvControlPort}/api/v1/commands`;
+      let data;
 
-  async turnOff() {
-    try {
-      const response = await axios.post(
-        `http://${this.tvIp}/api/power/off`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${this.apiKey}`,
-          },
-        },
-      );
-      return response.data;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(`Erro ao desligar a TV: ${error.message}`);
+      switch (command) {
+        case "powerOn":
+          data = { command: "KEY_POWERON" };
+          break;
+        case "powerOff":
+          data = { command: "KEY_POWEROFF" };
+          break;
+        case "volumeUp":
+          data = { command: "KEY_VOLUP" };
+          break;
+        case "volumeDown":
+          data = { command: "KEY_VOLDOWN" };
+          break;
+        default:
+          throw new Error("Comando inválido");
       }
-      throw new Error("Erro ao desligar a TV: Erro desconhecido");
+
+      await axios.post(url, data, { timeout: 1500 });
+      return true;
+    } catch (error) {
+      console.error("Erro ao enviar comando para TV:", error);
+      return false;
     }
-  }
-}
+  },
+};
