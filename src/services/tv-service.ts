@@ -9,7 +9,7 @@ type TVDevice = {
   location?: string;
 };
 
-export const TVService = {
+export class TVService {
   async discoverTVs(): Promise<TVDevice[]> {
     return new Promise((resolve) => {
       const client = new Client();
@@ -31,7 +31,7 @@ export const TVService = {
         resolve(devices);
       }, tvConfig.timeoutMs);
     });
-  },
+  }
 
   async sendCommand(
     ip: string,
@@ -64,5 +64,5 @@ export const TVService = {
       console.error("Erro ao enviar comando para TV:", error);
       return false;
     }
-  },
-};
+  }
+}

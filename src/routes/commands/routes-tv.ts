@@ -1,17 +1,18 @@
 import { Router, Request, Response } from "express";
-import { makeTvController } from "../../factories/controller/scripts/script";
-import { auth } from "../../middleware/auth";
+import { TVController } from "../../controller/commands/tv-controller";
+import { TVService } from "../../services/tv-service";
 
 export const tvRouter = Router();
 
-tvRouter.post("/turn-on", auth, async (req: Request, res: Response) => {
-  const tvController = makeTvController();
-  const { statusCode, body } = await tvController.turnOn(req);
-  res.status(statusCode).json(body);
+const tvService = new TVService();
+const tvController = new TVController(tvService);
+
+tvRouter.get("/scan", async (req: Request, res: Response): Promise<any> => {
+  const result = await tvController.scan(req, res);
+  return res.status(result.statusCode).json(result.body);
 });
 
-tvRouter.post("/turn-off", auth, async (req: Request, res: Response) => {
-  const tvController = makeTvController();
-  const { statusCode, body } = await tvController.turnOff(req);
-  res.status(statusCode).json(body);
+tvRouter.post("/control", async (req: Request, res: Response): Promise<any> => {
+  const result = await tvController.control(req, res);
+  return res.status(result.statusCode).json(result.body);
 });

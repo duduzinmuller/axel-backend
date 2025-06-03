@@ -1,33 +1,41 @@
-import { TvService } from "../../services/tv-service";
-import { ok, serverError, badRequest } from "../helpers/http";
+import { Request, Response } from "express";
+import { TVService } from "../../services/tv-service";
+import { serverError, badRequest, ok } from "../helpers/http";
 
-export class TvController {
-  async turnOn(httpRequest: any) {
+export class TVController {
+  tvService: TVService;
+
+  constructor(tvService: TVService) {
+    this.tvService = tvService;
+  }
+
+  async scan(req: Request, res: Response) {
     try {
-      const { tvIp, apiKey } = httpRequest.body;
-      const tvService = new TvService(tvIp, apiKey);
-      if (!tvIp || !apiKey) {
-        return badRequest("TV IP e API Key são obrigatórios");
-      }
-      const result = await tvService.turnOn();
-      return ok(result);
+      const tvs = await this.tvService.discoverTVs();
+      return ok(tvs);
     } catch (error) {
-      console.error("Erro ao ligar a TV:", error);
+      console.error("Erro na varredura de TVs:", error);
       return serverError();
     }
   }
 
-  async turnOff(httpRequest: any) {
+  async control(req: Request, res: Response) {
     try {
-      const { tvIp, apiKey } = httpRequest.body;
-      const tvService = new TvService(tvIp, apiKey);
-      if (!tvIp || !apiKey) {
-        return badRequest("TV IP e API Key são obrigatórios");
+      const { ip, command } = req.body;
+
+      if (!ip || !command) {
+        return badRequest("ip e command são obrigatórios");
       }
-      const result = await tvService.turnOff();
-      return ok(result);
+
+      const success = await this.tvService.sendCommand(ip, command);
+
+      if (success) {
+        return ok("Comando enviado com sucesso");
+      } else {
+        return serverError();
+      }
     } catch (error) {
-      console.error("Erro ao desligar a TV:", error);
+      console.error("Erro ao controlar TV:", error);
       return serverError();
     }
   }
