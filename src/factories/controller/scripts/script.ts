@@ -1,4 +1,4 @@
-import { TvController } from "../../../controller/tv/tv-controller";
+import { TvController } from "../../../controller/commands/tv-controller";
 
 export const makeTvController = () => {
   const tvController = new TvController();
