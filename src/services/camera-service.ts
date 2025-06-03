@@ -8,7 +8,7 @@ export interface CameraDevice {
   isCamera: boolean;
 }
 
-export const cameraService = {
+export const CameraService = {
   async scanNetwork(): Promise<CameraDevice[]> {
     const devices: CameraDevice[] = [];
 
