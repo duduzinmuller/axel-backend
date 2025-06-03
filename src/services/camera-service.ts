@@ -9,7 +9,7 @@ export interface CameraDevice {
 }
 
 export const CameraService = {
-  async scanNetwork(): Promise<CameraDevice[]> {
+  async scanNetwork(subnet: any): Promise<CameraDevice[]> {
     const devices: CameraDevice[] = [];
 
     const ips = Array.from(
