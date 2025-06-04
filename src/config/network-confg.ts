@@ -1,5 +1,5 @@
 export const networkConfig = {
-  subnet: "192.168.0.1",
+  subnet: process.env.SUBNET,
   startIp: 1,
   endIp: 254,
   portsToCheck: [554, 80, 8080, 443],
