@@ -1,10 +1,27 @@
-import { Router, Request, Response } from "express";
-import { makeFacebookController } from "../../factories/controller/social/social";
+import { Router } from "express";
+import { SocialMediaController } from "../../controller/social/social-media-controller";
 
-export const socialRouter = Router();
+const router = Router();
+const socialMediaController = new SocialMediaController();
 
-socialRouter.post("/schedule/facebook", async (req: Request, res: Response) => {
-  const facebookController = makeFacebookController();
-  const { statusCode, body } = await facebookController.schedulePost(req);
-  res.status(statusCode).json(body);
-});
+router.post(
+  "/post",
+  socialMediaController.postToMultiplePlatforms.bind(socialMediaController),
+);
+
+router.get(
+  "/validate/:userId",
+  socialMediaController.validateCredentials.bind(socialMediaController),
+);
+
+router.post(
+  "/refresh/:userId",
+  socialMediaController.refreshTokens.bind(socialMediaController),
+);
+
+router.get(
+  "/platforms/:userId",
+  socialMediaController.getConnectedPlatforms.bind(socialMediaController),
+);
+
+export { router as socialMediaRoutes };
