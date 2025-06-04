@@ -7,14 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model AccessCode {
-  id        String   @id @default(uuid())
-  code      String   @unique
-  plan      Plan
-  used      Boolean  @default(false)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-}
 
 enum Plan {
   FREE
@@ -35,9 +27,44 @@ enum EmailStatus {
   FAILED
 }
 
+enum Platform {
+  INSTAGRAM
+  FACEBOOK
+  YOUTUBE
+  TIKTOK
+  KWAI
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum PostStatus {
+  PENDING
+  POSTING
+  POSTED
+  FAILED
+  SCHEDULED
+}
+
+enum LogStatus {
+  SUCCESS
+  ERROR
+  WARNING
+}
+
 enum Role {
   USER
   ADMIN
+}
+model AccessCode {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  plan      Plan
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
 
 model User {
@@ -60,8 +87,65 @@ model User {
   preferences    UserPreference[]
   payments       Payment[]
   emailVerifications EmailVerification[]
+  socialCredentials SocialCredentials[]
+  posts             Post[]
 
-   @@unique([provider, providerId]) 
+  @@unique([provider, providerId]) 
+}
+model SocialCredentials {
+  id               String    @id @default(cuid())
+  userId           String
+  platform         Platform
+  accessToken      String    
+  refreshToken     String?   
+  platformUserId   String?   
+  platformUsername String?   
+  pageId           String?   
+  channelId        String?   
+  expiresAt        DateTime?
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, platform])
+  @@map("social_credentials")
+}
+
+model Post {
+  id          String     @id @default(cuid())
+  userId      String
+  content     String
+  mediaUrl    String?
+  mediaType   MediaType?
+  hashtags    String[]
+  platforms   Platform[]
+  status      PostStatus @default(PENDING)
+  results     Json?      
+  scheduledAt DateTime?
+  postedAt    DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs PostLog[]
+
+  @@map("posts")
+}
+
+model PostLog {
+  id           String    @id @default(cuid())
+  postId       String
+  platform     Platform
+  status       LogStatus
+  responseData Json?
+  errorMessage String?
+  createdAt    DateTime  @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("post_logs")
 }
 
 model Interaction {
