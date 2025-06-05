@@ -24,4 +24,14 @@ router.get(
   socialMediaController.getConnectedPlatforms.bind(socialMediaController),
 );
 
+router.get(
+  "/connect/:platform/:userId",
+  socialMediaController.connectToPlatform.bind(socialMediaController),
+);
+
+router.get(
+  "/callback/:platform",
+  socialMediaController.handleCallback.bind(socialMediaController),
+);
+
 export { router as socialMediaRoutes };
