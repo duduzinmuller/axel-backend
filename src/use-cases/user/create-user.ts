@@ -4,8 +4,9 @@ import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-u
 import { EmailAlreadyInUseError } from "../../errors/user";
 import { IdGeneratorAdapter } from "../../adapters/id-generator";
 import { PasswordHasherAdapter } from "../../adapters/password-hasher";
-import { imageUrl } from "../../image";
+
 import { TokensGeneratorAdapter } from "../../adapters/token-generator";
+import { imageUrl } from "../../utils/image";
 
 export class CreateUserUseCase {
   createUserRepository: CreateUserRepository;
