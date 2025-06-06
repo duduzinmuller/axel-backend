@@ -2,7 +2,11 @@ import { ZodError } from "zod";
 import { LoginUserUseCase } from "../../use-cases/user/login-user";
 import { badRequest, ok, serverError, unauthorized } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
-import { InvalidPasswordError, UserNotFoundError } from "../../errors/user";
+import {
+  EmailNotVerifiedError,
+  InvalidPasswordError,
+  UserNotFoundError,
+} from "../../errors/user";
 import { loginSchema } from "../../schemas/user/user";
 import { User } from "../../types/user";
 import { Request } from "express";
@@ -36,6 +40,10 @@ export class LoginUserController {
 
       if (error instanceof UserNotFoundError) {
         return userNotFoundResponse("Usuario não encontrado");
+      }
+
+      if (error instanceof EmailNotVerifiedError) {
+        return badRequest(error.message);
       }
 
       console.error(error);

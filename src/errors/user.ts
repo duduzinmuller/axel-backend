@@ -25,3 +25,10 @@ export class UnauthorizedError extends Error {
     this.name = "UnauthorizedError";
   }
 }
+
+export class EmailNotVerifiedError extends Error {
+  constructor(message = "Email não verificado") {
+    super(message);
+    this.name = "EmailNotVerifiedError";
+  }
+}

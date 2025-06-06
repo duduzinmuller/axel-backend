@@ -1,6 +1,10 @@
 import { PasswordComparatorAdapter } from "../../adapters/password-comparator";
 import { TokensGeneratorAdapter } from "../../adapters/token-generator";
-import { InvalidPasswordError, UserNotFoundError } from "../../errors/user";
+import {
+  InvalidPasswordError,
+  UserNotFoundError,
+  EmailNotVerifiedError,
+} from "../../errors/user";
 import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-user";
 
 export class LoginUserUseCase {
@@ -23,6 +27,10 @@ export class LoginUserUseCase {
 
     if (!user) {
       throw new UserNotFoundError("Usuario não encontrado");
+    }
+
+    if (!user.isVerified) {
+      throw new EmailNotVerifiedError("Email não verificado");
     }
 
     const isPasswordValid = await this.passwordComparatorAdapter.execute(
