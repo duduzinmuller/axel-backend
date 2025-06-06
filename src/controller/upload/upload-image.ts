@@ -11,7 +11,7 @@ export class UploadImageController {
         return badRequest("Nenhum arquivo enviado.");
       }
 
-      const imageUrl = `http://localhost:8000/uploads/${file.filename}`;
+      const imageUrl = `${process.env.BACKEND_URL}/uploads/${file.filename}`;
 
       const updatedUser = await prisma.user.update({
         where: { id: userId },
