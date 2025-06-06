@@ -11,8 +11,6 @@ import cors from "cors";
 import path from "path";
 import uploadRouter from "./routes/upload/route-upload";
 import authRouter from "./routes/auth";
-import voicesRouter from "./routes/voices";
-import { socialMediaRoutes } from "./routes/social/routes-social";
 
 const app = express();
 app.use(express.json());
@@ -27,8 +25,6 @@ app.use(
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-
-app.use("/api/social-media", socialMediaRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
@@ -45,5 +41,4 @@ app.use("/api/weather", weatherRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/upload", uploadRouter);
 app.use("/api/auth", authRouter);
-app.use("/api", voicesRouter);
 export { app };
