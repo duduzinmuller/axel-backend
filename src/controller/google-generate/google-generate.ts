@@ -1,4 +1,5 @@
 import { GoogleGenerateService } from "../../services/google-generate";
+import { HttpRequest } from "../../types/httpRequest";
 import { badRequest, ok, serverError } from "../helpers/http";
 
 export class GoogleGenerateController {
@@ -8,7 +9,7 @@ export class GoogleGenerateController {
     this.googleGenerateService = googleGenerateService;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const { question } = httpRequest.body;
 
