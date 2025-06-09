@@ -1,8 +1,9 @@
 import prisma from "../../../prisma/prisma";
+import { HttpRequest } from "../../types/httpRequest";
 import { badRequest, ok, serverError } from "../helpers/http";
 
 export class UploadImageController {
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const file = httpRequest.file;
       const userId = httpRequest.body.userId;

@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { upload } from "../../utils/upload";
 import { UploadImageController } from "../../controller/upload/upload-image";
+import { HttpResponse } from "../../types/httpRequest";
 
 const uploadRouter = express.Router();
 
@@ -16,7 +17,8 @@ uploadRouter.post(
     console.log(request.file);
     const controller = new UploadImageController();
 
-    const { statusCode, body }: any = await controller.execute(request);
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
 
     response.status(statusCode).send(body);
   },
