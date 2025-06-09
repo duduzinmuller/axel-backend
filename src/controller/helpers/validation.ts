@@ -7,5 +7,5 @@ export const checkIfIdIsValid = (id: string) => validator.isUUID(id);
 export const invalidIdResponse = (message: string) =>
   badRequest("Este ID e invalído.");
 
-export const requiredFieldsIsMissingResponse = (field: any) =>
+export const requiredFieldsIsMissingResponse = (field: string) =>
   badRequest(`O campo ${field} e obrigatório.`);
