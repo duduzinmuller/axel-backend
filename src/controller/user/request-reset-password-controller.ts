@@ -1,8 +1,9 @@
 import { GenerateResetTokenUseCase } from "../../use-cases/user/generate-reset-token";
 import { SendResetPasswordEmailService } from "../../services/send-reset-password-email";
 import { badRequest, ok, serverError } from "../helpers/http";
+import { EmailStatus } from "../../types/email-notification";
 import { Plan } from "@prisma/client";
-import { EmailStatus } from "../../types/user";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class RequestResetPasswordController {
   constructor(
@@ -10,7 +11,7 @@ export class RequestResetPasswordController {
     private sendResetPasswordEmailService: SendResetPasswordEmailService,
   ) {}
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const { email } = httpRequest.body;
 
