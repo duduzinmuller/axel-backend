@@ -5,13 +5,7 @@ import {
   ResetPasswordTokenExpiredError,
   ResetPasswordTokenNotFoundError,
 } from "../../errors/reset-password";
-
-interface ResetPasswordParams {
-  token: string;
-  newPassword: string;
-  password: string;
-}
-
+import { ResetPasswordParams } from "../../types/reset-password";
 export class ResetPasswordUseCase {
   getUserByResetTokenRepository: GetUserByResetTokenRepository;
   updateUserPasswordRepository: UpdateUserPasswordRepository;
