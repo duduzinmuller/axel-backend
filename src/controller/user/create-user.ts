@@ -5,6 +5,7 @@ import { badRequest, created, serverError } from "../helpers/http";
 import { EmailAlreadyInUseError } from "../../errors/user";
 import { Request } from "express";
 import { CreateVerificationUseCase } from "../../use-cases/email-verification/email-verification";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class CreateUserController {
   createUserUseCase: CreateUserUseCase;
@@ -17,7 +18,7 @@ export class CreateUserController {
     this.createVerificationUseCase = createVerificationUseCase;
   }
 
-  async execute(httpRequest: Request) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
 

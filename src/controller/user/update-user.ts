@@ -1,5 +1,7 @@
+import { Request } from "express";
 import { EmailAlreadyInUseError, UserNotFoundError } from "../../errors/user";
 import { updateUserSchema } from "../../schemas/user/user";
+import { HttpRequest } from "../../types/httpRequest";
 import { UpdateUserUseCase } from "../../use-cases/user/update-user";
 import { badRequest, ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
@@ -10,14 +12,23 @@ export class UpdateUserController {
   constructor(updateUserUseCase: UpdateUserUseCase) {
     this.updateUserUseCase = updateUserUseCase;
   }
-  async execute(httpRequest: any) {
+
+  async execute(httpRequest: HttpRequest) {
     try {
       const userId = httpRequest.params?.userId;
+
+      if (!userId) {
+        return invalidIdResponse("O ID do usuário é obrigatório.");
+      }
 
       const isIdValid = checkIfIdIsValid(userId);
 
       if (!isIdValid) {
-        return invalidIdResponse("Este id e invalido");
+        return invalidIdResponse("Este id é inválido.");
+      }
+
+      if (!httpRequest.body) {
+        return badRequest("Requisição sem corpo.");
       }
 
       const params = httpRequest.body;
@@ -37,8 +48,9 @@ export class UpdateUserController {
       }
 
       if (error instanceof UserNotFoundError) {
-        return userNotFoundResponse("Usuario não encontrado");
+        return userNotFoundResponse("Usuário não encontrado");
       }
+
       console.error(error);
       return serverError();
     }

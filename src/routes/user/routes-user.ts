@@ -17,7 +17,7 @@ export const userRouter = Router();
 userRouter.post("/register", async (request: Request, response: Response) => {
   const controller = makeCreateUserController();
 
-  const { statusCode, body }: any = await controller.execute(request);
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
 
   response.status(statusCode).send(body);
 });
@@ -39,7 +39,7 @@ userRouter.patch("/me", auth, async (request: Request, response: Response) => {
 
   const userId = request.userId;
 
-  const { statusCode, body }: any = await controller.execute({
+  const { statusCode, body }: HttpResponse = await controller.execute({
     params: { userId },
     body: request.body,
   });
