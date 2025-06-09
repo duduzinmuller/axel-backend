@@ -3,13 +3,14 @@ import { CreateEmailVerificationSchema } from "../../schemas/email-verification/
 import { CreateVerificationUseCase } from "../../use-cases/email-verification/email-verification";
 import { ok, serverError, badRequest, notFound } from "../helpers/http";
 import { UserNotFoundError } from "../../errors/user";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class CreateVerificationController {
   createVerificationUseCase: CreateVerificationUseCase;
   constructor(createVerificationUseCase: CreateVerificationUseCase) {
     this.createVerificationUseCase = createVerificationUseCase;
   }
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const { email } = httpRequest.body;
 

@@ -3,6 +3,7 @@ import {
   makeValidateVerificationCodeController,
   makeVerificationController,
 } from "../../factories/controller/email-verification/email-verification";
+import { HttpResponse } from "../../types/httpRequest";
 
 export const createVerificationRouter = Router();
 
@@ -11,7 +12,8 @@ createVerificationRouter.post(
   async (request: Request, response: Response) => {
     const controller = makeVerificationController();
 
-    const { statusCode, body }: any = await controller.execute(request);
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
 
     response.status(statusCode).send(body);
   },
@@ -22,7 +24,8 @@ createVerificationRouter.post(
   async (request: Request, response: Response) => {
     const controller = makeValidateVerificationCodeController();
 
-    const { statusCode, body }: any = await controller.execute(request);
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
 
     response.status(statusCode).send(body);
   },

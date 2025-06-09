@@ -4,6 +4,7 @@ import {
   EmailVerificationInvalidError,
 } from "../../errors/email-verification";
 import { CreateUserRepository } from "../../repositories/user/create-user";
+import { HttpRequest } from "../../types/httpRequest";
 import { ValidateVerificationCodeUseCase } from "../../use-cases/email-verification/validate-verification-code";
 import { badRequest, ok, serverError } from "../helpers/http";
 
@@ -19,7 +20,7 @@ export class ValidateVerificationCodeController {
     this.createUserRepository = createUserRepository;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
 
