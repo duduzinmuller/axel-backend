@@ -2,6 +2,7 @@ import { ZodError } from "zod";
 import { CreateAccessCodeSchema } from "../../schemas/access-code/access-code";
 import { CreateAccessCodeUseCase } from "../../use-cases/access-code/create-access-code";
 import { badRequest, ok, serverError } from "../helpers/http";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class CreateAccessCodeController {
   createAccessCodeUseCase: CreateAccessCodeUseCase;
@@ -9,7 +10,7 @@ export class CreateAccessCodeController {
     this.createAccessCodeUseCase = createAccessCodeUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
 

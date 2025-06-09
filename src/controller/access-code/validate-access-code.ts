@@ -3,6 +3,7 @@ import {
   AccessCodeExpiredError,
   AccessCodeNotFoundError,
 } from "../../errors/access-code";
+import { HttpRequest } from "../../types/httpRequest";
 import { ValidateAccessCodeUseCase } from "../../use-cases/access-code/validate-access-code";
 import { badRequest, ok, serverError } from "../helpers/http";
 
@@ -12,7 +13,7 @@ export class ValidateAccessCodeController {
     this.validateAccessCodeUseCase = validateAccessCodeUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const userId = httpRequest.params?.userId;
 
