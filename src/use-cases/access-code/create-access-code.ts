@@ -1,5 +1,5 @@
 import { CreateAccessCodeRepository } from "../../repositories/access-code/create-access-code";
-import { AccessCode } from "../../types/user";
+import { AccessCode } from "../../types/access-code";
 import { generateRandomCode } from "../../utils/access-code-random";
 
 export class CreateAccessCodeUseCase {
