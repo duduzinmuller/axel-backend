@@ -1,4 +1,5 @@
 import { UserNotFoundError } from "../../errors/user";
+import { HttpRequest } from "../../types/httpRequest";
 import { DeleteUserUseCase } from "../../use-cases/user/delete-user";
 import { ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
@@ -8,7 +9,7 @@ export class DeleteUserController {
   constructor(deleteUserUseCase: DeleteUserUseCase) {
     this.deleteUserUseCase = deleteUserUseCase;
   }
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const userId = httpRequest.params?.userId;
 

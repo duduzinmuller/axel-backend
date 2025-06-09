@@ -10,7 +10,7 @@ import {
   makeUpdateUserController,
 } from "../../factories/controller/user/user";
 import { auth } from "../../middleware/auth";
-import { HttpRequest, HttpResponse } from "../../types/httpRequest";
+import { HttpResponse } from "../../types/httpRequest";
 
 export const userRouter = Router();
 
@@ -52,7 +52,7 @@ userRouter.delete("/me", auth, async (request: Request, response: Response) => {
 
   const userId = request.userId;
 
-  const { statusCode, body }: any = await controller.execute({
+  const { statusCode, body }: HttpResponse = await controller.execute({
     params: { userId },
   });
 
