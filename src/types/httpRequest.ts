@@ -3,6 +3,7 @@ export interface HttpRequest {
     userId?: string;
   };
   body?: any;
+  user?: any;
 }
 
 export interface HttpResponse {

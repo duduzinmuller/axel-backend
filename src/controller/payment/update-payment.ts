@@ -1,4 +1,5 @@
 import { PaymentError } from "../../errors/payment";
+import { HttpRequest } from "../../types/httpRequest";
 import { UpdatePaymentUseCase } from "../../use-cases/payment/update-payment";
 import { badRequest, ok, serverError } from "../helpers/http";
 
@@ -9,7 +10,7 @@ export class UpdatePaymentController {
     this.updatePaymentUseCase = updatePaymentUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
 

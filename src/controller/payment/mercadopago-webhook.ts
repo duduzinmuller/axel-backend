@@ -1,8 +1,9 @@
 import { ok, serverError } from "../helpers/http";
 import prisma from "../../../prisma/prisma";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class MercadoPagoWebhookController {
-  async handleWebhook(httpRequest: any) {
+  async handleWebhook(httpRequest: HttpRequest) {
     try {
       const event = httpRequest.body;
 

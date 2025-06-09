@@ -1,3 +1,4 @@
+import { HttpRequest } from "../../types/httpRequest";
 import { CreatePaymentUseCase } from "../../use-cases/payment/create-payment";
 import { ok, serverError } from "../helpers/http";
 
@@ -8,7 +9,7 @@ export class CreatePaymentController {
     this.createPaymentUseCase = createPaymentUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
       const user = httpRequest.user;
