@@ -1,8 +1,13 @@
 import { Request } from "express";
 
 export interface HttpRequest {
-  params: {
-    userId: string;
+  params?: {
+    userId?: string;
   };
-  body: Request;
+  body?: Request;
+}
+
+export interface HttpResponse {
+  statusCode: number;
+  body: string;
 }

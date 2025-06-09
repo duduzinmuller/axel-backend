@@ -1,28 +1,31 @@
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";
 import { GetUserByIdUseCase } from "../../use-cases/user/get-user-by-id";
 import { notFound, ok, serverError } from "../helpers/http";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class GetUserByIdController {
   getUserByIdUseCase: GetUserByIdUseCase;
   constructor(getUserByIdUseCase: GetUserByIdUseCase) {
     this.getUserByIdUseCase = getUserByIdUseCase;
   }
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
-      const params = httpRequest.params?.userId;
+      const userId = httpRequest.params?.userId;
 
-      const isIdValid = checkIfIdIsValid(params);
-
-      if (!isIdValid) {
-        return invalidIdResponse("Este ID e invalído.");
+      if (!userId) {
+        return invalidIdResponse("O ID do usuário é obrigatório.");
       }
 
-      const user = await this.getUserByIdUseCase.execute(
-        httpRequest.params?.userId,
-      );
+      const isIdValid = checkIfIdIsValid(userId);
 
-      if (user === null || user === undefined) {
-        return notFound("Usuario não encontrado");
+      if (!isIdValid) {
+        return invalidIdResponse("Este ID é inválido.");
+      }
+
+      const user = await this.getUserByIdUseCase.execute(userId);
+
+      if (!user) {
+        return notFound("Usuário não encontrado");
       }
 
       return ok(user);
