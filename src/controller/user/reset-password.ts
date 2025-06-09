@@ -4,6 +4,7 @@ import {
   ResetPasswordTokenExpiredError,
   ResetPasswordTokenNotFoundError,
 } from "../../errors/reset-password";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class ResetPasswordController {
   resetPasswordUseCase: ResetPasswordUseCase;
@@ -12,7 +13,7 @@ export class ResetPasswordController {
     this.resetPasswordUseCase = resetPasswordUseCase;
   }
 
-  async execute(httpRequest: any) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const { token, newPassword } = httpRequest.body;
 

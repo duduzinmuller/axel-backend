@@ -84,7 +84,8 @@ userRouter.post(
   async (request: Request, response: Response) => {
     const controller = makeResetPasswordController();
 
-    const { statusCode, body }: any = await controller.execute(request);
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
 
     response.status(statusCode).send(body);
   },
