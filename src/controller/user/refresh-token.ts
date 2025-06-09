@@ -4,6 +4,7 @@ import { refreshTokenSchema } from "../../schemas/user/user";
 import { RefreshTokenUseCase } from "../../use-cases/user/refresh-token";
 import { badRequest, ok, serverError, unauthorized } from "../helpers/http";
 import { ZodError } from "zod";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class RefreshTokenController {
   refreshTokenUseCase: RefreshTokenUseCase;
@@ -11,7 +12,7 @@ export class RefreshTokenController {
   constructor(refreshTokenUseCase: RefreshTokenUseCase) {
     this.refreshTokenUseCase = refreshTokenUseCase;
   }
-  async execute(httpRequest: Request) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
 

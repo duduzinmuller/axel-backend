@@ -62,7 +62,7 @@ userRouter.delete("/me", auth, async (request: Request, response: Response) => {
 userRouter.post("/login", async (request: Request, response: Response) => {
   const controller = makeLoginUserController();
 
-  const { statusCode, body }: any = await controller.execute(request);
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
 
   response.status(statusCode).send(body);
 });
@@ -72,7 +72,8 @@ userRouter.post(
   async (request: Request, response: Response) => {
     const controller = makeRefreshTokenController();
 
-    const { statusCode, body }: any = await controller.execute(request);
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
 
     response.status(statusCode).send(body);
   },

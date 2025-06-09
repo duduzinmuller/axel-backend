@@ -10,6 +10,7 @@ import {
 import { loginSchema } from "../../schemas/user/user";
 import { User } from "../../types/user";
 import { Request } from "express";
+import { HttpRequest } from "../../types/httpRequest";
 
 export class LoginUserController {
   loginUserUseCase: LoginUserUseCase;
@@ -17,7 +18,7 @@ export class LoginUserController {
     this.loginUserUseCase = loginUserUseCase;
   }
 
-  async execute(httpRequest: Request) {
+  async execute(httpRequest: HttpRequest) {
     try {
       const params = httpRequest.body;
 
