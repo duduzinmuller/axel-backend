@@ -1,11 +1,13 @@
 import { CreatePaymentRepository } from "../../repositories/payment/create-payment";
 import { EmailNotificationUseCase } from "../email-notification/email-notification";
-import { EmailStatus, Payment } from "../../types/user";
+
 import {
   mercadopago,
   Payment as MercadoPagoPayment,
 } from "../../config/mercadopago";
 import { isValidCpf, removeCpfPunctuation } from "../../utils/cpf";
+import { Payment } from "../../types/payment";
+import { EmailStatus } from "../../types/email-notification";
 
 export class CreatePaymentUseCase {
   createPaymentRepository: CreatePaymentRepository;

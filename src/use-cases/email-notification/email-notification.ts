@@ -1,6 +1,6 @@
 import { EmailNotificationRepository } from "../../repositories/email-notification/email-notification";
 import { transporter } from "../../config/email";
-import { EmailNotification, EmailStatus } from "../../types/user";
+import { EmailNotification, EmailStatus } from "../../types/email-notification";
 
 export class EmailNotificationUseCase {
   emailNotificationRepository: EmailNotificationRepository;
