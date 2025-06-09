@@ -1,5 +1,5 @@
 import prisma from "../../../prisma/prisma";
-import { EmailVerification } from "../../types/user";
+import { EmailVerification } from "../../types/email-verification";
 
 export class ValidateVerificationCodeRepository {
   async execute(emailVerificationParams: EmailVerification) {

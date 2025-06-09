@@ -1,5 +1,5 @@
 import prisma from "../../../prisma/prisma";
-import { Payment } from "../../types/user";
+import { Payment } from "../../types/payment";
 
 export class CreatePaymentRepository {
   async execute(createPaymentParams: Payment) {

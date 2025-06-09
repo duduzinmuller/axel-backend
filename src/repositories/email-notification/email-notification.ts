@@ -1,5 +1,5 @@
 import prisma from "../../../prisma/prisma";
-import { EmailNotification, EmailStatus } from "../../types/user";
+import { EmailNotification, EmailStatus } from "../../types/email-notification";
 
 export class EmailNotificationRepository {
   async execute(createEmailNotificationParams: EmailNotification) {

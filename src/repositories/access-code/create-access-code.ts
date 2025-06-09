@@ -1,5 +1,5 @@
 import prisma from "../../../prisma/prisma";
-import { AccessCode } from "../../types/user";
+import { AccessCode } from "../../types/access-code";
 
 export class CreateAccessCodeRepository {
   async execute(accessCodeParams: AccessCode) {
