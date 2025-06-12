@@ -8,13 +8,10 @@ import { CodeAsUsedRepository } from "../../repositories/access-code/code-as-use
 import { UpdateUserPlanRepository } from "../../repositories/user/update-user-plan";
 
 export class ValidateAccessCodeUseCase {
-  validateAccessCodeRepository: ValidateAccessCodeRepository;
-  codeAsUsedRepository: CodeAsUsedRepository;
-  updateUserPlanRepository: UpdateUserPlanRepository;
   constructor(
-    validateAccessCodeRepository: ValidateAccessCodeRepository,
-    codeAsUsedRepository: CodeAsUsedRepository,
-    updateUserPlanRepository: UpdateUserPlanRepository,
+    private validateAccessCodeRepository: ValidateAccessCodeRepository,
+    private codeAsUsedRepository: CodeAsUsedRepository,
+    private updateUserPlanRepository: UpdateUserPlanRepository,
   ) {
     this.validateAccessCodeRepository = validateAccessCodeRepository;
     this.codeAsUsedRepository = codeAsUsedRepository;

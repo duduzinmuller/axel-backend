@@ -8,8 +8,7 @@ import { ValidateAccessCodeUseCase } from "../../use-cases/access-code/validate-
 import { badRequest, ok, serverError } from "../helpers/http";
 
 export class ValidateAccessCodeController {
-  validateAccessCodeUseCase: ValidateAccessCodeUseCase;
-  constructor(validateAccessCodeUseCase: ValidateAccessCodeUseCase) {
+  constructor(private validateAccessCodeUseCase: ValidateAccessCodeUseCase) {
     this.validateAccessCodeUseCase = validateAccessCodeUseCase;
   }
 
