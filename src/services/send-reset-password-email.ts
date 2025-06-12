@@ -3,9 +3,9 @@ import { EmailNotificationRepository } from "../repositories/email-notification/
 import { EmailNotification, EmailStatus } from "../types/email-notification";
 
 export class SendResetPasswordEmailService {
-  emailNotificationRepository: EmailNotificationRepository;
-
-  constructor() {
+  constructor(
+    private emailNotificationRepository: EmailNotificationRepository,
+  ) {
     this.emailNotificationRepository = new EmailNotificationRepository();
   }
 
