@@ -7,9 +7,7 @@ import {
 import { HttpRequest } from "../../types/httpRequest";
 
 export class ResetPasswordController {
-  resetPasswordUseCase: ResetPasswordUseCase;
-
-  constructor(resetPasswordUseCase: ResetPasswordUseCase) {
+  constructor(private resetPasswordUseCase: ResetPasswordUseCase) {
     this.resetPasswordUseCase = resetPasswordUseCase;
   }
 

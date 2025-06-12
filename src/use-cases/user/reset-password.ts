@@ -7,14 +7,10 @@ import {
 } from "../../errors/reset-password";
 import { ResetPasswordParams } from "../../types/reset-password";
 export class ResetPasswordUseCase {
-  getUserByResetTokenRepository: GetUserByResetTokenRepository;
-  updateUserPasswordRepository: UpdateUserPasswordRepository;
-  passwordHasherAdapter: PasswordHasherAdapter;
-
   constructor(
-    getUserByResetTokenRepository: GetUserByResetTokenRepository,
-    updateUserPasswordRepository: UpdateUserPasswordRepository,
-    passwordHasherAdapter: PasswordHasherAdapter,
+    private getUserByResetTokenRepository: GetUserByResetTokenRepository,
+    private updateUserPasswordRepository: UpdateUserPasswordRepository,
+    private passwordHasherAdapter: PasswordHasherAdapter,
   ) {
     this.getUserByResetTokenRepository = getUserByResetTokenRepository;
     this.updateUserPasswordRepository = updateUserPasswordRepository;
