@@ -3,9 +3,7 @@ import { HttpRequest } from "../../types/httpRequest";
 import { badRequest, ok, serverError } from "../helpers/http";
 
 export class GoogleGenerateController {
-  googleGenerateService: GoogleGenerateService;
-
-  constructor(googleGenerateService: GoogleGenerateService) {
+  constructor(private googleGenerateService: GoogleGenerateService) {
     this.googleGenerateService = googleGenerateService;
   }
 
