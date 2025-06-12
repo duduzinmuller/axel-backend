@@ -4,13 +4,11 @@ import {
   EmailVerificationNotFoundError,
 } from "../../errors/email-verification";
 import { ValidateVerificationCodeRepository } from "../../repositories/email-verification/validate-verification-code";
-import { EmailVerification } from "../../types/user";
+import { EmailVerification } from "../../types/email-verification";
 
 export class ValidateVerificationCodeUseCase {
-  validateVerificationCodeRepository: ValidateVerificationCodeRepository;
-
   constructor(
-    validateVerificationCodeRepository: ValidateVerificationCodeRepository,
+    private validateVerificationCodeRepository: ValidateVerificationCodeRepository,
   ) {
     this.validateVerificationCodeRepository =
       validateVerificationCodeRepository;

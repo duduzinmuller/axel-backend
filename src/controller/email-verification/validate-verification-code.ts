@@ -9,12 +9,9 @@ import { ValidateVerificationCodeUseCase } from "../../use-cases/email-verificat
 import { badRequest, ok, serverError } from "../helpers/http";
 
 export class ValidateVerificationCodeController {
-  validateVerificationCodeUseCase: ValidateVerificationCodeUseCase;
-  createUserRepository: CreateUserRepository;
-
   constructor(
-    validateVerificationCodeUseCase: ValidateVerificationCodeUseCase,
-    createUserRepository: CreateUserRepository,
+    private validateVerificationCodeUseCase: ValidateVerificationCodeUseCase,
+    private createUserRepository: CreateUserRepository,
   ) {
     this.validateVerificationCodeUseCase = validateVerificationCodeUseCase;
     this.createUserRepository = createUserRepository;
