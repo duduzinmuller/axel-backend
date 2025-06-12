@@ -1,14 +1,15 @@
 import { CreateVerificationRepository } from "../../repositories/email-verification/email-verification";
-import { EmailVerification } from "../../types/user";
 import { generateCode } from "../../utils/code-generator";
 import { v4 as uuidv4 } from "uuid";
 import { sendVerificationEmail } from "../../services/email-service";
 import prisma from "../../../prisma/prisma";
 import { UserNotFoundError } from "../../errors/user";
+import { EmailVerification } from "../../types/email-verification";
 
 export class CreateVerificationUseCase {
-  createVerificationRepository: CreateVerificationRepository;
-  constructor(createVerificationRepository: CreateVerificationRepository) {
+  constructor(
+    private createVerificationRepository: CreateVerificationRepository,
+  ) {
     this.createVerificationRepository = createVerificationRepository;
   }
   async execute(email: string) {

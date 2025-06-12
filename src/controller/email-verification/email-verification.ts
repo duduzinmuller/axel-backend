@@ -6,8 +6,7 @@ import { UserNotFoundError } from "../../errors/user";
 import { HttpRequest } from "../../types/httpRequest";
 
 export class CreateVerificationController {
-  createVerificationUseCase: CreateVerificationUseCase;
-  constructor(createVerificationUseCase: CreateVerificationUseCase) {
+  constructor(private createVerificationUseCase: CreateVerificationUseCase) {
     this.createVerificationUseCase = createVerificationUseCase;
   }
   async execute(httpRequest: HttpRequest) {
