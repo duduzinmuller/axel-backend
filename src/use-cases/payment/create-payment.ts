@@ -10,12 +10,9 @@ import { Payment } from "../../types/payment";
 import { EmailStatus } from "../../types/email-notification";
 
 export class CreatePaymentUseCase {
-  createPaymentRepository: CreatePaymentRepository;
-  emailNotificationUseCase: EmailNotificationUseCase;
-
   constructor(
-    createPaymentRepository: CreatePaymentRepository,
-    emailNotificationUseCase: EmailNotificationUseCase,
+    private createPaymentRepository: CreatePaymentRepository,
+    private emailNotificationUseCase: EmailNotificationUseCase,
   ) {
     this.createPaymentRepository = createPaymentRepository;
     this.emailNotificationUseCase = emailNotificationUseCase;
