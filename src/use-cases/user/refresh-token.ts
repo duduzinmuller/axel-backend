@@ -4,12 +4,9 @@ import { UnauthorizedError } from "../../errors/user";
 import jwt from "jsonwebtoken";
 
 export class RefreshTokenUseCase {
-  tokensGeneratorAdapter: TokensGeneratorAdapter;
-  tokensVerifierAdapter: TokensVerifierAdapter;
-
   constructor(
-    tokensGeneratorAdapter: TokensGeneratorAdapter,
-    tokensVerifierAdapter: TokensVerifierAdapter,
+    private tokensGeneratorAdapter: TokensGeneratorAdapter,
+    private tokensVerifierAdapter: TokensVerifierAdapter,
   ) {
     this.tokensGeneratorAdapter = tokensGeneratorAdapter;
     this.tokensVerifierAdapter = tokensVerifierAdapter;

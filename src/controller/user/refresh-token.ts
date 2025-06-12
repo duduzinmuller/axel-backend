@@ -7,9 +7,7 @@ import { ZodError } from "zod";
 import { HttpRequest } from "../../types/httpRequest";
 
 export class RefreshTokenController {
-  refreshTokenUseCase: RefreshTokenUseCase;
-
-  constructor(refreshTokenUseCase: RefreshTokenUseCase) {
+  constructor(private refreshTokenUseCase: RefreshTokenUseCase) {
     this.refreshTokenUseCase = refreshTokenUseCase;
   }
   async execute(httpRequest: HttpRequest) {
