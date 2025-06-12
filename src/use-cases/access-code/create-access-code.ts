@@ -3,8 +3,7 @@ import { AccessCode } from "../../types/access-code";
 import { generateRandomCode } from "../../utils/access-code-random";
 
 export class CreateAccessCodeUseCase {
-  createAccessCodeRepository: CreateAccessCodeRepository;
-  constructor(createAccessCodeRepository: CreateAccessCodeRepository) {
+  constructor(private createAccessCodeRepository: CreateAccessCodeRepository) {
     this.createAccessCodeRepository = createAccessCodeRepository;
   }
 

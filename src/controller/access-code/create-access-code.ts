@@ -5,8 +5,7 @@ import { badRequest, ok, serverError } from "../helpers/http";
 import { HttpRequest } from "../../types/httpRequest";
 
 export class CreateAccessCodeController {
-  createAccessCodeUseCase: CreateAccessCodeUseCase;
-  constructor(createAccessCodeUseCase: CreateAccessCodeUseCase) {
+  constructor(private createAccessCodeUseCase: CreateAccessCodeUseCase) {
     this.createAccessCodeUseCase = createAccessCodeUseCase;
   }
 
