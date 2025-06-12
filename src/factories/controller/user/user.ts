@@ -29,6 +29,7 @@ import { ResetPasswordController } from "../../../controller/user/reset-password
 import { GenerateResetTokenUseCase } from "../../../use-cases/user/generate-reset-token";
 import { SendResetPasswordEmailService } from "../../../services/send-reset-password-email";
 import { RequestResetPasswordController } from "../../../controller/user/request-reset-password-controller";
+import { EmailNotificationRepository } from "../../../repositories/email-notification/email-notification";
 
 export const makeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
@@ -152,7 +153,11 @@ export const makeResetPasswordController = () => {
 
 export const makeRequestResetPasswordController = () => {
   const generateResetTokenUseCase = new GenerateResetTokenUseCase();
-  const sendResetPasswordEmailService = new SendResetPasswordEmailService();
+  const emailNotificationRepository = new EmailNotificationRepository();
+
+  const sendResetPasswordEmailService = new SendResetPasswordEmailService(
+    emailNotificationRepository,
+  );
   const controller = new RequestResetPasswordController(
     generateResetTokenUseCase,
     sendResetPasswordEmailService,
