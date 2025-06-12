@@ -4,8 +4,7 @@ import { notFound, ok, serverError } from "../helpers/http";
 import { HttpRequest } from "../../types/httpRequest";
 
 export class GetUserByIdController {
-  getUserByIdUseCase: GetUserByIdUseCase;
-  constructor(getUserByIdUseCase: GetUserByIdUseCase) {
+  constructor(private getUserByIdUseCase: GetUserByIdUseCase) {
     this.getUserByIdUseCase = getUserByIdUseCase;
   }
   async execute(httpRequest: HttpRequest) {
