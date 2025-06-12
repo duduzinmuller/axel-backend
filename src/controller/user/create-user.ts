@@ -8,11 +8,9 @@ import { CreateVerificationUseCase } from "../../use-cases/email-verification/em
 import { HttpRequest } from "../../types/httpRequest";
 
 export class CreateUserController {
-  createUserUseCase: CreateUserUseCase;
-  createVerificationUseCase: CreateVerificationUseCase;
   constructor(
-    createUserUseCase: CreateUserUseCase,
-    createVerificationUseCase: CreateVerificationUseCase,
+    private createUserUseCase: CreateUserUseCase,
+    private createVerificationUseCase: CreateVerificationUseCase,
   ) {
     this.createUserUseCase = createUserUseCase;
     this.createVerificationUseCase = createVerificationUseCase;

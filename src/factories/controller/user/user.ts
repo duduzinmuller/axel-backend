@@ -22,7 +22,6 @@ import { GetUserByIdUseCase } from "../../../use-cases/user/get-user-by-id";
 import { LoginUserUseCase } from "../../../use-cases/user/login-user";
 import { RefreshTokenUseCase } from "../../../use-cases/user/refresh-token";
 import { UpdateUserUseCase } from "../../../use-cases/user/update-user";
-
 import { ResetPasswordUseCase } from "../../../use-cases/user/reset-password";
 import { GetUserByResetTokenRepository } from "../../../repositories/user/get-by-reset-token-user";
 import { UpdateUserPasswordRepository } from "../../../repositories/user/update-password-user";

@@ -9,18 +9,12 @@ import { TokensGeneratorAdapter } from "../../adapters/token-generator";
 import { imageUrl } from "../../utils/image";
 
 export class CreateUserUseCase {
-  createUserRepository: CreateUserRepository;
-  getUserByEmailRepository: GetUserByEmailRepository;
-  idGeneratorAdapter: IdGeneratorAdapter;
-  passwordHasherAdapter: PasswordHasherAdapter;
-  tokensGeneratorAdapter: TokensGeneratorAdapter;
-
   constructor(
-    createUserRepository: CreateUserRepository,
-    getUserByEmailRepository: GetUserByEmailRepository,
-    idGeneratorAdapter: IdGeneratorAdapter,
-    passwordHasherAdapter: PasswordHasherAdapter,
-    tokensGeneratorAdapter: TokensGeneratorAdapter,
+    private createUserRepository: CreateUserRepository,
+    private getUserByEmailRepository: GetUserByEmailRepository,
+    private idGeneratorAdapter: IdGeneratorAdapter,
+    private passwordHasherAdapter: PasswordHasherAdapter,
+    private tokensGeneratorAdapter: TokensGeneratorAdapter,
   ) {
     this.createUserRepository = createUserRepository;
     this.getUserByEmailRepository = getUserByEmailRepository;
