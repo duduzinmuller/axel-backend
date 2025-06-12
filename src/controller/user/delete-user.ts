@@ -5,8 +5,7 @@ import { ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";
 export class DeleteUserController {
-  deleteUserUseCase: DeleteUserUseCase;
-  constructor(deleteUserUseCase: DeleteUserUseCase) {
+  constructor(private deleteUserUseCase: DeleteUserUseCase) {
     this.deleteUserUseCase = deleteUserUseCase;
   }
   async execute(httpRequest: HttpRequest) {
