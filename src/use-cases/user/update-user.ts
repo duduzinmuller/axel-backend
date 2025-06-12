@@ -5,13 +5,10 @@ import { UpdateUserRepository } from "../../repositories/user/update-user";
 import { User } from "../../types/user";
 
 export class UpdateUserUseCase {
-  getUserByEmailRepository: GetUserByEmailRepository;
-  updateUserRepository: UpdateUserRepository;
-  passwordHasherAdapter: PasswordHasherAdapter;
   constructor(
-    getUserByEmailRepository: GetUserByEmailRepository,
-    updateUserRepository: UpdateUserRepository,
-    passwordHasherAdapter: PasswordHasherAdapter,
+    private getUserByEmailRepository: GetUserByEmailRepository,
+    private updateUserRepository: UpdateUserRepository,
+    private passwordHasherAdapter: PasswordHasherAdapter,
   ) {
     this.getUserByEmailRepository = getUserByEmailRepository;
     this.updateUserRepository = updateUserRepository;

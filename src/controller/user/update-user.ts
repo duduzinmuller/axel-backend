@@ -1,4 +1,3 @@
-import { Request } from "express";
 import { EmailAlreadyInUseError, UserNotFoundError } from "../../errors/user";
 import { updateUserSchema } from "../../schemas/user/user";
 import { HttpRequest } from "../../types/httpRequest";
@@ -8,8 +7,7 @@ import { userNotFoundResponse } from "../helpers/user";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";
 import { ZodError } from "zod";
 export class UpdateUserController {
-  updateUserUseCase: UpdateUserUseCase;
-  constructor(updateUserUseCase: UpdateUserUseCase) {
+  constructor(private updateUserUseCase: UpdateUserUseCase) {
     this.updateUserUseCase = updateUserUseCase;
   }
 
