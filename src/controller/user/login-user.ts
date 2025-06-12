@@ -8,13 +8,10 @@ import {
   UserNotFoundError,
 } from "../../errors/user";
 import { loginSchema } from "../../schemas/user/user";
-import { User } from "../../types/user";
-import { Request } from "express";
 import { HttpRequest } from "../../types/httpRequest";
 
 export class LoginUserController {
-  loginUserUseCase: LoginUserUseCase;
-  constructor(loginUserUseCase: LoginUserUseCase) {
+  constructor(private loginUserUseCase: LoginUserUseCase) {
     this.loginUserUseCase = loginUserUseCase;
   }
 

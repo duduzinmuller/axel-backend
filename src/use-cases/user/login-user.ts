@@ -8,14 +8,10 @@ import {
 import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-user";
 
 export class LoginUserUseCase {
-  getUserByEmailRepository: GetUserByEmailRepository;
-  passwordComparatorAdapter: PasswordComparatorAdapter;
-  tokensGeneratorAdapter: TokensGeneratorAdapter;
-
   constructor(
-    getUserByEmailRepository: GetUserByEmailRepository,
-    passwordComparatorAdapter: PasswordComparatorAdapter,
-    tokensGeneratorAdapter: TokensGeneratorAdapter,
+    private getUserByEmailRepository: GetUserByEmailRepository,
+    private passwordComparatorAdapter: PasswordComparatorAdapter,
+    private tokensGeneratorAdapter: TokensGeneratorAdapter,
   ) {
     this.getUserByEmailRepository = getUserByEmailRepository;
     this.passwordComparatorAdapter = passwordComparatorAdapter;
