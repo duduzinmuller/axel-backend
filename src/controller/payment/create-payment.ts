@@ -1,6 +1,7 @@
+import { ZodError } from "zod";
 import { HttpRequest } from "../../types/httpRequest";
 import { CreatePaymentUseCase } from "../../use-cases/payment/create-payment";
-import { ok, serverError } from "../helpers/http";
+import { badRequest, ok, serverError } from "../helpers/http";
 
 export class CreatePaymentController {
   constructor(private createPaymentUseCase: CreatePaymentUseCase) {
@@ -20,6 +21,9 @@ export class CreatePaymentController {
 
       return ok(payment);
     } catch (error) {
+      if (error instanceof ZodError) {
+        return badRequest(error.errors[0].message);
+      }
       console.error(error);
       return serverError();
     }

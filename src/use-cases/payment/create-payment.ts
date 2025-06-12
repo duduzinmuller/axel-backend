@@ -8,6 +8,7 @@ import {
 import { isValidCpf, removeCpfPunctuation } from "../../utils/cpf";
 import { Payment } from "../../types/payment";
 import { EmailStatus } from "../../types/email-notification";
+import { paymentSchema } from "../../schemas/payment/payment";
 
 export class CreatePaymentUseCase {
   constructor(
@@ -43,29 +44,7 @@ export class CreatePaymentUseCase {
       },
     };
 
-    if (createPaymentParams.paymentMethod === "bolbradesco") {
-      payer.address = {
-        zip_code: createPaymentParams.zip_code,
-        street_name: createPaymentParams.street_name,
-        street_number: createPaymentParams.street_number,
-        neighborhood: createPaymentParams.neighborhood,
-        city: createPaymentParams.city,
-        federal_unit: createPaymentParams.federal_unit,
-      };
-      const requiredAddress = [
-        "zip_code",
-        "street_name",
-        "street_number",
-        "neighborhood",
-        "city",
-        "federal_unit",
-      ];
-      for (const field of requiredAddress) {
-        if (!(createPaymentParams as any)[field]) {
-          throw new Error(`Campo de endereço obrigatório: ${field}`);
-        }
-      }
-    }
+    await paymentSchema.parseAsync(createPaymentParams);
 
     const paymentBody: any = {
       transaction_amount: createPaymentParams.amount,
