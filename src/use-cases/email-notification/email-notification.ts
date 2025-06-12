@@ -3,9 +3,9 @@ import { transporter } from "../../config/email";
 import { EmailNotification, EmailStatus } from "../../types/email-notification";
 
 export class EmailNotificationUseCase {
-  emailNotificationRepository: EmailNotificationRepository;
-
-  constructor() {
+  constructor(
+    private emailNotificationRepository: EmailNotificationRepository,
+  ) {
     this.emailNotificationRepository = new EmailNotificationRepository();
   }
 
