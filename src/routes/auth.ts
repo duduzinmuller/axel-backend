@@ -8,7 +8,7 @@ const authRouter = express.Router();
 
 authRouter.get(
   "/login/:provider",
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     const { provider } = req.params;
 
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -20,21 +20,24 @@ authRouter.get(
 
     if (error) {
       console.error("Erro ao iniciar autenticação:", error);
-      return res.status(400).send({ message: "Falha na autenticação" });
+      res.status(400).send({ message: "Falha na autenticação" });
+      return;
     }
 
-    return res.redirect(data.url);
+    res.redirect(data.url);
+    return;
   },
 );
 
 authRouter.get(
   "/callback",
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     const { access_token } = req.query;
 
     if (!access_token) {
       console.error("Access token não fornecido");
-      return res.status(400).send({ message: "Access token não fornecido" });
+      res.status(400).send({ message: "Access token não fornecido" });
+      return;
     }
 
     const token =
@@ -46,18 +49,18 @@ authRouter.get(
 
     if (!token) {
       console.error("Access token em formato inválido");
-      return res
-        .status(400)
-        .send({ message: "Access token em formato inválido" });
+      res.status(400).send({ message: "Access token em formato inválido" });
+      return;
     }
 
     const { data, error } = await supabase.auth.getUser(token as string);
 
     if (error) {
       console.error("Erro ao obter usuário:", error);
-      return res
+      res
         .status(400)
         .send({ message: "Falha ao obter informações do usuário" });
+      return;
     }
 
     const user = data.user;
@@ -92,7 +95,7 @@ authRouter.get(
         savedUser.id,
       );
 
-      return res.status(200).json({
+      res.status(200).json({
         message: "Usuário autenticado com sucesso",
         user: {
           ...user,
@@ -105,9 +108,7 @@ authRouter.get(
       });
     } catch (err) {
       console.error("Erro ao salvar usuário no banco de dados:", err);
-      return res
-        .status(500)
-        .send({ message: "Erro interno ao salvar usuário" });
+      res.status(500).send({ message: "Erro interno ao salvar usuário" });
     }
   },
 );
