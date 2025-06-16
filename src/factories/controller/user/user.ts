@@ -30,6 +30,9 @@ import { GenerateResetTokenUseCase } from "../../../use-cases/user/generate-rese
 import { SendResetPasswordEmailService } from "../../../services/send-reset-password-email";
 import { RequestResetPasswordController } from "../../../controller/user/request-reset-password-controller";
 import { EmailNotificationRepository } from "../../../repositories/email-notification/email-notification";
+import { GetByUserRepository } from "../../../repositories/user/get-by-user";
+import { GetByUserUseCase } from "../../../use-cases/user/get-by-user";
+import { GetByUserController } from "../../../controller/user/get-by-user";
 
 export const makeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
@@ -90,6 +93,16 @@ export const makeGetUserByIdController = () => {
   const getUserByIdController = new GetUserByIdController(getUserByIdUseCase);
 
   return getUserByIdController;
+};
+
+export const makeGetByUserController = () => {
+  const getByUserRepository = new GetByUserRepository();
+
+  const getByUserUseCase = new GetByUserUseCase(getByUserRepository);
+
+  const getByUserController = new GetByUserController(getByUserUseCase);
+
+  return getByUserController;
 };
 
 export const makeUpdateUserController = () => {

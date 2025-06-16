@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import {
   makeCreateUserController,
   makeDeleteUserController,
+  makeGetByUserController,
   makeGetUserByIdController,
   makeLoginUserController,
   makeRefreshTokenController,
@@ -14,14 +15,6 @@ import { HttpResponse } from "../../types/httpRequest";
 
 export const userRouter = Router();
 
-userRouter.post("/register", async (request: Request, response: Response) => {
-  const controller = makeCreateUserController();
-
-  const { statusCode, body }: HttpResponse = await controller.execute(request);
-
-  response.status(statusCode).send(body);
-});
-
 userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const controller = makeGetUserByIdController();
 
@@ -30,6 +23,22 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const { statusCode, body }: HttpResponse = await controller.execute({
     params: { userId },
   });
+
+  response.status(statusCode).send(body);
+});
+
+userRouter.get("/", async (request: Request, response: Response) => {
+  const controller = makeGetByUserController();
+
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
+
+  response.status(statusCode).send(body);
+});
+
+userRouter.post("/register", async (request: Request, response: Response) => {
+  const controller = makeCreateUserController();
+
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
 
   response.status(statusCode).send(body);
 });
