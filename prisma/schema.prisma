@@ -27,27 +27,6 @@ enum EmailStatus {
   FAILED
 }
 
-enum Platform {
-  INSTAGRAM
-  FACEBOOK
-  YOUTUBE
-  TIKTOK
-  KWAI
-}
-
-enum MediaType {
-  IMAGE
-  VIDEO
-}
-
-enum PostStatus {
-  PENDING
-  POSTING
-  POSTED
-  FAILED
-  SCHEDULED
-}
-
 enum LogStatus {
   SUCCESS
   ERROR
