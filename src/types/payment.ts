@@ -1,14 +1,28 @@
 import { Plan } from "@prisma/client";
 
-export interface Payment {
-  name: any;
-  cpf: any;
+interface Address {
   zip_code: string;
   street_name: string;
   street_number: string;
   neighborhood: string;
   city: string;
   federal_unit: string;
+}
+
+interface Payer {
+  address: Address;
+}
+
+export interface Payment {
+  name: any;
+  cpf: any;
+  payer?: Payer;
+  zip_code?: string;
+  street_name?: string;
+  street_number?: string;
+  neighborhood?: string;
+  city?: string;
+  federal_unit?: string;
   token: string;
   id: string;
   userId: string;

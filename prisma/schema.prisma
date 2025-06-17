@@ -85,12 +85,7 @@ model Payment {
   updatedAt          DateTime      @updatedAt
   recipient          String?
   cpf                String?  
-  zip_code           String?
-  street_name        String?
-  street_number      String?
-  neighborhood       String?
-  city               String?
-  federal_unit       String?
+  payer              Json?
 
   user               User          @relation(fields: [userId], references: [id])
 

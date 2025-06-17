@@ -44,6 +44,26 @@ export class CreatePaymentUseCase {
       },
     };
 
+    if (createPaymentParams.payer?.address) {
+      payer.address = createPaymentParams.payer.address;
+    } else if (
+      createPaymentParams.zip_code &&
+      createPaymentParams.street_name &&
+      createPaymentParams.street_number &&
+      createPaymentParams.neighborhood &&
+      createPaymentParams.city &&
+      createPaymentParams.federal_unit
+    ) {
+      payer.address = {
+        zip_code: createPaymentParams.zip_code,
+        street_name: createPaymentParams.street_name,
+        street_number: createPaymentParams.street_number,
+        neighborhood: createPaymentParams.neighborhood,
+        city: createPaymentParams.city,
+        federal_unit: createPaymentParams.federal_unit,
+      };
+    }
+
     await paymentSchema.parseAsync(createPaymentParams);
 
     const paymentBody: any = {
