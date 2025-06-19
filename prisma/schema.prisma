@@ -87,7 +87,7 @@ model Payment {
   cpf                String?  
   payer              Json?
 
-  user               User          @relation(fields: [userId], references: [id])
+  user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([externalId])
 }
@@ -110,7 +110,7 @@ model EmailVerification {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   userId     String
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model EmailVerificationRequest {
