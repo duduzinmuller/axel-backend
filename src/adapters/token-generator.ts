@@ -8,7 +8,7 @@ export class TokensGeneratorAdapter {
 
     return {
       accessToken: jwt.sign({ userId }, process.env.JWT_ACCESS_TOKEN_SECRET!, {
-        expiresIn: "15m",
+        expiresIn: "2d",
       }),
       refreshToken: jwt.sign(
         { userId },
