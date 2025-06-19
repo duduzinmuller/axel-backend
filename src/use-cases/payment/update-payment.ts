@@ -1,9 +1,13 @@
 import { UpdatePaymentRepository } from "../../repositories/payment/update-payment";
 import { EmailNotificationUseCase } from "../email-notification/email-notification";
-import { stripe } from "../../config/mercadopago";
-import { EmailStatus, Payment } from "../../types/user";
+import { Payment } from "../../types/payment";
+import { EmailStatus } from "../../types/email-notification";
 import { PaymentError } from "../../errors/payment";
 import { renderEmailTemplate } from "../../utils/emailTemplateRenderer";
+import {
+  mercadopago,
+  Payment as MercadoPagoPayment,
+} from "../../config/mercadopago";
 
 export class UpdatePaymentUseCase {
   updateParamsRepository: UpdatePaymentRepository;
@@ -22,13 +26,14 @@ export class UpdatePaymentUseCase {
       throw new PaymentError();
     }
 
-    const paymentIntent = await stripe.paymentIntents.retrieve(
-      updatePaymentParams.externalId,
-    );
+    const mpPayment = new MercadoPagoPayment(mercadopago);
+    const paymentIntent = await mpPayment.get({
+      id: updatePaymentParams.externalId,
+    });
 
     let updatedPayment;
 
-    if (paymentIntent.status === "succeeded") {
+    if (paymentIntent.status === "approved") {
       updatedPayment = await this.updateParamsRepository.execute({
         ...updatePaymentParams,
         status: "COMPLETED",
@@ -50,7 +55,7 @@ export class UpdatePaymentUseCase {
       });
     }
 
-    if (paymentIntent.status === "requires_payment_method") {
+    if (paymentIntent.status === "rejected") {
       updatedPayment = await this.updateParamsRepository.execute({
         ...updatePaymentParams,
         status: "FAILED",
@@ -72,7 +77,7 @@ export class UpdatePaymentUseCase {
       });
     }
 
-    if (paymentIntent.status === "canceled") {
+    if (paymentIntent.status === "cancelled") {
       updatedPayment = await this.updateParamsRepository.execute({
         ...updatePaymentParams,
         status: "CANCELED",
@@ -94,7 +99,10 @@ export class UpdatePaymentUseCase {
       });
     }
 
-    if (paymentIntent.status === "requires_confirmation") {
+    if (
+      paymentIntent.status === "pending" ||
+      paymentIntent.status === "in_process"
+    ) {
       updatedPayment = await this.updateParamsRepository.execute({
         ...updatePaymentParams,
         status: "PENDING",

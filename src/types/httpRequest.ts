@@ -4,6 +4,7 @@ export interface HttpRequest {
   };
   body?: any;
   user?: any;
+  userId?: string;
   file?: any;
 }
 
