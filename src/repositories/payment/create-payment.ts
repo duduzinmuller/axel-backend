@@ -10,6 +10,7 @@ export class CreatePaymentRepository {
         ...data,
         currency: createPaymentParams.currency,
         status: "PENDING",
+        payer: data.payer ? (data.payer as unknown as object) : undefined,
       },
     });
 

@@ -8,15 +8,6 @@ CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED', 'CANCELED
 CREATE TYPE "EmailStatus" AS ENUM ('PENDING', 'SENT', 'FAILED');
 
 -- CreateEnum
-CREATE TYPE "Platform" AS ENUM ('INSTAGRAM', 'FACEBOOK', 'YOUTUBE', 'TIKTOK', 'KWAI');
-
--- CreateEnum
-CREATE TYPE "MediaType" AS ENUM ('IMAGE', 'VIDEO');
-
--- CreateEnum
-CREATE TYPE "PostStatus" AS ENUM ('PENDING', 'POSTING', 'POSTED', 'FAILED', 'SCHEDULED');
-
--- CreateEnum
 CREATE TYPE "LogStatus" AS ENUM ('SUCCESS', 'ERROR', 'WARNING');
 
 -- CreateEnum
@@ -73,6 +64,7 @@ CREATE TABLE "Payment" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "recipient" TEXT,
     "cpf" TEXT,
+    "payer" JSONB,
     "zip_code" TEXT,
     "street_name" TEXT,
     "street_number" TEXT,
@@ -122,6 +114,20 @@ CREATE TABLE "EmailVerificationRequest" (
     CONSTRAINT "EmailVerificationRequest_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "MessageUsage" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "day" INTEGER NOT NULL,
+    "month" INTEGER NOT NULL,
+    "year" INTEGER NOT NULL,
+    "count" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "MessageUsage_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "AccessCode_code_key" ON "AccessCode"("code");
 
@@ -140,8 +146,14 @@ CREATE INDEX "Payment_externalId_idx" ON "Payment"("externalId");
 -- CreateIndex
 CREATE UNIQUE INDEX "EmailVerificationRequest_email_key" ON "EmailVerificationRequest"("email");
 
--- AddForeignKey
-ALTER TABLE "Payment" ADD CONSTRAINT "Payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "MessageUsage_userId_day_month_year_key" ON "MessageUsage"("userId", "day", "month", "year");
 
 -- AddForeignKey
-ALTER TABLE "EmailVerification" ADD CONSTRAINT "EmailVerification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Payment" ADD CONSTRAINT "Payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EmailVerification" ADD CONSTRAINT "EmailVerification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MessageUsage" ADD CONSTRAINT "MessageUsage_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

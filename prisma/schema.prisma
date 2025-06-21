@@ -87,6 +87,13 @@ model Payment {
   recipient          String?
   cpf                String?  
   payer              Json?
+  
+  zip_code           String?
+  street_name        String?
+  street_number      String?
+  neighborhood       String?
+  city               String?
+  federal_unit       String?
 
   user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
