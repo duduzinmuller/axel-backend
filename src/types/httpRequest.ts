@@ -1,6 +1,7 @@
 export interface HttpRequest {
   params?: {
     userId?: string;
+    paymentId?: string;
   };
   body?: any;
   user?: any;
