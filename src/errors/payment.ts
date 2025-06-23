@@ -4,3 +4,10 @@ export class PaymentError extends Error {
     this.name = "PaymentError";
   }
 }
+
+export class PaymentIdError extends Error {
+  constructor() {
+    super("Pagamento não encontrado");
+    this.name = "PaymentIdError";
+  }
+}
