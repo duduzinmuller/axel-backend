@@ -14,6 +14,7 @@ interface Payer {
 }
 
 export interface Payment {
+  installments: number;
   name: any;
   cpf: any;
   payer?: Payer;
@@ -23,7 +24,6 @@ export interface Payment {
   neighborhood?: string;
   city?: string;
   federal_unit?: string;
-  token: string;
   id: string;
   userId: string;
   externalId?: string;

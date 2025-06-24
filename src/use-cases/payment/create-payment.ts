@@ -19,7 +19,7 @@ export class CreatePaymentUseCase {
     this.emailNotificationUseCase = emailNotificationUseCase;
   }
 
-  async execute(createPaymentParams: Payment) {
+  async execute(createPaymentParams: Payment & { token?: string }) {
     if (!createPaymentParams.cpf) {
       throw new Error("CPF não informado.");
     }
@@ -75,6 +75,7 @@ export class CreatePaymentUseCase {
         userId: createPaymentParams.userId,
         plan: createPaymentParams.plan,
       },
+      installments: createPaymentParams.installments || 1,
     };
 
     if (
@@ -94,9 +95,12 @@ export class CreatePaymentUseCase {
       body: paymentBody,
     });
 
+    const { token, ...paymentData } = createPaymentParams;
+
     const payment = await this.createPaymentRepository.execute({
-      ...createPaymentParams,
+      ...paymentData,
       status: "PENDING",
+      externalId: String(paymentResponse.id),
     });
 
     const emailNotification = await this.emailNotificationUseCase.execute({

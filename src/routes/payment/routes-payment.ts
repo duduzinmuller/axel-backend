@@ -15,20 +15,16 @@ paymentRouter.post(
   auth,
   async (request: Request, response: Response) => {
     const createPaymentController = makeCreatePaymentController();
-
     const { statusCode, body }: HttpResponse =
       await createPaymentController.execute(request);
-
     response.status(statusCode).json(body);
   },
 );
 
 paymentRouter.post("/webhook", async (request: Request, response: Response) => {
   const mercadoPagoWebhookController = new MercadoPagoWebhookController();
-
   const { statusCode, body }: HttpResponse =
     await mercadoPagoWebhookController.handleWebhook(request);
-
   response.status(statusCode).json(body);
 });
 
@@ -37,10 +33,8 @@ paymentRouter.patch(
   auth,
   async (request: Request, response: Response) => {
     const updatePaymentController = makeUpdatePaymentController();
-
     const { statusCode, body }: HttpResponse =
       await updatePaymentController.execute(request);
-
     response.status(statusCode).json(body);
   },
 );
