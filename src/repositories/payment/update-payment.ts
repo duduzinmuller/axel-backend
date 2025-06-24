@@ -3,18 +3,23 @@ import { Payment } from "../../types/payment";
 
 export class UpdatePaymentRepository {
   async execute(updatePaymentParams: Payment) {
-    const { name, cpf, payer, ...data } = updatePaymentParams;
+    const payment = await prisma.payment.findFirst({
+      where: { externalId: updatePaymentParams.externalId },
+    });
 
-    const payment = await prisma.payment.update({
-      where: { id: updatePaymentParams.id },
+    if (!payment) {
+      throw new Error("Pagamento não encontrado");
+    }
+
+    const updatedPayment = await prisma.payment.update({
+      where: { id: payment.id },
       data: {
-        ...data,
-        status: updatePaymentParams.status,
-        cpf: cpf as string,
-        payer: payer as any,
+        ...updatePaymentParams,
+        cpf: updatePaymentParams.cpf as string,
+        payer: updatePaymentParams.payer as any,
       },
     });
 
-    return payment;
+    return updatedPayment;
   }
 }
