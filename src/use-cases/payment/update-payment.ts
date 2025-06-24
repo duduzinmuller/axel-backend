@@ -8,6 +8,7 @@ import {
   mercadopago,
   Payment as MercadoPagoPayment,
 } from "../../config/mercadopago";
+import prisma from "../../../prisma/prisma";
 
 export class UpdatePaymentUseCase {
   updateParamsRepository: UpdatePaymentRepository;
@@ -39,7 +40,12 @@ export class UpdatePaymentUseCase {
         status: "COMPLETED",
       });
 
-      const htmlContent = await renderEmailTemplate("payment-success", {
+      await prisma.user.update({
+        where: { id: updatedPayment.userId },
+        data: { plan: updatedPayment.plan },
+      });
+
+      const htmlContent = await renderEmailTemplate("payment-completed", {
         plan: updatedPayment.plan,
       });
 
