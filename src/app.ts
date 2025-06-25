@@ -9,7 +9,7 @@ import { weatherRouter } from "./routes/weather/weather";
 import cors from "cors";
 import path from "path";
 import uploadRouter from "./routes/upload/route-upload";
-import authRouter from "./routes/auth";
+import authRouter from "./routes/auth/router-auth";
 
 const app = express();
 app.use(express.json());
