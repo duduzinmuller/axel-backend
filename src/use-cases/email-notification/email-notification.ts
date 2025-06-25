@@ -10,7 +10,9 @@ export class EmailNotificationUseCase {
   }
 
   async execute(createEmailNotificationParams: EmailNotification) {
-    const htmlContent = `
+    const htmlContent =
+      createEmailNotificationParams.content ||
+      `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 40px;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.08); padding: 40px;">
         <div style="text-align: center; margin-bottom: 30px;">
@@ -36,13 +38,6 @@ export class EmailNotificationUseCase {
       </div>
     </div>
   `;
-
-    console.log(
-      "Parâmetros de Notificação de E-mail:",
-      createEmailNotificationParams,
-    );
-    console.log("Destinatário:", createEmailNotificationParams.recipient);
-
     const emailNotification = await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: createEmailNotificationParams.recipient,
