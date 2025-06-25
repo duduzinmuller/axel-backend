@@ -8,6 +8,11 @@ export const ok = (body: any) => ({
   body,
 });
 
+export const redirect = (url: string) => ({
+  statusCode: 302,
+  redirectUrl: url,
+});
+
 export const badRequest = (message: string) => ({
   statusCode: 400,
   body: { error: message },
