@@ -75,6 +75,7 @@ model Payment {
   status             PaymentStatus @default(PENDING)
   amount             Decimal       @db.Decimal(10, 2)
   currency           String
+  installments       Int?
   paymentMethod      String?
   paymentMethodId    String?
   plan               Plan       
