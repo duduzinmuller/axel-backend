@@ -1,6 +1,6 @@
 # Axel Backend
 
-**Axel Backend** é uma API robusta desenvolvida em Node.js com TypeScript, Express e Prisma ORM, focada em autenticação, pagamentos, gerenciamento de usuários, notificações por e-mail, integração com provedores OAuth (Google, Facebook), e muito mais. O projeto é modular, escalável e segue boas práticas de arquitetura, facilitando manutenção e evolução.
+**Axel Backend** é uma API robusta desenvolvida em Node.js com TypeScript, Express e Prisma ORM, focada em autenticação, pagamentos, gerenciamento de usuários, notificações por e-mail, integração com provedores OAuth (Google, Github, Discord), e muito mais. O projeto é modular, escalável e segue boas práticas de arquitetura, facilitando manutenção e evolução.
 
 ---
 
