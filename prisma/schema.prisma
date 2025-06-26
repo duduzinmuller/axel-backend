@@ -55,6 +55,7 @@ model User {
   provider       String?       @db.VarChar(50)
   providerId     String?
   plan           Plan             @default(FREE)
+  planExpiresAt  DateTime? 
   role           Role             @default(USER)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
