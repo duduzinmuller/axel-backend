@@ -35,6 +35,13 @@ export class UpdatePaymentUseCase {
     let updatedPayment;
 
     if (paymentIntent.status === "approved") {
+      let planExpiresAt = null;
+      const now = new Date();
+      if (updatePaymentParams.plan === "MONTHLY") {
+        planExpiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+      } else if (updatePaymentParams.plan === "ANNUAL") {
+        planExpiresAt = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+      }
       updatedPayment = await this.updateParamsRepository.execute({
         ...updatePaymentParams,
         status: "COMPLETED",
@@ -42,7 +49,7 @@ export class UpdatePaymentUseCase {
 
       await prisma.user.update({
         where: { id: updatedPayment.userId },
-        data: { plan: updatedPayment.plan },
+        data: { plan: updatedPayment.plan, planExpiresAt },
       });
 
       const htmlContent = await renderEmailTemplate("payment-completed", {
