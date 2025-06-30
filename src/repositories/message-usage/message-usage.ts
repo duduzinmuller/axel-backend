@@ -61,4 +61,28 @@ export class MessageUsageRepository {
 
     return user?.plan;
   }
+
+  async getAll() {
+    return prisma.messageUsage.findMany();
+  }
+
+  async execute(params: {
+    userId: string;
+    action: "getCurrentDayUsage" | "incrementUsage" | "getUserPlan" | "getAll";
+  }) {
+    const { userId, action } = params;
+    if (action === "getCurrentDayUsage") {
+      return this.getCurrentDayUsage(userId);
+    }
+    if (action === "incrementUsage") {
+      return this.incrementUsage(userId);
+    }
+    if (action === "getUserPlan") {
+      return this.getUserPlan(userId);
+    }
+    if (action === "getAll") {
+      return this.getAll();
+    }
+    throw new Error("Invalid action");
+  }
 }
