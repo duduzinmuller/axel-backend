@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import {
   makeCreateAccessController,
+  makeGetAccessCodeController,
   makeValidateAccessCodeController,
 } from "../../factories/controller/access-code/access-code";
 import { auth } from "../../middleware/auth";
@@ -34,3 +35,12 @@ accessCodeRouter.post(
     res.status(statusCode).json(body);
   },
 );
+
+accessCodeRouter.get("/", async (req: Request, res: Response) => {
+  const getAccessCodeController = makeGetAccessCodeController();
+
+  const { statusCode, body }: HttpResponse =
+    await getAccessCodeController.execute(req);
+
+  res.status(statusCode).send(body);
+});
