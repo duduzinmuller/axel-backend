@@ -44,3 +44,9 @@ export interface Payment {
 }
 
 export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "CANCELED";
+
+export interface PaymentStatusPercentage {
+  status: PaymentStatus;
+  count: number;
+  percentage: number;
+}
