@@ -32,7 +32,7 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/users", userRouter);
 app.use("/api/email-notification", emailNotificationRouter);
-app.use("/api", createVerificationRouter);
+app.use("/api/email-verification", createVerificationRouter);
 app.use("/api/code", accessCodeRouter);
 app.use("/api/payment", paymentRouter);
 app.use("/api/google", googleGenerateRouter);
