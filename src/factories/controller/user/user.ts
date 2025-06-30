@@ -33,6 +33,9 @@ import { EmailNotificationRepository } from "../../../repositories/email-notific
 import { GetByUserRepository } from "../../../repositories/user/get-by-user";
 import { GetByUserUseCase } from "../../../use-cases/user/get-by-user";
 import { GetByUserController } from "../../../controller/user/get-by-user";
+import { GetUserPlanRepository } from "../../../repositories/user/get-user-plan";
+import { GetUserPlanUseCase } from "../../../use-cases/user/get-user-plan";
+import { GetUserPlanController } from "../../../controller/user/get-user-plan";
 
 export const makeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
@@ -162,6 +165,16 @@ export const makeResetPasswordController = () => {
   const controller = new ResetPasswordController(resetPasswordUseCase);
 
   return controller;
+};
+
+export const makeGetUserPlanController = () => {
+  const getUserPlanRepository = new GetUserPlanRepository();
+
+  const getUserPlanUseCase = new GetUserPlanUseCase(getUserPlanRepository);
+
+  const getUserPlanController = new GetUserPlanController(getUserPlanUseCase);
+
+  return getUserPlanController;
 };
 
 export const makeRequestResetPasswordController = () => {

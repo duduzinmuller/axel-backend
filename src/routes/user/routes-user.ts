@@ -4,6 +4,7 @@ import {
   makeDeleteUserController,
   makeGetByUserController,
   makeGetUserByIdController,
+  makeGetUserPlanController,
   makeLoginUserController,
   makeRefreshTokenController,
   makeRequestResetPasswordController,
@@ -29,6 +30,14 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
 
 userRouter.get("/", async (request: Request, response: Response) => {
   const controller = makeGetByUserController();
+
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
+
+  response.status(statusCode).send(body);
+});
+
+userRouter.get("/plans", async (request: Request, response: Response) => {
+  const controller = makeGetUserPlanController();
 
   const { statusCode, body }: HttpResponse = await controller.execute(request);
 
