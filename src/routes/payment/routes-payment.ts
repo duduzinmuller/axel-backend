@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import {
   makeCreatePaymentController,
   makeGetPaymentStatusController,
+  makeGetPaymentStatusPercentageController,
   makeUpdatePaymentController,
 } from "../../factories/controller/payment/payment";
 import { auth } from "../../middleware/auth";
@@ -47,6 +48,16 @@ paymentRouter.get(
     const { statusCode, body }: HttpResponse = await controller.execute({
       params: request.params,
     });
+    response.status(statusCode).json(body);
+  },
+);
+
+paymentRouter.get(
+  "/status-percentage",
+  async (request: Request, response: Response) => {
+    const controller = makeGetPaymentStatusPercentageController();
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
     response.status(statusCode).json(body);
   },
 );

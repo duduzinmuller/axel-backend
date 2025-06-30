@@ -9,6 +9,9 @@ import { EmailNotificationRepository } from "../../../repositories/email-notific
 import { GetPaymentStatusRepository } from "../../../repositories/payment/get-payment-status";
 import { GetPaymentStatusUseCase } from "../../../use-cases/payment/get-payment-status";
 import { GetPaymentStatusController } from "../../../controller/payment/get-payment-status";
+import { GetPaymentStatusPercentageRepository } from "../../../repositories/payment/get-payment-status-percentage";
+import { GetPaymentStatusPercentageUseCase } from "../../../use-cases/payment/get-payment-status-percentage";
+import { GetPaymentStatusPercentageController } from "../../../controller/payment/get-payment-status-percentage";
 
 export const makeCreatePaymentController = () => {
   const createPaymentRepository = new CreatePaymentRepository();
@@ -64,4 +67,17 @@ export const makeGetPaymentStatusController = () => {
   );
 
   return getPaymentStatusController;
+};
+
+export const makeGetPaymentStatusPercentageController = () => {
+  const getPaymentStatusPercentageRepository =
+    new GetPaymentStatusPercentageRepository();
+
+  const getPaymentStatusPercentageUseCase =
+    new GetPaymentStatusPercentageUseCase(getPaymentStatusPercentageRepository);
+
+  const getPaymentStatusPercentageController =
+    new GetPaymentStatusPercentageController(getPaymentStatusPercentageUseCase);
+
+  return getPaymentStatusPercentageController;
 };
