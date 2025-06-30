@@ -19,3 +19,9 @@ export interface User {
   payments?: Payment[];
   emailVerifications?: EmailVerification[];
 }
+
+export interface PlanPercentage {
+  plan: Plan;
+  count: number;
+  percentage: number;
+}
