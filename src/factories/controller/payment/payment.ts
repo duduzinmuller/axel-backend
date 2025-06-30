@@ -12,6 +12,9 @@ import { GetPaymentStatusController } from "../../../controller/payment/get-paym
 import { GetPaymentStatusPercentageRepository } from "../../../repositories/payment/get-payment-status-percentage";
 import { GetPaymentStatusPercentageUseCase } from "../../../use-cases/payment/get-payment-status-percentage";
 import { GetPaymentStatusPercentageController } from "../../../controller/payment/get-payment-status-percentage";
+import { GetPaymentHistoryRepository } from "../../../repositories/payment/get-payment-history";
+import { GetPaymentHistoryUseCase } from "../../../use-cases/payment/get-payment-history";
+import { GetPaymentHistoryController } from "../../../controller/payment/get-payment-history";
 
 export const makeCreatePaymentController = () => {
   const createPaymentRepository = new CreatePaymentRepository();
@@ -80,4 +83,18 @@ export const makeGetPaymentStatusPercentageController = () => {
     new GetPaymentStatusPercentageController(getPaymentStatusPercentageUseCase);
 
   return getPaymentStatusPercentageController;
+};
+
+export const makeGetPaymentHistoryController = () => {
+  const getPaymentHistoryRepository = new GetPaymentHistoryRepository();
+
+  const getPaymentHistoryUseCase = new GetPaymentHistoryUseCase(
+    getPaymentHistoryRepository,
+  );
+
+  const getPaymentHistoryController = new GetPaymentHistoryController(
+    getPaymentHistoryUseCase,
+  );
+
+  return getPaymentHistoryController;
 };

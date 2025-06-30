@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import {
   makeCreatePaymentController,
+  makeGetPaymentHistoryController,
   makeGetPaymentStatusController,
   makeGetPaymentStatusPercentageController,
   makeUpdatePaymentController,
@@ -61,3 +62,9 @@ paymentRouter.get(
     response.status(statusCode).json(body);
   },
 );
+
+paymentRouter.get("/history", async (request: Request, response: Response) => {
+  const controller = makeGetPaymentHistoryController();
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
+  response.status(statusCode).json(body);
+});
