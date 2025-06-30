@@ -10,6 +10,7 @@ import cors from "cors";
 import path from "path";
 import uploadRouter from "./routes/upload/route-upload";
 import authRouter from "./routes/auth/router-auth";
+import { emailNotificationRouter } from "./routes/email-notification/routes-email-notification";
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/users", userRouter);
+app.use("/api/email-notification", emailNotificationRouter);
 app.use("/api", createVerificationRouter);
 app.use("/api/code", accessCodeRouter);
 app.use("/api/payment", paymentRouter);
