@@ -54,6 +54,14 @@ jobs:
           envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
           envkey_JWT_ACCESS_TOKEN_SECRET: ${{ secrets.JWT_ACCESS_TOKEN_SECRET }}
           envkey_JWT_REFRESH_TOKEN_SECRET: ${{ secrets.JWT_REFRESH_TOKEN_SECRET }}
+          envkey_EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          envkey_EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          envkey_GOOGLE_GENERATE_API_KEY: ${{ secrets.GOOGLE_GENERATE_API_KEY }}
+          envkey_FRONT_END_APP_API: ${{ secrets.FRONT_END_APP_API }}
+          envkey_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          envkey_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          envkey_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          envkey_MP_ACCESS_TOKEN: ${{ secrets.MP_ACCESS_TOKEN }}
 
       - name: Run migrations
         run: npx prisma migrate deploy
