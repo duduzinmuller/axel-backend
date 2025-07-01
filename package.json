@@ -1,5 +1,5 @@
 {
-  "name": "brender-backend",
+  "name": "axel-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,8 +9,7 @@
     "dev": "tsx watch ./src/index.ts",
     "postinstall": "husky && prisma generate",
     "eslint:check": "eslint .",
-    "prettier:check": "prettier --check .",
-    "prepare": "husky install"
+    "prettier:check": "prettier --check ."
   },
   "keywords": [],
   "author": "Eduardo Muller",
