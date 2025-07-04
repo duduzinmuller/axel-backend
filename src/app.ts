@@ -15,9 +15,21 @@ import { messageUsageRouter } from "./routes/message-usage/routes-message-usage"
 const app = express();
 app.use(express.json());
 
+const allowedOrigins = [
+  process.env.FRONT_END_APP_API,
+  process.env.FRONT_END_APP_DEVELOPMENT,
+];
+
 app.use(
   cors({
-    origin: `${process.env.FRONT_END_APP_API}`,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"), false);
+      }
+    },
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
   }),

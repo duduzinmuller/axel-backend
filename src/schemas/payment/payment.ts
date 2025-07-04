@@ -26,14 +26,12 @@ export const paymentSchema = z
     plan: z.string().nonempty("Plano não informado"),
     userId: z.string().nonempty("UserId não informado"),
     token: z.string().optional(),
-    // Campos de endereço na raiz
     zip_code: z.string().optional(),
     street_name: z.string().optional(),
     street_number: z.string().optional(),
     neighborhood: z.string().optional(),
     city: z.string().optional(),
     federal_unit: z.string().optional(),
-    // Estrutura payer.address
     payer: z
       .object({
         address: addressSchema,
@@ -43,7 +41,6 @@ export const paymentSchema = z
   .refine(
     (data) => {
       if (data.paymentMethod === "bolbradesco") {
-        // Verifica se os campos estão na raiz
         const hasRootAddress =
           !!data.zip_code &&
           !!data.street_name &&
@@ -52,7 +49,6 @@ export const paymentSchema = z
           !!data.city &&
           !!data.federal_unit;
 
-        // Verifica se os campos estão em payer.address
         const hasPayerAddress = !!data.payer?.address;
 
         return hasRootAddress || hasPayerAddress;
