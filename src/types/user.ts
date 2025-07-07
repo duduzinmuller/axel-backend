@@ -1,4 +1,4 @@
-import { Plan, Role } from "@prisma/client";
+import { Plan, Role, UserStatus } from "@prisma/client";
 import { Payment } from "./payment";
 import { EmailVerification } from "./email-verification";
 

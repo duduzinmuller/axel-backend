@@ -18,6 +18,7 @@ export class CreateUserRepository {
           createUserParams.providerId ||
           (createUserParams.provider === "LOCAL" ? uuidv4() : null),
         isVerified: false,
+        status: "PENDING",
       },
     });
 
