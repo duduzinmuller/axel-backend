@@ -28,7 +28,10 @@ export class CreateUserRepository {
   async verifyUserEmail(userId: string) {
     const user = await prisma.user.update({
       where: { id: userId },
-      data: { isVerified: true },
+      data: {
+        isVerified: true,
+        status: "ACTIVE",
+      },
     });
 
     return user;
