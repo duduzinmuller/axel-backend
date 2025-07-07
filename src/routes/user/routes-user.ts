@@ -3,6 +3,7 @@ import {
   makeCreateUserController,
   makeDeleteUserController,
   makeGetByUserController,
+  makeGetByUserStatusController,
   makeGetUserByIdController,
   makeGetUserPlanController,
   makeLoginUserController,
@@ -38,6 +39,14 @@ userRouter.get("/", async (request: Request, response: Response) => {
 
 userRouter.get("/plans", async (request: Request, response: Response) => {
   const controller = makeGetUserPlanController();
+
+  const { statusCode, body }: HttpResponse = await controller.execute(request);
+
+  response.status(statusCode).send(body);
+});
+
+userRouter.get("/status", async (request: Request, response: Response) => {
+  const controller = makeGetByUserStatusController();
 
   const { statusCode, body }: HttpResponse = await controller.execute(request);
 

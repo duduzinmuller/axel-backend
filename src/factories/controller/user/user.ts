@@ -36,6 +36,9 @@ import { GetByUserController } from "../../../controller/user/get-by-user";
 import { GetUserPlanRepository } from "../../../repositories/user/get-user-plan";
 import { GetUserPlanUseCase } from "../../../use-cases/user/get-user-plan";
 import { GetUserPlanController } from "../../../controller/user/get-user-plan";
+import { GetByUserStatusRepository } from "../../../repositories/user/get-by-user-status";
+import { GetByUserStatusUseCase } from "../../../use-cases/user/get-by-user-status";
+import { GetByUserStatusController } from "../../../controller/user/get-by-user-status";
 
 export const makeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
@@ -190,4 +193,18 @@ export const makeRequestResetPasswordController = () => {
   );
 
   return controller;
+};
+
+export const makeGetByUserStatusController = () => {
+  const getByUserStatusRepository = new GetByUserStatusRepository();
+
+  const getByUserStatusUseCase = new GetByUserStatusUseCase(
+    getByUserStatusRepository,
+  );
+
+  const getByUserStatusController = new GetByUserStatusController(
+    getByUserStatusUseCase,
+  );
+
+  return getByUserStatusController;
 };
