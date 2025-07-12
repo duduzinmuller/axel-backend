@@ -1,9 +1,9 @@
 import prisma from "../../../prisma/prisma";
 
 export class UpdateUserManagmentRepository {
-  async execute(id: string, updateUserParams: any) {
+  async execute(userId: string, updateUserParams: any) {
     const user = await prisma.user.update({
-      where: { id },
+      where: { id: userId },
       data: updateUserParams,
     });
 
