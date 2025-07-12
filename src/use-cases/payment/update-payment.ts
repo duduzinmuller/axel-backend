@@ -54,6 +54,7 @@ export class UpdatePaymentUseCase {
 
       const htmlContent = await renderEmailTemplate("payment-completed", {
         plan: updatedPayment.plan,
+        status: EmailStatus.SENT,
       });
 
       await this.emailNotificationUseCase.execute({
@@ -76,6 +77,7 @@ export class UpdatePaymentUseCase {
 
       const htmlContent = await renderEmailTemplate("payment-failed", {
         plan: updatedPayment.plan,
+        status: EmailStatus.SENT,
       });
 
       await this.emailNotificationUseCase.execute({
@@ -86,7 +88,7 @@ export class UpdatePaymentUseCase {
         recipient: updatedPayment.recipient || "default@example.com",
         subject: "Falha no Pagamento",
         content: htmlContent,
-        status: EmailStatus.SENT,
+        status: EmailStatus.FAILED,
       });
     }
 
@@ -98,6 +100,7 @@ export class UpdatePaymentUseCase {
 
       const htmlContent = await renderEmailTemplate("payment-canceled", {
         plan: updatedPayment.plan,
+        status: EmailStatus.CANCELED,
       });
 
       await this.emailNotificationUseCase.execute({
@@ -123,6 +126,7 @@ export class UpdatePaymentUseCase {
 
       const htmlContent = await renderEmailTemplate("payment-pending", {
         plan: updatedPayment.plan,
+        status: EmailStatus.PENDING,
       });
 
       await this.emailNotificationUseCase.execute({
