@@ -6,7 +6,7 @@ export class EmailNotificationUseCase {
   constructor(
     private emailNotificationRepository: EmailNotificationRepository,
   ) {
-    this.emailNotificationRepository = new EmailNotificationRepository();
+    this.emailNotificationRepository = emailNotificationRepository;
   }
 
   async execute(createEmailNotificationParams: EmailNotification) {
