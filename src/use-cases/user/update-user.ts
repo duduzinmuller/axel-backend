@@ -2,7 +2,7 @@ import { PasswordHasherAdapter } from "../../adapters/password-hasher";
 import { EmailAlreadyInUseError } from "../../errors/user";
 import { GetUserByEmailRepository } from "../../repositories/user/get-by-email-user";
 import { UpdateUserRepository } from "../../repositories/user/update-user";
-import { User } from "../../types/user";
+import { UpdateUserData } from "../../types/user";
 
 export class UpdateUserUseCase {
   constructor(
@@ -14,7 +14,7 @@ export class UpdateUserUseCase {
     this.updateUserRepository = updateUserRepository;
     this.passwordHasherAdapter = passwordHasherAdapter;
   }
-  async execute(userId: string, updateUserParams: User) {
+  async execute(userId: string, updateUserParams: UpdateUserData) {
     if (updateUserParams.email) {
       const userWithProviderEmail = await this.getUserByEmailRepository.execute(
         updateUserParams.email,

@@ -19,6 +19,12 @@ export interface User {
   payments?: Payment[];
   emailVerifications?: EmailVerification[];
 }
+export interface UpdateUserData {
+  name?: string;
+  email?: string;
+  password?: string;
+  image?: string;
+}
 
 export interface PlanPercentage {
   plan: Plan;
