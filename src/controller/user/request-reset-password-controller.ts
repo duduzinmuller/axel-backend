@@ -9,7 +9,10 @@ export class RequestResetPasswordController {
   constructor(
     private generateResetTokenUseCase: GenerateResetTokenUseCase,
     private sendResetPasswordEmailService: SendResetPasswordEmailService,
-  ) {}
+  ) {
+    this.generateResetTokenUseCase = generateResetTokenUseCase;
+    this.sendResetPasswordEmailService = sendResetPasswordEmailService;
+  }
 
   async execute(httpRequest: HttpRequest) {
     try {
