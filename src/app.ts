@@ -11,6 +11,8 @@ import uploadRouter from "./routes/upload/route-upload";
 import authRouter from "./routes/auth/router-auth";
 import { emailNotificationRouter } from "./routes/email-notification/routes-email-notification";
 import { messageUsageRouter } from "./routes/message-usage/routes-message-usage";
+import userManagementRoutes from "./routes/userManagementRoutes";
+import { adminRouter } from "./routes/admin/routes-admin";
 
 const app = express();
 app.use(express.json());
@@ -53,4 +55,5 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/upload", uploadRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/message-usage", messageUsageRouter);
+app.use("/api/admin", adminRouter);
 export { app };
