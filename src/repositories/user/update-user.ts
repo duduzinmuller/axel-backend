@@ -1,9 +1,13 @@
 import prisma from "../../../prisma/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library.js";
 import { userNotFoundResponse } from "../../controller/helpers/user";
+import { Prisma } from "@prisma/client";
 
 export class UpdateUserRepository {
-  async execute(userId: string, updateUserParams: any) {
+  async execute(
+    userId: string,
+    updateUserParams: Partial<Prisma.UserUpdateInput>,
+  ) {
     try {
       const user = await prisma.user.update({
         where: {
