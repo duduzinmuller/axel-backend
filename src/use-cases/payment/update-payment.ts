@@ -11,12 +11,9 @@ import {
 import prisma from "../../../prisma/prisma";
 
 export class UpdatePaymentUseCase {
-  updateParamsRepository: UpdatePaymentRepository;
-  emailNotificationUseCase: EmailNotificationUseCase;
-
   constructor(
-    updateParamsRepository: UpdatePaymentRepository,
-    emailNotificationUseCase: EmailNotificationUseCase,
+    private updateParamsRepository: UpdatePaymentRepository,
+    private emailNotificationUseCase: EmailNotificationUseCase,
   ) {
     this.updateParamsRepository = updateParamsRepository;
     this.emailNotificationUseCase = emailNotificationUseCase;
@@ -37,6 +34,7 @@ export class UpdatePaymentUseCase {
     if (paymentIntent.status === "approved") {
       let planExpiresAt = null;
       const now = new Date();
+
       if (updatePaymentParams.plan === "MONTHLY") {
         planExpiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
       } else if (updatePaymentParams.plan === "ANNUAL") {
