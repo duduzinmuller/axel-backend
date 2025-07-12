@@ -5,7 +5,7 @@ import {
 } from "../../errors/admin";
 import { HttpRequest } from "../../types/httpRequest";
 import { DeleteUserManagementUseCase } from "../../use-cases/admin/delete-user-management";
-import { badRequest, notFound, serverError } from "../helpers/http";
+import { badRequest, notFound, ok, serverError } from "../helpers/http";
 
 export class DeleteUserManagementController {
   constructor(
@@ -32,7 +32,7 @@ export class DeleteUserManagementController {
         adminId,
       );
 
-      return user;
+      return ok(user);
     } catch (error) {
       if (error instanceof AdminUnauthorizedError) {
         return badRequest(error.message);
