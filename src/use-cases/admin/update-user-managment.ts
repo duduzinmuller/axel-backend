@@ -4,6 +4,7 @@ import {
 } from "../../errors/admin";
 import { UserNotFoundError } from "../../errors/user";
 import { UpdateUserManagmentRepository } from "../../repositories/admin/update-user-management";
+import { UpdateUserData } from "../../types/user";
 import { GetUserByIdUseCase } from "../user/get-user-by-id";
 
 export class UpdateUserManagmentUseCase {
@@ -14,7 +15,7 @@ export class UpdateUserManagmentUseCase {
     this.updateUserManagmentRepository = updateUserManagmentRepository;
   }
 
-  async execute(userId: string, updateData: any, adminId: string) {
+  async execute(userId: string, updateData: UpdateUserData, adminId: string) {
     const admin = await this.getUserByIdUseCase.execute(adminId);
 
     if (!admin || admin.role !== "ADMIN") {
