@@ -4,14 +4,12 @@ import { createVerificationRouter } from "./routes/email-verification/routes-ema
 import { accessCodeRouter } from "./routes/access-code/routes-access-code";
 import { paymentRouter } from "./routes/payment/routes-payment";
 import { googleGenerateRouter } from "./routes/google-generate/routes-google-generate";
-import { scriptRouter } from "./routes/scripts/script";
 import cors from "cors";
 import path from "path";
 import uploadRouter from "./routes/upload/route-upload";
 import authRouter from "./routes/auth/router-auth";
 import { emailNotificationRouter } from "./routes/email-notification/routes-email-notification";
 import { messageUsageRouter } from "./routes/message-usage/routes-message-usage";
-import userManagementRoutes from "./routes/userManagementRoutes";
 import { adminRouter } from "./routes/admin/routes-admin";
 
 const app = express();
@@ -50,7 +48,6 @@ app.use("/api/email-verification", createVerificationRouter);
 app.use("/api/code", accessCodeRouter);
 app.use("/api/payment", paymentRouter);
 app.use("/api/google", googleGenerateRouter);
-app.use("/api/scripts", scriptRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/upload", uploadRouter);
 app.use("/api/auth", authRouter);
