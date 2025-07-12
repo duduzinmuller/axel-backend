@@ -10,3 +10,16 @@ export class CannotEditOtherAdminsError extends Error {
     this.name = "CannotEditOtherAdminsError";
   }
 }
+export class CannotDeleteOtherAdminsError extends Error {
+  constructor(message = "Não é possível deletar outros administradores") {
+    super(message);
+    this.name = "CannotDeleteOtherAdminsError";
+  }
+}
+
+export class CannotDeleteOwnAccountError extends Error {
+  constructor(message = "Não é possível deletar sua própria conta") {
+    super(message);
+    this.name = "CannotDeleteOwnAccountError";
+  }
+}
