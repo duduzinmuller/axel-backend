@@ -14,25 +14,25 @@ export class UpdateUserManagmentUseCase {
     this.updateUserManagmentRepository = updateUserManagmentRepository;
   }
 
-  async execute(id: string, updateData: any, adminId: string) {
+  async execute(userId: string, updateData: any, adminId: string) {
     const admin = await this.getUserByIdUseCase.execute(adminId);
 
     if (!admin || admin.role !== "ADMIN") {
       throw new AdminUnauthorizedError();
     }
 
-    const userToUpdate = await this.getUserByIdUseCase.execute(id);
+    const userToUpdate = await this.getUserByIdUseCase.execute(userId);
 
     if (!userToUpdate) {
       throw new UserNotFoundError("Usuario não encontrado");
     }
 
-    if (userToUpdate.role === "ADMIN" && adminId !== id) {
+    if (userToUpdate.role === "ADMIN" && adminId !== userId) {
       throw new CannotEditOtherAdminsError();
     }
 
     const user = await this.updateUserManagmentRepository.execute(
-      id,
+      userId,
       updateData,
     );
 
