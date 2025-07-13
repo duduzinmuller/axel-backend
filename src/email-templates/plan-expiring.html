@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Seu plano está expirando - Axel</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        color: #222;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 500px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        padding: 32px;
+      }
+      .brand {
+        font-size: 2.2em;
+        color: #1a73e8;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+      .warning {
+        color: #f39c12;
+        font-size: 1.3em;
+        margin-bottom: 16px;
+      }
+      .content {
+        font-size: 1.1em;
+        line-height: 1.6;
+      }
+      .highlight {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 16px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .cta {
+        background: #1a73e8;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 6px;
+        display: inline-block;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="brand">Axel</div>
+      <div class="warning">⚠️ Seu plano está expirando</div>
+      <div class="content">
+        Olá <strong>{{userName}}</strong>,<br /><br />
+
+        <div class="highlight">
+          <strong>Atenção!</strong> Seu plano <strong>{{plan}}</strong> expira
+          em <strong>{{daysUntilExpiration}} dias</strong> ({{expirationDate}}).
+        </div>
+
+        Para continuar aproveitando todos os benefícios do seu plano, renove
+        agora mesmo!<br /><br />
+
+        <strong>O que acontece quando seu plano expirar?</strong><br />
+        • Você voltará para o plano FREE<br />
+        • Perderá acesso a recursos premium<br />
+        • Seus dados continuarão seguros<br /><br />
+
+        <a href="{{renewalUrl}}" class="cta">Renovar Plano Agora</a><br /><br />
+
+        Se você tiver alguma dúvida, entre em contato conosco.<br /><br />
+
+        Atenciosamente,<br />
+        Equipe Axel
+      </div>
+    </div>
+  </body>
+</html>

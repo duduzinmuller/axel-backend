@@ -12,6 +12,7 @@ import {
   makeResetPasswordController,
   makeUpdateUserController,
 } from "../../factories/controller/user/user";
+import { makeCheckExpiringPlansController } from "../../factories/controller/user/check-expiring-plans";
 import { auth } from "../../middleware/auth";
 import { HttpResponse } from "../../types/httpRequest";
 
@@ -125,3 +126,16 @@ userRouter.post("/request-reset-password", async (request, response) => {
 
   response.status(statusCode).send(body);
 });
+
+userRouter.post(
+  "/check-expiring-plans",
+  auth,
+  async (request: Request, response: Response) => {
+    const controller = makeCheckExpiringPlansController();
+
+    const { statusCode, body }: HttpResponse =
+      await controller.execute(request);
+
+    response.status(statusCode).send(body);
+  },
+);
