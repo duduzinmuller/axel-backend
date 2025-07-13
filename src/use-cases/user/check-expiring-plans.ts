@@ -33,10 +33,11 @@ export class CheckExpiringPlansUseCase {
         );
 
         const htmlContent = await renderEmailTemplate("plan-expiring", {
-          userName: user.name,
+          name: user.name,
           plan: user.plan,
           daysUntilExpiration,
           expirationDate: user.planExpiresAt!.toLocaleDateString("pt-BR"),
+          renewalUrl: `${process.env.FRONT_END_APP_API}/payment?plan=${user.plan}`,
         });
 
         await this.emailNotificationUseCase.execute({

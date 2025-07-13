@@ -58,11 +58,13 @@
       <div class="brand">Axel</div>
       <div class="warning">⚠️ Seu plano está expirando</div>
       <div class="content">
-        Olá <strong>{{userName}}</strong>,<br /><br />
+        Olá <strong><%= name %></strong>,<br /><br />
 
         <div class="highlight">
-          <strong>Atenção!</strong> Seu plano <strong>{{plan}}</strong> expira
-          em <strong>{{daysUntilExpiration}} dias</strong> ({{expirationDate}}).
+          <strong>Atenção!</strong> Seu plano
+          <strong><%= plan %></strong> expira em
+          <strong><%= daysUntilExpiration %> dias</strong> (<%= expirationDate
+          %>).
         </div>
 
         Para continuar aproveitando todos os benefícios do seu plano, renove
@@ -73,7 +75,8 @@
         • Perderá acesso a recursos premium<br />
         • Seus dados continuarão seguros<br /><br />
 
-        <a href="{{renewalUrl}}" class="cta">Renovar Plano Agora</a><br /><br />
+        <a href="<%= renewalUrl || '#' %>" class="cta">Renovar Plano Agora</a
+        ><br /><br />
 
         Se você tiver alguma dúvida, entre em contato conosco.<br /><br />
 
