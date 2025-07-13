@@ -8,11 +8,8 @@ export class UpdateUserPlanRepository {
     if (plan === "MONTHLY") {
       planExpiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     } else if (plan === "ANNUAL") {
-      planExpiresAt = new Date(
-        now.getFullYear() + 1,
-        now.getMonth(),
-        now.getDate(),
-      );
+      const nextYear = now.getFullYear() + 1;
+      planExpiresAt = new Date(nextYear, now.getMonth(), now.getDate());
     }
 
     return prisma.user.update({

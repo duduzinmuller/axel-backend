@@ -24,6 +24,16 @@ export class UpdatePaymentUseCase {
       throw new PaymentError();
     }
 
+    const existingPayment = await prisma.payment.findFirst({
+      where: { externalId: updatePaymentParams.externalId },
+    });
+
+    if (!existingPayment) {
+      throw new PaymentError();
+    }
+
+    console.log("🔍 Debug - Plano encontrado no banco:", existingPayment.plan);
+
     const mpPayment = new MercadoPagoPayment(mercadopago);
     const paymentIntent = await mpPayment.get({
       id: updatePaymentParams.externalId,
@@ -35,11 +45,13 @@ export class UpdatePaymentUseCase {
       let planExpiresAt = null;
       const now = new Date();
 
-      if (updatePaymentParams.plan === "MONTHLY") {
+      if (existingPayment.plan === "MONTHLY") {
         planExpiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-      } else if (updatePaymentParams.plan === "ANNUAL") {
-        planExpiresAt = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+      } else if (existingPayment.plan === "ANNUAL") {
+        const nextYear = now.getFullYear() + 1;
+        planExpiresAt = new Date(nextYear, now.getMonth(), now.getDate());
       }
+
       updatedPayment = await this.updateParamsRepository.execute({
         ...updatePaymentParams,
         status: "COMPLETED",
@@ -47,7 +59,7 @@ export class UpdatePaymentUseCase {
 
       await prisma.user.update({
         where: { id: updatedPayment.userId },
-        data: { plan: updatedPayment.plan, planExpiresAt },
+        data: { plan: existingPayment.plan, planExpiresAt },
       });
 
       const htmlContent = await renderEmailTemplate("payment-completed", {
