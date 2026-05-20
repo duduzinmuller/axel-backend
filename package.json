@@ -74,6 +74,7 @@
     "portscanner": "^2.2.0",
     "spotify-web-api-node": "^5.0.2",
     "stripe": "^18.0.0",
+    "typescript": "^6.0.3",
     "uuid": "^11.1.0",
     "validator": "^13.15.0",
     "winston": "^3.17.0",
